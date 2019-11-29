@@ -2,6 +2,7 @@
 .gradle/*
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/uiDesigner.xml
 build/*
 gradle/
 gradlew

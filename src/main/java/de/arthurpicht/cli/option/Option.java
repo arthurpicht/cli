@@ -1,19 +1,24 @@
-package de.arthurpicht.cli;
+package de.arthurpicht.cli.option;
 
 import java.util.Objects;
 
 public class Option {
 
+    private String id;
     private Character shortName;
     private String longName;
     private boolean hasArgument;
     private String helpText;
 
-    public Option(Character shortName, String longName, boolean hasArgument, String helpText) {
-        if (shortName != null && shortName == ' ') throw new IllegalArgumentException("Whitespace not allowed as shortName");
+    public Option(String id, Character shortName, String longName, boolean hasArgument, String helpText) {
+
+        if (id == null || id.equals("")) throw new IllegalArgumentException("Null or empty id.");
+        if (shortName != null && shortName == ' ') throw new IllegalArgumentException("Null or empty shortName");
         if (shortName == null && isNullOrEmpty(longName))
             throw new IllegalArgumentException("At least one of shortName or longName must be specified.");
+        if (longName.contains(" ")) throw new IllegalArgumentException("longName contains space.");
 
+        this.id = id;
         this.shortName = shortName;
         if (!isNullOrEmpty(longName)) {
             this.longName = longName;
@@ -23,6 +28,10 @@ public class Option {
         this.hasArgument = hasArgument;
         this.helpText = helpText;
 
+    }
+
+    public String getId() {
+        return id;
     }
 
     public boolean hasShortName() {
@@ -58,16 +67,15 @@ public class Option {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Option option = (Option) o;
-        return Objects.equals(shortName, option.shortName) &&
-                Objects.equals(longName, option.longName);
+        return id.equals(option.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortName, longName);
+        return Objects.hash(id);
     }
 
     public static void main(String[] args) {
-        new Option(null, "", true, "help");
+        new Option("myId",null, "", true, "help");
     }
 }

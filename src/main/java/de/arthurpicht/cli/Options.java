@@ -1,8 +1,8 @@
 package de.arthurpicht.cli;
 
-import java.util.ArrayList;
+import de.arthurpicht.cli.option.Option;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Options {
@@ -39,6 +39,22 @@ public class Options {
         }
 
         return this;
+    }
+
+    public boolean hasShortNameOption(Character shortName) {
+        return this.shortNameMap.containsKey(shortName);
+    }
+
+    public Option getShortNameOption(Character shortName) {
+        return this.shortNameMap.get(shortName);
+    }
+
+    public boolean hasLongNameOption(String longName) {
+        return this.longNameMap.containsKey(longName);
+    }
+
+    public Option getLongNameOption(String longName) {
+        return this.longNameMap.get(longName);
     }
 
 //    public List<Option> getOptions() {

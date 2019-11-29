@@ -1,8 +1,7 @@
 package de.arthurpicht.cli;
 
+import de.arthurpicht.cli.option.Option;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class OptionsTest {
 
@@ -10,8 +9,8 @@ class OptionsTest {
     void add() {
 
         Options options = new Options()
-                .add(new Option('a', "aaa", false, "aaa help"))
-                .add(new Option('b', "bbb", false, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", false, "aaa help"))
+                .add(new Option("idB", 'b', "bbb", false, "bbb help"));
 
 
     }
