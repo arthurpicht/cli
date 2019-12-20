@@ -27,7 +27,7 @@ public abstract class Command {
 
     public Command getPrevious() {
         return this.previousCommand;
-    }List
+    }
 
     public void addNext(Command command) {
         this.nextCommands.add(command);

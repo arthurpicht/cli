@@ -19,10 +19,14 @@ class CommandsTest {
         Set<Command> rootCommandSet = commands.getRootCommands();
         assertEquals(1, rootCommandSet.size());
 
-        for (Command command : rootCommandSet) {
-            assertTrue(command instanceof OneCommand);
-            assertEquals("A", command.getCommands().get(0));
-        }
+        Command command = rootCommandSet.iterator().next();
+        assertTrue(command instanceof OneCommand);
+
+        Set<String> commandStringSet = command.getCommands();
+        assertEquals(1, commandStringSet.size());
+
+        String commandString = commandStringSet.iterator().next();
+        assertEquals("A", commandString);
 
     }
 
@@ -49,7 +53,6 @@ class CommandsTest {
         assertEquals(rootCommandSetExp, rootCommandSet);
 
     }
-
 
 
 }

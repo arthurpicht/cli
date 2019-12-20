@@ -69,12 +69,12 @@ public class Commands {
 
 
 
-        for (Command nextCommand : nextCommandList) {
-            List<String> nextCommandStringList = nextCommand.getCommands();
-
-
-            List<String> commandIntersection = Helper.intersection();
-        }
+//        for (Command nextCommand : nextCommandList) {
+//            List<String> nextCommandStringList = nextCommand.getCommands();
+//
+//
+//            List<String> commandIntersection = Helper.intersection();
+//        }
     }
 
     private void addCommand(Command command) {

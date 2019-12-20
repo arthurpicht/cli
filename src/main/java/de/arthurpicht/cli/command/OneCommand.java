@@ -1,8 +1,6 @@
 package de.arthurpicht.cli.command;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class OneCommand extends Command {
 
@@ -23,8 +21,8 @@ public class OneCommand extends Command {
     }
 
     @Override
-    public List<String> getCommands() {
-        return new ArrayList<>(List.of(this.command));
+    public HashSet<String> getCommands() {
+        return new HashSet<>(Collections.singletonList(this.command));
     }
 
     @Override

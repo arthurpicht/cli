@@ -9,10 +9,16 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
     // testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.github.arthurpicht:utils-core:master-SNAPSHOT'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 }

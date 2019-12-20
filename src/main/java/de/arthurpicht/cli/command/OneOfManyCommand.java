@@ -1,13 +1,10 @@
 package de.arthurpicht.cli.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class OneOfManyCommand extends Command {
 
-    private List<String> commandList;
+    private Set<String> commandSet;
 
     public OneOfManyCommand(Command previousCommand, String... commands) {
         super(previousCommand);
@@ -15,7 +12,7 @@ public class OneOfManyCommand extends Command {
         // TODO assert
         if (commands.length == 0) throw new CommandSpecException("command list empty");
 
-        this.commandList = new ArrayList<String>(Arrays.asList(commands));
+        this.commandSet = new HashSet<>(Arrays.asList(commands));
     }
 
     @Override
@@ -24,8 +21,8 @@ public class OneOfManyCommand extends Command {
     }
 
     @Override
-    public List<String> getCommands() {
-        return this.commandList;
+    public Set<String> getCommands() {
+        return this.commandSet;
     }
 
     @Override
@@ -33,12 +30,12 @@ public class OneOfManyCommand extends Command {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OneOfManyCommand that = (OneOfManyCommand) o;
-        return commandList.equals(that.commandList);
+        return commandSet.equals(that.commandSet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commandList);
+        return Objects.hash(commandSet);
     }
 
     @Override
@@ -46,7 +43,7 @@ public class OneOfManyCommand extends Command {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[ ");
         boolean first = true;
-        for (String commandString : this.commandList) {
+        for (String commandString : this.commandSet) {
             if (!first) stringBuilder.append(" | ");
             stringBuilder.append(commandString);
             first = false;
