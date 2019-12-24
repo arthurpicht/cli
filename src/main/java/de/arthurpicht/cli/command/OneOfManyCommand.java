@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.utils.core.strings.Strings;
+
 import java.util.*;
 
 public class OneOfManyCommand extends Command {
@@ -40,15 +42,6 @@ public class OneOfManyCommand extends Command {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[ ");
-        boolean first = true;
-        for (String commandString : this.commandSet) {
-            if (!first) stringBuilder.append(" | ");
-            stringBuilder.append(commandString);
-            first = false;
-        }
-        stringBuilder.append(" ]");
-        return stringBuilder.toString();
+        return Strings.listing(this.commandSet, " | ", "[ ", " ]");
     }
 }

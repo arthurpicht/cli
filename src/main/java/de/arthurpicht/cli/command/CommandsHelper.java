@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.utils.core.strings.Strings;
+
 import java.util.*;
 
 public class CommandsHelper {
@@ -20,28 +22,6 @@ public class CommandsHelper {
         }
 
         return allCommandsSet;
-    }
-
-    public static String getCommandChain(Command leaveCommand) {
-        if (!leaveCommand.getNext().isEmpty()) throw new IllegalArgumentException("Passed leaveCommand is not leave.");
-
-        List<String> commandChainList = new ArrayList<>();
-        commandChainList.add(leaveCommand.toString());
-        while(leaveCommand.hasPrevious()) {
-            leaveCommand = leaveCommand.getPrevious();
-            commandChainList.add(leaveCommand.toString());
-        }
-
-        Collections.reverse(commandChainList);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String string : commandChainList) {
-            if (stringBuilder.length() > 0) stringBuilder.append(" ");
-            stringBuilder.append(string);
-        }
-
-        return stringBuilder.toString();
-
     }
 
     public static Set<Command> getLeaves(Set<Command> rootCommandSet) {

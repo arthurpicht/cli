@@ -1,7 +1,8 @@
 package de.arthurpicht.cli.command;
 
-import java.util.HashSet;
-import java.util.Set;
+import de.arthurpicht.utils.core.strings.Strings;
+
+import java.util.*;
 
 public abstract class Command {
 
@@ -17,10 +18,10 @@ public abstract class Command {
         this.nextCommands = new HashSet<>();
     }
 
+
 //    public void setPrevious(Command command) {
 //        this.previousCommand = command;
 //    }
-
     public boolean hasPrevious() {
         return (this.previousCommand != null);
     }
@@ -37,4 +38,34 @@ public abstract class Command {
         return this.nextCommands;
     }
 
+    protected String getCommandChainString() {
+
+        List<String> commandChainList = new ArrayList<>();
+        commandChainList.add(this.toString());
+        Command command = this;
+        while(command.hasPrevious()) {
+            command = command.getPrevious();
+            commandChainList.add(command.toString());
+        }
+
+        Collections.reverse(commandChainList);
+
+        return Strings.listing(commandChainList, " ");
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Command command = (Command) o;
+        return this.getCommandChainString().equals(command.getCommandChainString());
+    }
+
+    @Override
+    public int hashCode() {
+        return getCommandChainString().hashCode();
+    }
 }
+
+

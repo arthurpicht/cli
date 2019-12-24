@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Helper {
 
+    @Deprecated
     public static Set<String> intersection(Set<String> set1, Set<String> set2) {
         Set<String> intersection = new HashSet<>();
         for (String string : set1) {

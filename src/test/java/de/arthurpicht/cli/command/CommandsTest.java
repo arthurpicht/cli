@@ -45,6 +45,17 @@ class CommandsTest {
         rootCommandSetExp.add(new OneCommand(null, "A"));
         rootCommandSetExp.add(new OneCommand(null, "D"));
 
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("[ ");
+//        boolean first = true;
+//        for (String commandString : this.commandSet) {
+//            if (!first) stringBuilder.append(" | ");
+//            stringBuilder.append(commandString);
+//            first = false;
+//        }
+//        stringBuilder.append(" ]");
+//        return stringBuilder.toString();
+
         for (Command command : rootCommandSet) {
             assertTrue(command instanceof OneCommand);
 //            assertEquals("A", command.getCommands().get(0));
@@ -54,5 +65,26 @@ class CommandsTest {
 
     }
 
+    @Test
+    void preventMultiCommand() {
+
+        Commands commandsRoot = new Commands();
+        Commands commandsA = commandsRoot.add("A");
+
+        commandsA.showStatus();
+
+        try {
+            Commands commandsA2 = commandsRoot.add("A");
+            commandsA2.showStatus();
+
+            fail();
+        } catch (CommandSpecException e) {
+            // intended
+            System.out.println(e.getMessage());
+        }
+
+
+
+    }
 
 }

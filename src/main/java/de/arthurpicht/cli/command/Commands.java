@@ -1,7 +1,9 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.utils.core.collection.Sets;
+import de.arthurpicht.utils.core.strings.Strings;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Commands {
@@ -15,25 +17,36 @@ public class Commands {
         this.curCommand = null;
     }
 
+    private Commands(Set<Command> rootCommands, Command curCommand) {
+        this.rootCommands = rootCommands;
+        this.curCommand = curCommand;
+    }
+
     public Commands root() {
-        this.curCommand = null;
-        return this;
+        return new Commands(this.rootCommands, null);
+    }
+
+    public Command getCurrentCommand() {
+        if (this.curCommand == null) throw new NullPointerException();
+        return this.curCommand;
     }
 
     public Commands add(String commandString) {
 
+        checkPreconditions(Sets.newHashSet(commandString));
         Command command = new OneCommand(this.curCommand, commandString);
         addCommand(command);
 
-        return this;
+        return new Commands(this.rootCommands, command);
     }
 
     public Commands addOneOf(String... commands) {
 
+        checkPreconditions(Sets.newHashSet(commands));
         Command command = new OneOfManyCommand(this.curCommand, commands);
         addCommand(command);
 
-        return this;
+        return new Commands(this.rootCommands, command);
     }
 
     public Commands addOpen() {
@@ -64,8 +77,11 @@ public class Commands {
         }
 
         Set<String> allCommands = CommandsHelper.getAllCommands(commandList);
-        Set<String> intersection = Helper.intersection(allCommands, commandString);
-        if (intersection.size() > 0) throw new CommandSpecException("");
+        Set<String> intersection = Sets.intersection(allCommands, commandString);
+
+        if (intersection.size() > 0) {
+            throw new CommandSpecException("The following commands are already defined: " + Strings.listing(intersection, ", ", "[", "]"));
+        }
 
 
 
@@ -92,7 +108,12 @@ public class Commands {
 //            throw new IllegalStateException();
 //        }
 
-        this.curCommand = command;
+//        this.curCommand = command;
+    }
+
+    public void showStatus() {
+        System.out.println("rootCommands size: " + this.rootCommands.size());
+        System.out.println("curCommand: " + (this.curCommand == null ? "root" : this.curCommand.toString()));
     }
 
 }
