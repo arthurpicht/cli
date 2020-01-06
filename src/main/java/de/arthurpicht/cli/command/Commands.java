@@ -1,9 +1,10 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
 import de.arthurpicht.utils.core.collection.Sets;
-import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.HashSet;
+
 import java.util.Set;
 
 public class Commands {
@@ -26,14 +27,18 @@ public class Commands {
         return new Commands(this.rootCommands, null);
     }
 
+    public boolean hasCurrentCommand() {
+        return this.curCommand != null;
+    }
+
     public Command getCurrentCommand() {
         if (this.curCommand == null) throw new NullPointerException();
         return this.curCommand;
     }
 
     public Commands add(String commandString) {
+        CommandsPrecondition.checkPreconditionsSpecCommand(this, Sets.newHashSet(commandString));
 
-        checkPreconditions(Sets.newHashSet(commandString));
         Command command = new OneCommand(this.curCommand, commandString);
         addCommand(command);
 
@@ -41,8 +46,8 @@ public class Commands {
     }
 
     public Commands addOneOf(String... commands) {
+        CommandsPrecondition.checkPreconditionsSpecCommand(this, Sets.newHashSet(commands));
 
-        checkPreconditions(Sets.newHashSet(commands));
         Command command = new OneOfManyCommand(this.curCommand, commands);
         addCommand(command);
 
@@ -50,48 +55,50 @@ public class Commands {
     }
 
     public Commands addOpen() {
+        CommandsPrecondition.checkPreconditionOpenCommand(this);
 
-        throw new RuntimeException("NIY");
+        Command command = new OpenCommand(this.curCommand);
+        addCommand(command);
 
-//        return this;
+        return new Commands(this.rootCommands, command);
     }
 
     public Commands addManyOpen(int i) {
-
         throw new RuntimeException("NIY");
-
-//        return this;
     }
 
     public Set<Command> getRootCommands() {
         return this.rootCommands;
     }
 
-    private void checkPreconditions(Set<String> commandString) {
+    public void check(String[] args) throws CommandSyntaxError {
 
-        Set<Command> commandList;
-        if (this.curCommand != null) {
-            commandList = this.curCommand.getNext();
-        } else {
-            commandList = this.rootCommands;
+        AssertMethodPrecondition.parameterNotNull("args", args);
+
+        Set<Command> curCommandSet = this.rootCommands;
+        if (args.length == 0 && curCommandSet.isEmpty()) return;
+
+        for (String arg : args) {
+
+            if (curCommandSet.isEmpty()) {
+                throw new CommandSyntaxError("No definition found for: " + arg);
+            }
+
+            Command matchingCommand = CommandsHelper.findMatchingCommand(curCommandSet, arg);
+            if (matchingCommand != null) {
+                curCommandSet = matchingCommand.getNext();
+            } else {
+                throw new CommandSyntaxError("No definition found for: " + arg + ". Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
+            }
         }
 
-        Set<String> allCommands = CommandsHelper.getAllCommands(commandList);
-        Set<String> intersection = Sets.intersection(allCommands, commandString);
-
-        if (intersection.size() > 0) {
-            throw new CommandSpecException("The following commands are already defined: " + Strings.listing(intersection, ", ", "[", "]"));
+        // todo optional-flag
+        if (!curCommandSet.isEmpty()) {
+            throw new CommandSyntaxError("Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
         }
 
-
-
-//        for (Command nextCommand : nextCommandList) {
-//            List<String> nextCommandStringList = nextCommand.getCommands();
-//
-//
-//            List<String> commandIntersection = Helper.intersection();
-//        }
     }
+
 
     private void addCommand(Command command) {
         if (this.curCommand == null) {
@@ -100,16 +107,8 @@ public class Commands {
             this.curCommand.addNext(command);
         }
 
-//        if (this.rootCommands.isEmpty()) {
-//            this.rootCommands.add(command);
-//        } else if (this.curCommand != null) {
-//            this.curCommand.addNext(command);
-//        } else {
-//            throw new IllegalStateException();
-//        }
-
-//        this.curCommand = command;
     }
+
 
     public void showStatus() {
         System.out.println("rootCommands size: " + this.rootCommands.size());

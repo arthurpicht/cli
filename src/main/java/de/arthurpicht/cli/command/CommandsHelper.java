@@ -18,7 +18,7 @@ public class CommandsHelper {
         Set<String> allCommandsSet = new HashSet<>();
 
         for (Command command : commandSet) {
-            allCommandsSet.addAll(command.getCommands());
+            allCommandsSet.addAll(command.getCommandStrings());
         }
 
         return allCommandsSet;
@@ -48,6 +48,36 @@ public class CommandsHelper {
         }
 
         return commandLeaves;
+    }
+
+    public static Command findMatchingCommand(Set<Command> curCommandSet, String arg) {
+
+        for (Command command : curCommandSet) {
+            if (command.matches(arg)) return command;
+        }
+
+        return null;
+    }
+
+    public static Set<String> getAllCommandChains(Commands commands) {
+        Set<Command> leaveCommands = getLeaves(commands.getRootCommands());
+        Set<String> commandChains = new HashSet<>();
+
+        for (Command leaveCommand : leaveCommands) {
+            commandChains.add(leaveCommand.getCommandChainString());
+        }
+
+        return commandChains;
+    }
+
+    public static String toString(Set<Command> commandSet) {
+
+        Set<String> commandStringSet = new HashSet<>();
+        for (Command command : commandSet) {
+            commandStringSet.add(command.toString());
+        }
+
+        return Strings.listing(commandStringSet, ", ");
     }
 
 }

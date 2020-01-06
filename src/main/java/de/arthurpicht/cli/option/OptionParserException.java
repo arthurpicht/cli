@@ -1,6 +1,8 @@
 package de.arthurpicht.cli.option;
 
-public class OptionParserException extends Exception {
+import de.arthurpicht.cli.common.CLIParserException;
+
+public class OptionParserException extends CLIParserException {
 
 //    public OptionParserException() {
 //    }

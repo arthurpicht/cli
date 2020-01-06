@@ -30,7 +30,8 @@ public class OptionParserStateName extends OptionParserState {
             option = this.options.getShortNameOption(shortNameChar);
 
         } else {
-            throw new IllegalArgException(arg);
+            return new OptionParserStateFinished(this.options, this.optionParser);
+//            throw new IllegalArgException(arg);
         }
 
         if (option.hasArgument()) {

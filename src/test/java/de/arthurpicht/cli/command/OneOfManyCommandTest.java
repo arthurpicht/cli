@@ -27,6 +27,13 @@ class OneOfManyCommandTest {
         assertEquals("[ command1 | command2 | command3 ]", string);
     }
 
+    @Test
+    void isOpen() {
+        OneOfManyCommand oneOfManyCommand = new OneOfManyCommand(null, "command1", "command2", "command3");
+        assertFalse(oneOfManyCommand.isOpen());
+    }
+
+
 
 
 }

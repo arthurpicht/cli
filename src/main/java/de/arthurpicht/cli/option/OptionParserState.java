@@ -1,8 +1,9 @@
 package de.arthurpicht.cli.option;
 
 import de.arthurpicht.cli.Options;
+import de.arthurpicht.cli.common.CLIParserState;
 
-public abstract class OptionParserState {
+public abstract class OptionParserState extends CLIParserState {
 
     protected Options options;
     protected OptionParser optionParser;
@@ -12,6 +13,6 @@ public abstract class OptionParserState {
         this.optionParser = optionParser;
     }
 
-    public abstract OptionParserState process(String arg) throws OptionParserException;
+//    public abstract OptionParserState process(String arg) throws OptionParserException;
 
 }

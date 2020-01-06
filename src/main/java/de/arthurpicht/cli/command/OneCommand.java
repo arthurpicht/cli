@@ -4,15 +4,15 @@ import java.util.*;
 
 public class OneCommand extends Command {
 
-    private String command;
+    private String commandString;
 
-    public OneCommand(Command previousCommand, String command) {
+    public OneCommand(Command previousCommand, String commandString) {
         super(previousCommand);
 
         // TODO assert
-        if (command == null || command.equals("")) throw new CommandSpecException("command is null or empty");
+        if (commandString == null || commandString.equals("")) throw new CommandSpecException("command is null or empty");
 
-        this.command = command;
+        this.commandString = commandString;
     }
 
     @Override
@@ -21,25 +21,18 @@ public class OneCommand extends Command {
     }
 
     @Override
-    public HashSet<String> getCommands() {
-        return new HashSet<>(Collections.singletonList(this.command));
+    public HashSet<String> getCommandStrings() {
+        return new HashSet<>(Collections.singletonList(this.commandString));
+    }
+
+    @Override
+    public boolean matches(String commandString) {
+        return this.commandString.equals(commandString);
     }
 
     @Override
     public String toString() {
-        return "[ " + this.command + " ]";
+        return "[ " + this.commandString + " ]";
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OneCommand that = (OneCommand) o;
-        return command.equals(that.command);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(command);
-    }
 }

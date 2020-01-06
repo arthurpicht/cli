@@ -6,7 +6,7 @@ import java.util.*;
 
 public class OneOfManyCommand extends Command {
 
-    private Set<String> commandSet;
+    private Set<String> commandStringSet;
 
     public OneOfManyCommand(Command previousCommand, String... commands) {
         super(previousCommand);
@@ -14,7 +14,7 @@ public class OneOfManyCommand extends Command {
         // TODO assert
         if (commands.length == 0) throw new CommandSpecException("command list empty");
 
-        this.commandSet = new HashSet<>(Arrays.asList(commands));
+        this.commandStringSet = new HashSet<>(Arrays.asList(commands));
     }
 
     @Override
@@ -23,25 +23,17 @@ public class OneOfManyCommand extends Command {
     }
 
     @Override
-    public Set<String> getCommands() {
-        return this.commandSet;
+    public Set<String> getCommandStrings() {
+        return this.commandStringSet;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OneOfManyCommand that = (OneOfManyCommand) o;
-        return commandSet.equals(that.commandSet);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(commandSet);
+    public boolean matches(String commandString) {
+        return this.commandStringSet.contains(commandString);
     }
 
     @Override
     public String toString() {
-        return Strings.listing(this.commandSet, " | ", "[ ", " ]");
+        return Strings.listing(this.commandStringSet, " | ", "[ ", " ]");
     }
 }

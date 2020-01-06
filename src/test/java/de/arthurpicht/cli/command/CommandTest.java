@@ -17,4 +17,16 @@ class CommandTest {
 
     }
 
+    @Test
+    void getCommandChainString2() {
+
+        Commands commands = new Commands();
+        Command command = commands.add("A").add("B").addOpen().getCurrentCommand();
+
+        String commandChainString = command.getCommandChainString();
+        assertEquals("[ A ] [ B ] [ * ]", commandChainString);
+
+    }
+
+
 }

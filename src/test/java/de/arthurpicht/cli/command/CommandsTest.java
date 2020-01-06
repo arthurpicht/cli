@@ -22,7 +22,7 @@ class CommandsTest {
         Command command = rootCommandSet.iterator().next();
         assertTrue(command instanceof OneCommand);
 
-        Set<String> commandStringSet = command.getCommands();
+        Set<String> commandStringSet = command.getCommandStrings();
         assertEquals(1, commandStringSet.size());
 
         String commandString = commandStringSet.iterator().next();
@@ -82,9 +82,25 @@ class CommandsTest {
             // intended
             System.out.println(e.getMessage());
         }
-
-
-
     }
+
+    @Test
+    void preventMultiCommandOpen() {
+
+        Commands commandsRoot = new Commands();
+        Commands commandsA = commandsRoot.add("A");
+
+        commandsA.addOpen();
+
+        try {
+            commandsA.addOpen();
+
+            fail();
+        } catch (CommandSpecException e) {
+            // intended
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }
