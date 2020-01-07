@@ -1,7 +1,5 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.Options;
-
 public class OptionParserStateValue extends OptionParserState {
 
     private Option option;

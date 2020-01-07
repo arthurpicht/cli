@@ -8,7 +8,7 @@ public class ArgumentParserOne extends ArgumentParser {
     @Override
     public void parse(String[] args, int beginIndex) throws ArgumentParserException {
 
-        this.isParsed = true;
+//        this.isParsed = true;
 
         if (args.length > beginIndex) {
             String argument = args[beginIndex];

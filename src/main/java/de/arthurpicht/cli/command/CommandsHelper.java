@@ -11,7 +11,6 @@ public class CommandsHelper {
         Set<Command> rootCommandSet = commands.getRootCommands();
         Set<Command> leaveCommandSet = getLeaves(rootCommandSet);
 
-
     }
 
     public static Set<String> getAllCommands(Set<Command> commandSet) {
@@ -78,6 +77,14 @@ public class CommandsHelper {
         }
 
         return Strings.listing(commandStringSet, ", ");
+    }
+
+    public static boolean hasOpenLeaves(Commands commands) {
+        Set<Command> leaveCommands = getLeaves(commands.getRootCommands());
+        for (Command command : leaveCommands) {
+            if (command.isOpen()) return true;
+        }
+        return false;
     }
 
 }

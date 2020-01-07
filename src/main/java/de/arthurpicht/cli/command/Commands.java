@@ -1,10 +1,8 @@
 package de.arthurpicht.cli.command;
 
-import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
 import de.arthurpicht.utils.core.collection.Sets;
 
 import java.util.HashSet;
-
 import java.util.Set;
 
 public class Commands {
@@ -71,34 +69,9 @@ public class Commands {
         return this.rootCommands;
     }
 
-    public void check(String[] args) throws CommandSyntaxError {
-
-        AssertMethodPrecondition.parameterNotNull("args", args);
-
-        Set<Command> curCommandSet = this.rootCommands;
-        if (args.length == 0 && curCommandSet.isEmpty()) return;
-
-        for (String arg : args) {
-
-            if (curCommandSet.isEmpty()) {
-                throw new CommandSyntaxError("No definition found for: " + arg);
-            }
-
-            Command matchingCommand = CommandsHelper.findMatchingCommand(curCommandSet, arg);
-            if (matchingCommand != null) {
-                curCommandSet = matchingCommand.getNext();
-            } else {
-                throw new CommandSyntaxError("No definition found for: " + arg + ". Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
-            }
-        }
-
-        // todo optional-flag
-        if (!curCommandSet.isEmpty()) {
-            throw new CommandSyntaxError("Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
-        }
-
+    public boolean isEmpty() {
+        return this.rootCommands.isEmpty();
     }
-
 
     private void addCommand(Command command) {
         if (this.curCommand == null) {
@@ -108,7 +81,6 @@ public class Commands {
         }
 
     }
-
 
     public void showStatus() {
         System.out.println("rootCommands size: " + this.rootCommands.size());

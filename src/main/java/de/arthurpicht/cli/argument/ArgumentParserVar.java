@@ -11,14 +11,14 @@ public class ArgumentParserVar extends ArgumentParser {
     }
 
     @Override
-    public void parse(String[] args, int beginIndex) throws CLIParserException {
+    public void parse(String[] args, int beginIndex) throws ArgumentParserException {
 
-        this.isParsed = true;
+//        this.isParsed = true;
 
-        if (args.length <= this.minimalNrOfArgument + beginIndex)
-            throw new ArgumentParserException("minimalNrOfArguments=" + this.minimalNrOfArgument + " is out of bounds. Arguments remaining=" + (args.length - beginIndex));
+        if (args.length < this.minimalNrOfArgument + beginIndex)
+            throw new ArgumentParserException("minimalNrOfArguments = " + this.minimalNrOfArgument + " is out of bounds. Arguments remaining = " + (args.length - beginIndex));
 
-        for(int i=beginIndex; i<=args.length; i++) {
+        for(int i=beginIndex; i<args.length; i++) {
             String argument = args[i];
             this.argumentList.add(argument);
         }

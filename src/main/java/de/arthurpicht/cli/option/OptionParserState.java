@@ -1,6 +1,5 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.Options;
 import de.arthurpicht.cli.common.CLIParserState;
 
 public abstract class OptionParserState extends CLIParserState {

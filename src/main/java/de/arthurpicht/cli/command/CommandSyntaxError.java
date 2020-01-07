@@ -1,6 +1,8 @@
 package de.arthurpicht.cli.command;
 
-public class CommandSyntaxError extends Exception {
+import de.arthurpicht.cli.common.CLIParserException;
+
+public class CommandSyntaxError extends CLIParserException {
 
     private Command command;
 

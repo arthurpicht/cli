@@ -1,6 +1,4 @@
-package de.arthurpicht.cli;
-
-import de.arthurpicht.cli.option.Option;
+package de.arthurpicht.cli.option;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,14 +8,9 @@ public class Options {
     private Map<Character, Option> shortNameMap;
     private Map<String, Option> longNameMap;
 
-//    private List<Option> optionList;
-
     public Options() {
-
         this.shortNameMap = new HashMap<>();
         this.longNameMap = new HashMap<>();
-
-//        this.optionList = new ArrayList<>();
     }
 
     public Options add(Option option) {
@@ -57,8 +50,7 @@ public class Options {
         return this.longNameMap.get(longName);
     }
 
-//    public List<Option> getOptions() {
-//        return this.optionList;
-//    }
-
+    public boolean isEmpty() {
+        return this.longNameMap.isEmpty() && this.shortNameMap.isEmpty();
+    }
 }

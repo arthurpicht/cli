@@ -12,6 +12,7 @@ class ArgumentParserManyTest {
         ArgumentParserMany argumentParserMany = new ArgumentParserMany(1);
 
         String[] args = {"A", "B", "C", "D"};
+
         try {
             argumentParserMany.parse(args, 0);
 
