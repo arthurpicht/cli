@@ -1,32 +1,36 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.utils.core.strings.Strings;
+
 import java.util.Objects;
 
-public class Option {
+public final class Option {
 
-    private String id;
-    private Character shortName;
-    private String longName;
-    private boolean hasArgument;
-    private String helpText;
+    private final String id;
+    private final Character shortName;
+    private final String longName;
+    private final boolean hasArgument;
+    private final String argumentName;
+    private final String description;
 
-    public Option(String id, Character shortName, String longName, boolean hasArgument, String helpText) {
+    public Option(String id, Character shortName, String longName, boolean hasArgument, String argumentName, String description) {
 
         if (id == null || id.equals("")) throw new IllegalArgumentException("Null or empty id.");
         if (shortName != null && shortName == ' ') throw new IllegalArgumentException("Null or empty shortName");
-        if (shortName == null && isNullOrEmpty(longName))
+        if (shortName == null && Strings.isNullOrEmpty(longName))
             throw new IllegalArgumentException("At least one of shortName or longName must be specified.");
-        if (longName.contains(" ")) throw new IllegalArgumentException("longName contains space.");
+        if (longName != null && longName.contains(" ")) throw new IllegalArgumentException("longName contains space.");
 
         this.id = id;
         this.shortName = shortName;
-        if (!isNullOrEmpty(longName)) {
+        if (!Strings.isNullOrEmpty(longName)) {
             this.longName = longName;
         } else {
             this.longName = null;
         }
         this.hasArgument = hasArgument;
-        this.helpText = helpText;
+        this.argumentName = argumentName;
+        this.description = description;
 
     }
 
@@ -35,6 +39,7 @@ public class Option {
     }
 
     public boolean hasShortName() {
+
         return this.shortName != null;
     }
 
@@ -54,12 +59,20 @@ public class Option {
         return hasArgument;
     }
 
-    public String getHelpText() {
-        return helpText;
+    public boolean hasArgumentName() {
+        return (this.argumentName != null && !this.argumentName.equals(""));
     }
 
-    private static boolean isNullOrEmpty(String string) {
-        return (string == null || string.equals(""));
+    public String getArgumentName() {
+        return this.argumentName;
+    }
+
+    public boolean hasHelpText() {
+        return (this.description != null && !this.description.equals(""));
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -75,7 +88,4 @@ public class Option {
         return Objects.hash(id);
     }
 
-    public static void main(String[] args) {
-        new Option("myId",null, "", true, "help");
-    }
 }

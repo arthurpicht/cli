@@ -19,8 +19,8 @@ class CommandLineInterfaceTest {
     void optionsGlobalArgs() {
 
         Options optionsGlobal = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
         Arguments arguments = new ArgumentsVar(0);
 
@@ -55,8 +55,8 @@ class CommandLineInterfaceTest {
     void optionsGlobalArgs2() {
 
         Options optionsGlobal = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true,"" , "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
         Arguments arguments = new ArgumentsVar(0);
 
@@ -87,8 +87,8 @@ class CommandLineInterfaceTest {
     void optionsGlobalCommandsArgs() {
 
         Options optionsGlobal = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true,"" , "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
         Commands commands = new Commands();
         commands.add("commandA").add("commandB");
@@ -131,15 +131,15 @@ class CommandLineInterfaceTest {
     void full() {
 
         Options optionsGlobal = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true,"" , "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
         Commands commands = new Commands();
         commands.add("commandA").add("commandB");
 
         Options optionsSpecific = new Options()
-                .add(new Option("idC", 'c', "ccc", true, "ccc help"))
-                .add(new Option("idD", 'd', "ddd", true, "ddd help"));
+                .add(new Option("idC", 'c', "ccc", true,"" , "ccc help"))
+                .add(new Option("idD", 'd', "ddd", true,"" , "ddd help"));
 
         Arguments arguments = new ArgumentsVar(0);
 

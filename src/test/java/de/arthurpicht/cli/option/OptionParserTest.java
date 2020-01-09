@@ -34,8 +34,8 @@ class OptionParserTest {
     void optionValues1() {
 
         Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "" , "bbb help"));
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB"};
 
@@ -63,8 +63,8 @@ class OptionParserTest {
     void optionValues2() {
 
         Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
 
         String[] args = {"-b", "valueOfB", "-a", "valueOfA"};
 
@@ -92,8 +92,8 @@ class OptionParserTest {
     void optionValuesLong() {
 
         Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
 
         String[] args = {"-b", "valueOfB", "--aaa", "valueOfA"};
 
@@ -121,8 +121,8 @@ class OptionParserTest {
     void optionValuesFinished() {
 
         Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "command"};
 
@@ -150,8 +150,8 @@ class OptionParserTest {
     void optionBeginFinished() {
 
         Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
 
         String[] args = {"command1", "-a", "valueOfA", "-b", "valueOfB", "command2"};
 

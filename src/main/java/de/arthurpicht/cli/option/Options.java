@@ -1,25 +1,33 @@
 package de.arthurpicht.cli.option;
 
-import java.util.HashMap;
-import java.util.Map;
+import de.arthurpicht.utils.core.strings.Strings;
+
+import java.util.*;
 
 public class Options {
 
     private Map<Character, Option> shortNameMap;
     private Map<String, Option> longNameMap;
+    private Set<String> idSet;
 
     public Options() {
         this.shortNameMap = new HashMap<>();
         this.longNameMap = new HashMap<>();
+        this.idSet = new HashSet<>();
     }
 
     public Options add(Option option) {
+
+        if (this.idSet.contains(option.getId())) {
+            throw new IllegalArgumentException("Option with id [" + option.getId() + "] already added.");
+        }
+        this.idSet.add(option.getId());
 
         if (option.hasShortName()) {
             if (!this.shortNameMap.containsKey(option.getShortName())) {
                 this.shortNameMap.put(option.getShortName(), option);
             } else {
-                throw new IllegalStateException("ShortName [" + option.getShortName() + "] already specified.");
+                throw new IllegalArgumentException("ShortName [" + option.getShortName() + "] already specified.");
             }
         }
 
@@ -27,7 +35,7 @@ public class Options {
             if (!this.longNameMap.containsKey(option.getLongName())) {
                 this.longNameMap.put(option.getLongName(), option);
             } else {
-                throw new IllegalStateException("LongName [" + option.getLongName() + "] already specified.");
+                throw new IllegalArgumentException("LongName [" + option.getLongName() + "] already specified.");
             }
         }
 
@@ -53,4 +61,76 @@ public class Options {
     public boolean isEmpty() {
         return this.longNameMap.isEmpty() && this.shortNameMap.isEmpty();
     }
+
+    private Set<Option> getAllOptions() {
+
+        Set<Option> optionSet = new HashSet<>();
+
+        optionSet.addAll(this.shortNameMap.values());
+        optionSet.addAll(this.longNameMap.values());
+
+        return optionSet;
+    }
+
+    public String getHelpString() {
+
+        List<Option> orderedOptionList = new ArrayList<>(this.getAllOptions());
+        Collections.sort(orderedOptionList, new OptionComparator());
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        boolean first = true;
+        for (Option option : orderedOptionList) {
+
+            if (first) {
+                first = false;
+            } else {
+                stringBuilder.append("\n");
+            }
+
+            String helpString = getHelpString(option);
+            stringBuilder.append(helpString);
+
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private String getHelpString(Option option) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (option.hasShortName()) {
+            stringBuilder.append("-").append(option.getShortName());
+        } else {
+            stringBuilder.append("  ");
+        }
+
+        if (option.hasShortName() && option.hasLongName()) {
+            stringBuilder.append(",");
+        } else {
+            stringBuilder.append(" ");
+        }
+
+        if (option.hasLongName()) {
+            stringBuilder.append("--").append(option.getLongName());
+        }
+
+        if (option.hasArgument()) {
+            String argumentName = option.hasArgumentName() ? option.getArgumentName() : "arg";
+            stringBuilder.append(" <").append(argumentName).append(">");
+        }
+
+        // TODO Blocksatz, Zeilenumbruch helptext s.a. https://commons.apache.org/proper/commons-cli/
+
+        if (option.hasHelpText()) {
+            Strings.fillUpAfter(stringBuilder, ' ', 25);
+            stringBuilder.append(" ").append(option.getDescription());
+        }
+
+        return stringBuilder.toString();
+
+    }
+
+
 }

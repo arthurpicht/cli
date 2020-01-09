@@ -82,10 +82,10 @@ class CommandParserTest {
 
         try {
             commandParser.parse(args, 0);
-            fail();
+            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(3, commandParser.getCommandStringList().size());
         } catch (CommandSyntaxError commandSyntaxError) {
-            System.out.println(commandSyntaxError.getMessage());
-
+            fail();
         }
 
     }
