@@ -13,11 +13,7 @@ public class OptionBuilder {
         this.longName = null;
         this.hasArgument = false;
         this.argumentName = null;
-        this.description = "";
-    }
-
-    public OptionBuilder getInstance() {
-        return new OptionBuilder();
+        this.description = null;
     }
 
     public OptionBuilder withShortName(char shortName) {

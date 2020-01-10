@@ -29,6 +29,7 @@ public final class Option {
             this.longName = null;
         }
         this.hasArgument = hasArgument;
+        if (!hasArgument && Strings.isSpecified(argumentName)) throw new IllegalArgumentException("Inconsistent specification: hasArgument=false AND argument name specified.");
         this.argumentName = argumentName;
         this.description = description;
 
