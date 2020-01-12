@@ -5,7 +5,7 @@ public abstract class CLIAbstractParser {
 //    protected boolean isParsed = false;
     protected int lastProcessedIndex;
 
-    public abstract void parse(String[] args, int beginIndex) throws CLIParserException;
+    public abstract void parse(String[] args, int beginIndex) throws UnrecognizedCLArgumentException;
 
     public int getLastProcessedIndex() {
 //        if (!isParsed) throw new NotYetParsedException();

@@ -3,7 +3,7 @@ package de.arthurpicht.cli;
 import de.arthurpicht.cli.argument.Arguments;
 import de.arthurpicht.cli.argument.ArgumentsVar;
 import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.common.CLIParserException;
+import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
@@ -45,7 +45,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (CLIParserException e) {
+        } catch (UnrecognizedCLArgumentException e) {
             e.printStackTrace();
             fail();
         }
@@ -76,7 +76,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (CLIParserException e) {
+        } catch (UnrecognizedCLArgumentException e) {
             e.printStackTrace();
             fail();
         }
@@ -121,7 +121,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (CLIParserException e) {
+        } catch (UnrecognizedCLArgumentException e) {
             e.printStackTrace();
             fail();
         }
@@ -185,7 +185,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (CLIParserException e) {
+        } catch (UnrecognizedCLArgumentException e) {
             e.printStackTrace();
             fail();
         }

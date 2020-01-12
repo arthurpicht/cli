@@ -5,12 +5,13 @@ import de.arthurpicht.cli.argument.Arguments;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.CommandsHelper;
-import de.arthurpicht.cli.common.CLIAbstractParser;
-import de.arthurpicht.cli.common.CLIParserException;
+import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.option.OptionParser;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.utils.core.collection.Lists;
+import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class CommandLineInterface {
         checkPreconditions();
     }
 
-    public ParserResult parse(String[] args) throws CLIParserException {
+    public ParserResult parse(String[] args) throws UnrecognizedCLArgumentException {
 
         int proceedingIndex = -1;
 
@@ -86,7 +87,7 @@ public class CommandLineInterface {
         }
 
         boolean finished = (proceedingIndex + 1 == args.length);
-        if (!finished) throw new CLIParserException("Unrecognized argument: " + args[proceedingIndex + 1]);
+        if (!finished) throw new UnrecognizedCLArgumentException("Unrecognized argument: " + args[proceedingIndex + 1]);
 
         return new ParserResult(this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.argumentList);
 
@@ -104,6 +105,11 @@ public class CommandLineInterface {
             throw new CLISpecificationException("Commands must not end open if arguments are defined.");
         }
     }
+
+    public static String getArgsString(String[] args) {
+        return Strings.listing(Lists.newArrayList(args), "");
+    }
+
 
 //    private List<CLIAbstractParser> getParserList() {
 //        List<CLIAbstractParser> parserList = new ArrayList<>();

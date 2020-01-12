@@ -13,6 +13,17 @@ public final class Option {
     private final String argumentName;
     private final String description;
 
+    /**
+     * Usage of Option constructor is discouraged as signature will change in further development.
+     * Use OptionBuilder instead.
+     *
+     * @param id
+     * @param shortName
+     * @param longName
+     * @param hasArgument
+     * @param argumentName
+     * @param description
+     */
     public Option(String id, Character shortName, String longName, boolean hasArgument, String argumentName, String description) {
 
         if (id == null || id.equals("")) throw new IllegalArgumentException("Null or empty id.");

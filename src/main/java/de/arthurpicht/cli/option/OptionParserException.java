@@ -1,8 +1,8 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.common.CLIParserException;
+import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
 
-public class OptionParserException extends CLIParserException {
+public class OptionParserException extends UnrecognizedCLArgumentException {
 
 //    public OptionParserException() {
 //    }

@@ -11,10 +11,8 @@ public class ArgumentParserMany extends ArgumentParser {
     @Override
     public void parse(String[] args, int beginIndex) throws ArgumentParserException {
 
-//        this.isParsed = true;
-
         if (args.length < this.nrOfArguments + beginIndex)
-            throw new ArgumentParserException("nrOfArguments = " + this.nrOfArguments + " is out of bounds. Arguments remaining = " + (args.length - beginIndex) + ".");
+            throw new ArgumentParserException(args, beginIndex, "Not enough arguments found. required: " + this.nrOfArguments + "; found: " + (args.length - beginIndex) + ".");
 
         for(int i = beginIndex; i < beginIndex+this.nrOfArguments; i++) {
             String argument = args[i];

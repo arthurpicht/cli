@@ -1,7 +1,7 @@
 package de.arthurpicht.cli.option;
 
 import de.arthurpicht.cli.common.CLIAbstractParser;
-import de.arthurpicht.cli.common.CLIParserException;
+import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
 
 public class OptionParser extends CLIAbstractParser {
 
@@ -24,7 +24,7 @@ public class OptionParser extends CLIAbstractParser {
 //    }
 
     @Override
-    public void parse(String[] args, int beginIndex) throws CLIParserException {
+    public void parse(String[] args, int beginIndex) throws UnrecognizedCLArgumentException {
 
         this.lastProcessedIndex = beginIndex;
 

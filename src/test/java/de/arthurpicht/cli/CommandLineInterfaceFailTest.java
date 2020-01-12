@@ -2,7 +2,7 @@ package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.argument.Arguments;
 import de.arthurpicht.cli.argument.ArgumentsOne;
-import de.arthurpicht.cli.common.CLIParserException;
+import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.Options;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class CommandLineInterfaceFailTest {
             ParserResult parserResult = commandLineInterface.parse(args);
             fail();
 
-        } catch (CLIParserException e) {
+        } catch (UnrecognizedCLArgumentException e) {
             System.out.println("Expected exception: " + e.getMessage());
         }
     }
