@@ -2,6 +2,7 @@ package de.arthurpicht.cli.argument;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.command.Commands;
+import de.arthurpicht.cli.common.CLIArgsHelper;
 import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ public class ArgumentParserExceptionTest {
         try {
             commandLineInterface.parse(args);
         } catch (UnrecognizedCLArgumentException e) {
-            System.out.println(CommandLineInterface.getArgsString(args));
+            System.out.println(CLIArgsHelper.getArgsString(args));
             System.out.println(e.getArgumentPointerString());
             e.printStackTrace();
         }

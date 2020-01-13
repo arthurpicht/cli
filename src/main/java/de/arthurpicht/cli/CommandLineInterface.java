@@ -106,9 +106,9 @@ public class CommandLineInterface {
         }
     }
 
-    public static String getArgsString(String[] args) {
-        return Strings.listing(Lists.newArrayList(args), "");
-    }
+//    public static String getArgsString(String[] args) {
+//        return Strings.listing(Lists.newArrayList(args), "");
+//    }
 
 
 //    private List<CLIAbstractParser> getParserList() {

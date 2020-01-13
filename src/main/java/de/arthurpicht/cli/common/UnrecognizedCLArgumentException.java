@@ -29,15 +29,22 @@ public class UnrecognizedCLArgumentException extends Exception {
     public String getArgumentPointerString() {
 
         if (this.argumentIndex < 0) return "";
-        int totalLength = 0;
-        for (int i=0; i < this.argumentIndex - 1; i++) {
-            totalLength += args[i].length();
+
+        int precursorIndex = this.argumentIndex - 1;
+        int totalLengthPrecursors = 0;
+        for (int i=0; i <= precursorIndex; i++) {
+            totalLengthPrecursors += args[i].length();
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i=0; i < totalLength; i++) {
+        for (int i=0; i < totalLengthPrecursors; i++) {
             stringBuilder.append(' ');
         }
+
+        if (this.argumentIndex > 0) {
+            stringBuilder.append(' ');
+        }
+
         stringBuilder.append('^');
 
         return stringBuilder.toString();
