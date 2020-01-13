@@ -1,9 +1,9 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.argument.Arguments;
-import de.arthurpicht.cli.argument.ArgumentsVar;
+import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.cli.parameter.ParametersVar;
 import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
@@ -22,9 +22,9 @@ class CommandLineInterfaceTest {
                 .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
                 .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
-        Arguments arguments = new ArgumentsVar(0);
+        Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, arguments);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1"};
 
@@ -45,7 +45,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail();
         }
@@ -58,9 +58,9 @@ class CommandLineInterfaceTest {
                 .add(new Option("idA", 'a', "aaa", true,"" , "aaa help"))
                 .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
-        Arguments arguments = new ArgumentsVar(0);
+        Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, arguments);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, parameters);
 
         String[] args = {"arg1"};
 
@@ -76,7 +76,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail();
         }
@@ -93,9 +93,9 @@ class CommandLineInterfaceTest {
         Commands commands = new Commands();
         commands.add("commandA").add("commandB");
 
-        Arguments arguments = new ArgumentsVar(0);
+        Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, null, arguments);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, null, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "commandA", "commandB", "arg1"};
 
@@ -121,7 +121,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail();
         }
@@ -141,9 +141,9 @@ class CommandLineInterfaceTest {
                 .add(new Option("idC", 'c', "ccc", true,"" , "ccc help"))
                 .add(new Option("idD", 'd', "ddd", true,"" , "ddd help"));
 
-        Arguments arguments = new ArgumentsVar(0);
+        Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, optionsSpecific, arguments);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, optionsSpecific, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "commandA", "commandB", "--ccc", "valueOfC", "arg1"};
 
@@ -185,7 +185,7 @@ class CommandLineInterfaceTest {
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail();
         }

@@ -1,13 +1,13 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
-public class ArgumentParserException extends UnrecognizedCLArgumentException {
+public class ParameterParserException extends UnrecognizedArgumentException {
 
-    public ArgumentParserException() {
+    public ParameterParserException() {
     }
 
-    public ArgumentParserException(String[] args, int argumentIndex, String message) {
+    public ParameterParserException(String[] args, int argumentIndex, String message) {
         super(args, argumentIndex, message);
     }
 

@@ -1,15 +1,15 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.common.CLIAbstractParser;
+import de.arthurpicht.cli.common.Parser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArgumentParser extends CLIAbstractParser {
+public abstract class ParameterParser extends Parser {
 
     protected List<String> argumentList;
 
-    public ArgumentParser() {
+    public ParameterParser() {
         super();
         this.argumentList = new ArrayList<>();
     }

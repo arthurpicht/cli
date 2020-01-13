@@ -1,13 +1,17 @@
 package de.arthurpicht.cli.command;
 
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
-public class CommandSyntaxError extends UnrecognizedCLArgumentException {
+public class CommandSyntaxError extends UnrecognizedArgumentException {
 
-    private Command command;
+//    private Command command;
 
     public CommandSyntaxError(String message) {
         super(message);
+    }
+
+    public CommandSyntaxError(String[] args, int argumentIndex, String message) {
+        super(args, argumentIndex, message);
     }
 
 //    public CommandSyntaxError(String message, Throwable cause) {

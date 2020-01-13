@@ -1,15 +1,15 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArgumentParserManyTest {
+class ParameterParserManyTest {
 
     @Test
     void parseFirst() {
 
-        ArgumentParserMany argumentParserMany = new ArgumentParserMany(1);
+        ParameterParserMany argumentParserMany = new ParameterParserMany(1);
 
         String[] args = {"A", "B", "C", "D"};
 
@@ -20,7 +20,7 @@ class ArgumentParserManyTest {
             assertEquals("A", argumentParserMany.getArgumentList().get(0));
             assertEquals(0, argumentParserMany.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -29,7 +29,7 @@ class ArgumentParserManyTest {
     @Test
     void parseFirstTwo() {
 
-        ArgumentParserMany argumentParserMany = new ArgumentParserMany(2);
+        ParameterParserMany argumentParserMany = new ParameterParserMany(2);
 
         String[] args = {"A", "B", "C", "D"};
         try {
@@ -39,7 +39,7 @@ class ArgumentParserManyTest {
             assertEquals("B", argumentParserMany.getArgumentList().get(1));
             assertEquals(1, argumentParserMany.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -48,7 +48,7 @@ class ArgumentParserManyTest {
     @Test
     void parseLastThree() {
 
-        ArgumentParserMany argumentParserMany = new ArgumentParserMany(3);
+        ParameterParserMany argumentParserMany = new ParameterParserMany(3);
 
         String[] args = {"A", "B", "C", "D"};
         try {
@@ -59,7 +59,7 @@ class ArgumentParserManyTest {
             assertEquals("D", argumentParserMany.getArgumentList().get(2));
             assertEquals(3, argumentParserMany.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -68,14 +68,14 @@ class ArgumentParserManyTest {
     @Test
     void parseLastFourOutOfBounds() {
 
-        ArgumentParserMany argumentParserMany = new ArgumentParserMany(4);
+        ParameterParserMany argumentParserMany = new ParameterParserMany(4);
 
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserMany.parse(args, 1);
             fail();
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             System.out.println("Expected Exception: " + e.getMessage());
         }
     }
@@ -83,14 +83,14 @@ class ArgumentParserManyTest {
     @Test
     void parseOutOfBounds() {
 
-        ArgumentParserMany argumentParserMany = new ArgumentParserMany(1);
+        ParameterParserMany argumentParserMany = new ParameterParserMany(1);
 
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserMany.parse(args, 5);
             fail();
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             System.out.println("Expected Exception: " + e.getMessage());
         }
     }

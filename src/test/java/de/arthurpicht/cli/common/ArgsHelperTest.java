@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CLIArgsHelperTest {
+class ArgsHelperTest {
 
     @Test
     @DisplayName("Standard")
     void getArgsStringStd() {
         String[] args = {"AA", "BB", "CC"};
-        String argsString = CLIArgsHelper.getArgsString(args);
+        String argsString = ArgsHelper.getArgsString(args);
         assertEquals("AA BB CC", argsString);
     }
 
@@ -19,7 +19,7 @@ class CLIArgsHelperTest {
     @DisplayName("Single Argument")
     void getArgsStringSingle() {
         String[] args = {"AA"};
-        String argsString = CLIArgsHelper.getArgsString(args);
+        String argsString = ArgsHelper.getArgsString(args);
         assertEquals("AA", argsString);
     }
 
@@ -27,7 +27,7 @@ class CLIArgsHelperTest {
     @DisplayName("No Arguments")
     void getArgsStringNo() {
         String[] args = {};
-        String argsString = CLIArgsHelper.getArgsString(args);
+        String argsString = ArgsHelper.getArgsString(args);
         assertEquals("", argsString);
     }
 

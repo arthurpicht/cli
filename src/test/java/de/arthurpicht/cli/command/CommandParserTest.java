@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.common.ArgsHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -105,6 +106,8 @@ class CommandParserTest {
             fail();
         } catch (CommandSyntaxError commandSyntaxError) {
             System.out.println(commandSyntaxError.getMessage());
+            System.out.println(ArgsHelper.getArgsString(args));
+            System.out.println(commandSyntaxError.getArgumentPointerString());
 
         }
     }
@@ -124,6 +127,8 @@ class CommandParserTest {
             fail();
         } catch (CommandSyntaxError commandSyntaxError) {
             System.out.println(commandSyntaxError.getMessage());
+            System.out.println(ArgsHelper.getArgsString(args));
+            System.out.println(commandSyntaxError.getArgumentPointerString());
 
         }
     }

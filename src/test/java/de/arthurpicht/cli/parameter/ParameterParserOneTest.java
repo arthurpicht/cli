@@ -1,16 +1,16 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-class ArgumentParserOneTest {
+class ParameterParserOneTest {
 
     @Test
     void parseFirst() {
 
-        ArgumentParserOne argumentParserOne = new ArgumentParserOne();
+        ParameterParserOne argumentParserOne = new ParameterParserOne();
 
         String[] args = {"A", "B", "C", "D"};
         try {
@@ -18,7 +18,7 @@ class ArgumentParserOneTest {
             assertEquals("A", argumentParserOne.getArgumentList().get(0));
             assertEquals(0, argumentParserOne.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -27,7 +27,7 @@ class ArgumentParserOneTest {
     @Test
     void parseLast() {
 
-        ArgumentParserOne argumentParserOne = new ArgumentParserOne();
+        ParameterParserOne argumentParserOne = new ParameterParserOne();
 
         String[] args = {"A", "B", "C", "D"};
         try {
@@ -35,7 +35,7 @@ class ArgumentParserOneTest {
             assertEquals("D", argumentParserOne.getArgumentList().get(0));
             assertEquals(3, argumentParserOne.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -44,14 +44,14 @@ class ArgumentParserOneTest {
     @Test
     void parseOutOfBounds() {
 
-        ArgumentParserOne argumentParserOne = new ArgumentParserOne();
+        ParameterParserOne argumentParserOne = new ParameterParserOne();
 
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserOne.parse(args, 4);
             fail();
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             System.out.println("Expected Exception: " + e.getMessage());
         }
     }

@@ -1,15 +1,15 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArgumentParserVarTest {
+class ParameterParserVarTest {
 
     @Test
     void parseFirst() {
 
-        ArgumentParserVar argumentParserVar = new ArgumentParserVar(0);
+        ParameterParserVar argumentParserVar = new ParameterParserVar(0);
 
         String[] args = {"A", "B", "C", "D"};
 
@@ -24,7 +24,7 @@ class ArgumentParserVarTest {
 
             assertEquals(3, argumentParserVar.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -33,7 +33,7 @@ class ArgumentParserVarTest {
     @Test
     void parseLast() {
 
-        ArgumentParserVar argumentParserVar = new ArgumentParserVar(0);
+        ParameterParserVar argumentParserVar = new ParameterParserVar(0);
 
         String[] args = {"A", "B", "C", "D"};
 
@@ -45,7 +45,7 @@ class ArgumentParserVarTest {
 
             assertEquals(3, argumentParserVar.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -54,7 +54,7 @@ class ArgumentParserVarTest {
     @Test
     void parseMidMin2() {
 
-        ArgumentParserVar argumentParserVar = new ArgumentParserVar(2);
+        ParameterParserVar argumentParserVar = new ParameterParserVar(2);
 
         String[] args = {"A", "B", "C", "D"};
 
@@ -66,7 +66,7 @@ class ArgumentParserVarTest {
             assertEquals("D", argumentParserVar.getArgumentList().get(1));
             assertEquals(3, argumentParserVar.getLastProcessedIndex());
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
@@ -75,7 +75,7 @@ class ArgumentParserVarTest {
     @Test
     void parseMidMin3Fail() {
 
-        ArgumentParserVar argumentParserVar = new ArgumentParserVar(3);
+        ParameterParserVar argumentParserVar = new ParameterParserVar(3);
 
         String[] args = {"A", "B", "C", "D"};
 
@@ -83,7 +83,7 @@ class ArgumentParserVarTest {
             argumentParserVar.parse(args, 2);
             fail();
 
-        } catch (ArgumentParserException e) {
+        } catch (ParameterParserException e) {
             System.out.println("Expected Exception: " + e.getMessage());
         }
     }

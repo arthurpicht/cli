@@ -1,12 +1,12 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.common.CLIArgsHelper;
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.common.ArgsHelper;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
-public class ArgumentParserExceptionTest {
+public class ParameterParserExceptionTest {
 
     @Test
     void noArg() {
@@ -14,7 +14,7 @@ public class ArgumentParserExceptionTest {
         Commands commands = new Commands();
         commands.add("A");
 
-        ArgumentsOne argumentsOne = new ArgumentsOne();
+        ParametersOne argumentsOne = new ParametersOne();
 
         CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands, null, argumentsOne);
 
@@ -22,8 +22,8 @@ public class ArgumentParserExceptionTest {
 
         try {
             commandLineInterface.parse(args);
-        } catch (UnrecognizedCLArgumentException e) {
-            System.out.println(CLIArgsHelper.getArgsString(args));
+        } catch (UnrecognizedArgumentException e) {
+            System.out.println(ArgsHelper.getArgsString(args));
             System.out.println(e.getArgumentPointerString());
             e.printStackTrace();
         }

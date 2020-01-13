@@ -1,13 +1,13 @@
 package de.arthurpicht.cli.command;
 
-import de.arthurpicht.cli.common.CLIAbstractParser;
+import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class CommandParser extends CLIAbstractParser {
+public class CommandParser extends Parser {
 
     private Commands commands;
     private List<String> commandStringList;
@@ -49,13 +49,13 @@ public class CommandParser extends CLIAbstractParser {
                 curCommandSet = matchingCommand.getNext();
                 this.lastProcessedIndex = i;
             } else {
-                throw new CommandSyntaxError("No definition found for: " + args[i] + ". Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
+                throw new CommandSyntaxError(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
             }
         }
 
         // todo optional-flag
         if (!curCommandSet.isEmpty()) {
-            throw new CommandSyntaxError("Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
+            throw new CommandSyntaxError(args, this.lastProcessedIndex + 1, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
         }
 
     }

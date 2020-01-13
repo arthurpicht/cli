@@ -1,22 +1,22 @@
 package de.arthurpicht.cli.common;
 
-public class UnrecognizedCLArgumentException extends Exception {
+public class UnrecognizedArgumentException extends Exception {
 
     private String[] args;
     private int argumentIndex = -1;
 
-    public UnrecognizedCLArgumentException() {
+    public UnrecognizedArgumentException() {
     }
 
 //    public UnrecognizedCLArgumentException(String argument) {
 //        this.argument = argument;
 //    }No argument found
 
-    public UnrecognizedCLArgumentException(String message) {
+    public UnrecognizedArgumentException(String message) {
         super(message);
     }
 
-    public UnrecognizedCLArgumentException(String[] args, int argumentIndex, String message) {
+    public UnrecognizedArgumentException(String[] args, int argumentIndex, String message) {
         super(message);
         this.args = args;
         this.argumentIndex = argumentIndex;
@@ -41,9 +41,13 @@ public class UnrecognizedCLArgumentException extends Exception {
             stringBuilder.append(' ');
         }
 
-        if (this.argumentIndex > 0) {
+        for (int i=1; i <= this.argumentIndex; i++) {
             stringBuilder.append(' ');
         }
+
+//        if (this.argumentIndex > 0) {
+//            stringBuilder.append(' ');
+//        }
 
         stringBuilder.append('^');
 

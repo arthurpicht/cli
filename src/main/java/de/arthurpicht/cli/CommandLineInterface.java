@@ -1,17 +1,15 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.argument.ArgumentParser;
-import de.arthurpicht.cli.argument.Arguments;
+import de.arthurpicht.cli.parameter.ParameterParser;
+import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.CommandsHelper;
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.option.OptionParser;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.utils.core.collection.Lists;
-import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ public class CommandLineInterface {
     private Options optionsGlobal;
     private Commands commands;
     private Options optionsSpecific;
-    private Arguments arguments;
+    private Parameters parameters;
 
     private OptionParserResult optionParserResultGlobal;
     private List<String> commandList;
@@ -38,13 +36,13 @@ public class CommandLineInterface {
      * @param optionsGlobal
      * @param commands
      * @param optionsSpecific
-     * @param arguments
+     * @param parameters
      */
-    public CommandLineInterface(Options optionsGlobal, Commands commands, Options optionsSpecific, Arguments arguments) {
+    public CommandLineInterface(Options optionsGlobal, Commands commands, Options optionsSpecific, Parameters parameters) {
         this.optionsGlobal = optionsGlobal;
         this.commands = commands;
         this.optionsSpecific = optionsSpecific;
-        this.arguments = arguments;
+        this.parameters = parameters;
 
         this.optionParserResultGlobal = null;
         this.commandList = new ArrayList<>();
@@ -54,7 +52,7 @@ public class CommandLineInterface {
         checkPreconditions();
     }
 
-    public ParserResult parse(String[] args) throws UnrecognizedCLArgumentException {
+    public ParserResult parse(String[] args) throws UnrecognizedArgumentException {
 
         int proceedingIndex = -1;
 
@@ -79,15 +77,15 @@ public class CommandLineInterface {
             proceedingIndex = optionParserSpecific.getLastProcessedIndex();
         }
 
-        if (this.arguments != null) {
-            ArgumentParser argumentParser = this.arguments.getArgumentParser();
-            argumentParser.parse(args, proceedingIndex + 1);
-            this.argumentList = argumentParser.getArgumentList();
-            proceedingIndex = argumentParser.getLastProcessedIndex();
+        if (this.parameters != null) {
+            ParameterParser parameterParser = this.parameters.getArgumentParser();
+            parameterParser.parse(args, proceedingIndex + 1);
+            this.argumentList = parameterParser.getArgumentList();
+            proceedingIndex = parameterParser.getLastProcessedIndex();
         }
 
         boolean finished = (proceedingIndex + 1 == args.length);
-        if (!finished) throw new UnrecognizedCLArgumentException("Unrecognized argument: " + args[proceedingIndex + 1]);
+        if (!finished) throw new UnrecognizedArgumentException("Unrecognized argument: " + args[proceedingIndex + 1]);
 
         return new ParserResult(this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.argumentList);
 
@@ -101,7 +99,7 @@ public class CommandLineInterface {
             }
         }
 
-        if (this.arguments != null && commands != null && CommandsHelper.hasOpenLeaves(this.commands)) {
+        if (this.parameters != null && commands != null && CommandsHelper.hasOpenLeaves(this.commands)) {
             throw new CLISpecificationException("Commands must not end open if arguments are defined.");
         }
     }

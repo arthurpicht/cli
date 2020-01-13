@@ -1,19 +1,19 @@
-package de.arthurpicht.cli.argument;
+package de.arthurpicht.cli.parameter;
 
 /**
  * Expects exactly one argument.
  */
-public class ArgumentParserOne extends ArgumentParser {
+public class ParameterParserOne extends ParameterParser {
 
     @Override
-    public void parse(String[] args, int beginIndex) throws ArgumentParserException {
+    public void parse(String[] args, int beginIndex) throws ParameterParserException {
 
         if (args.length > beginIndex) {
             String argument = args[beginIndex];
             this.argumentList.add(argument);
             this.lastProcessedIndex = beginIndex;
         } else {
-            throw new ArgumentParserException(args, beginIndex, "One argument expected.");
+            throw new ParameterParserException(args, beginIndex, "One argument expected.");
         }
     }
 

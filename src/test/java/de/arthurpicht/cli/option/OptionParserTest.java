@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +53,7 @@ class OptionParserTest {
 
             assertEquals(3, optionParser.getLastProcessedIndex());
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
         }
@@ -82,7 +82,7 @@ class OptionParserTest {
 
             assertEquals(3, optionParser.getLastProcessedIndex());
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
         }
@@ -111,7 +111,7 @@ class OptionParserTest {
 
             assertEquals(3, optionParser.getLastProcessedIndex());
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
         }
@@ -140,7 +140,7 @@ class OptionParserTest {
 
             assertEquals(3, optionParser.getLastProcessedIndex());
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
         }
@@ -169,7 +169,7 @@ class OptionParserTest {
 
             assertEquals(4, optionParser.getLastProcessedIndex());
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
         }

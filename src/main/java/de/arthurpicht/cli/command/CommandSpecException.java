@@ -1,6 +1,8 @@
 package de.arthurpicht.cli.command;
 
-public class CommandSpecException extends RuntimeException {
+import de.arthurpicht.cli.common.CLISpecificationException;
+
+public class CommandSpecException extends CLISpecificationException {
 
     public CommandSpecException() {
     }

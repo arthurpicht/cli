@@ -1,8 +1,8 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.argument.Arguments;
-import de.arthurpicht.cli.argument.ArgumentsOne;
-import de.arthurpicht.cli.common.UnrecognizedCLArgumentException;
+import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.cli.parameter.ParametersOne;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.Options;
 import org.junit.jupiter.api.Test;
@@ -18,9 +18,9 @@ class CommandLineInterfaceFailTest {
                 .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
                 .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
 
-        Arguments arguments = new ArgumentsOne();
+        Parameters parameters = new ParametersOne();
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, arguments);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1", "arg2"};
 
@@ -28,7 +28,7 @@ class CommandLineInterfaceFailTest {
             ParserResult parserResult = commandLineInterface.parse(args);
             fail();
 
-        } catch (UnrecognizedCLArgumentException e) {
+        } catch (UnrecognizedArgumentException e) {
             System.out.println("Expected exception: " + e.getMessage());
         }
     }

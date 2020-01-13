@@ -1,8 +1,8 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.common.CLIParserState;
+import de.arthurpicht.cli.common.ParserState;
 
-public abstract class OptionParserState extends CLIParserState {
+public abstract class OptionParserState extends ParserState {
 
     protected Options options;
     protected OptionParser optionParser;
