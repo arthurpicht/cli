@@ -9,7 +9,7 @@ public class ParametersVar extends Parameters {
     }
 
     @Override
-    public ParameterParser getArgumentParser() {
+    public ParameterParser getParameterParser() {
         return new ParameterParserVar(this.minimalNrOfArguments);
     }
 }

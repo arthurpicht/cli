@@ -24,13 +24,13 @@ public class CommandLineInterface {
     private OptionParserResult optionParserResultGlobal;
     private List<String> commandList;
     private OptionParserResult optionParserResultSpecific;
-    private List<String> argumentList;
+    private List<String> parameterList;
 
     /**
      * Initialisierung der CLI-Spezifikation. Es bestehen folgende Einschränkungen:
      * <ul>
      *     <li>Wenn sowohl globale als auch spezifische Optionen spezifiziert sind müssen auch Commands definiert sein.</li>
-     *     <li>Wenn Argumente definiert sind, dann dürfen die Command-Spezifikationen nicht mit einem offenen Command enden.</li>
+     *     <li>Wenn Parameter definiert sind, dann dürfen die Command-Spezifikationen nicht mit einem offenen Command enden.</li>
      * </ul>
      *
      * @param optionsGlobal
@@ -47,7 +47,7 @@ public class CommandLineInterface {
         this.optionParserResultGlobal = null;
         this.commandList = new ArrayList<>();
         this.optionParserResultSpecific = null;
-        this.argumentList = new ArrayList<>();
+        this.parameterList = new ArrayList<>();
 
         checkPreconditions();
     }
@@ -78,16 +78,16 @@ public class CommandLineInterface {
         }
 
         if (this.parameters != null) {
-            ParameterParser parameterParser = this.parameters.getArgumentParser();
+            ParameterParser parameterParser = this.parameters.getParameterParser();
             parameterParser.parse(args, proceedingIndex + 1);
-            this.argumentList = parameterParser.getArgumentList();
+            this.parameterList = parameterParser.getParameterList();
             proceedingIndex = parameterParser.getLastProcessedIndex();
         }
 
         boolean finished = (proceedingIndex + 1 == args.length);
         if (!finished) throw new UnrecognizedArgumentException("Unrecognized argument: " + args[proceedingIndex + 1]);
 
-        return new ParserResult(this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.argumentList);
+        return new ParserResult(this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList);
 
     }
 
@@ -100,44 +100,8 @@ public class CommandLineInterface {
         }
 
         if (this.parameters != null && commands != null && CommandsHelper.hasOpenLeaves(this.commands)) {
-            throw new CLISpecificationException("Commands must not end open if arguments are defined.");
+            throw new CLISpecificationException("Commands must not end open if parameters are defined.");
         }
     }
-
-//    public static String getArgsString(String[] args) {
-//        return Strings.listing(Lists.newArrayList(args), "");
-//    }
-
-
-//    private List<CLIAbstractParser> getParserList() {
-//        List<CLIAbstractParser> parserList = new ArrayList<>();
-//
-//        if (this.optionsGlobal != null) {
-//            parserList.add(new OptionParser(this.optionsGlobal));
-//        }
-//
-//        // TODO CommandParser
-//
-//        if (this.optionsSpecific != null) {
-//            parserList.add(new OptionParser(this.optionsSpecific));
-//        }
-//
-//        if (this.arguments != null) {
-//            parserList.add(arguments.getArgumentParser());
-//        }
-//
-//        return parserList;
-//    }
-//
-//
-//    private int getIndexOfFirstOption(List<String> argList) {
-//        for (int i = 0; i < argList.size(); i++) {
-//            if (argList.get(0).startsWith("-")) {
-//                return i;
-//            }
-//        }
-//        return -1;
-//    }
-
 
 }

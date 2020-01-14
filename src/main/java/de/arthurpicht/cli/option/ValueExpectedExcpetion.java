@@ -2,14 +2,10 @@ package de.arthurpicht.cli.option;
 
 public class ValueExpectedExcpetion extends OptionParserException {
 
-    private String argument;
 
-    public ValueExpectedExcpetion(String argument) {
-        this.argument = argument;
+    public ValueExpectedExcpetion(String[] args, int argumentIndex, String message) {
+        super(args, argumentIndex, message);
     }
 
-    public String getArgument() {
-        return this.argument;
-    }
 
 }

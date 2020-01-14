@@ -7,7 +7,7 @@ public class ParametersOne extends Parameters {
     }
 
     @Override
-    public ParameterParser getArgumentParser() {
+    public ParameterParser getParameterParser() {
         return new ParameterParserOne();
     }
 }

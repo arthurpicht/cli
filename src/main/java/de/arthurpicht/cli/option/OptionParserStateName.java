@@ -7,24 +7,25 @@ public class OptionParserStateName extends OptionParserState {
     }
 
     @Override
-    public OptionParserState process(String arg) throws OptionParserException {
+    public OptionParserState process(String[] args, int processIndex) throws OptionParserException {
 
+        String arg = args[processIndex];
         Option option;
 
         if (arg.startsWith("--")) {
             String longName = arg.substring(2);
-            if (longName.equals("")) throw new IllegalArgException(arg);
+            if (longName.equals("")) throw new MalformedOptionException(args, processIndex, "Illegal option format: + '" + arg + "'.");
 
-            if (!this.options.hasLongNameOption(longName)) throw new UnknownArgumentException(arg);
+            if (!this.options.hasLongNameOption(longName)) throw new UnspecifiedOptionException(args, processIndex);
             option = this.options.getLongNameOption(longName);
 
         } else if (arg.startsWith("-")) {
             String shortName = arg.substring(1);
-            if (shortName.equals("")) throw new IllegalArgException(arg);
-            if (shortName.length() > 1) throw new IllegalArgException(arg);
+            if (shortName.equals("")) throw new MalformedOptionException(args, processIndex, "Illegal option format: '" + arg + "'.");
+            if (shortName.length() > 1) throw new MalformedOptionException(args, processIndex, "Illegal option format: '" + arg + "'.");
             Character shortNameChar = shortName.charAt(0);
 
-            if (!this.options.hasShortNameOption(shortNameChar)) throw new UnknownArgumentException(arg);
+            if (!this.options.hasShortNameOption(shortNameChar)) throw new UnspecifiedOptionException(args, processIndex);
             option = this.options.getShortNameOption(shortNameChar);
 
         } else {

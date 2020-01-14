@@ -15,7 +15,7 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserOne.parse(args, 0);
-            assertEquals("A", argumentParserOne.getArgumentList().get(0));
+            assertEquals("A", argumentParserOne.getParameterList().get(0));
             assertEquals(0, argumentParserOne.getLastProcessedIndex());
 
         } catch (ParameterParserException e) {
@@ -32,7 +32,7 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserOne.parse(args, 3);
-            assertEquals("D", argumentParserOne.getArgumentList().get(0));
+            assertEquals("D", argumentParserOne.getParameterList().get(0));
             assertEquals(3, argumentParserOne.getLastProcessedIndex());
 
         } catch (ParameterParserException e) {

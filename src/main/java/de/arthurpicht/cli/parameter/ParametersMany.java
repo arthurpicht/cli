@@ -9,7 +9,7 @@ public class ParametersMany extends Parameters {
     }
 
     @Override
-    public ParameterParser getArgumentParser() {
+    public ParameterParser getParameterParser() {
         return new ParameterParserMany(this.nrOfArguments);
     }
 }

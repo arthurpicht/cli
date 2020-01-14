@@ -28,8 +28,8 @@ class CommandParserTest {
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
 
-        } catch (CommandSyntaxError commandSyntaxError) {
-            System.out.println(commandSyntaxError.getMessage());
+        } catch (CommandSyntaxException commandSyntaxException) {
+            System.out.println(commandSyntaxException.getMessage());
             fail();
         }
     }
@@ -46,8 +46,8 @@ class CommandParserTest {
 
         try {
             commandParser.parse(args, 0);
-        } catch (CommandSyntaxError commandSyntaxError) {
-            System.out.println(commandSyntaxError.getMessage());
+        } catch (CommandSyntaxException commandSyntaxException) {
+            System.out.println(commandSyntaxException.getMessage());
             fail();
         }
     }
@@ -64,8 +64,8 @@ class CommandParserTest {
 
         try {
             commandParser.parse(args, 0);
-        } catch (CommandSyntaxError commandSyntaxError) {
-            System.out.println(commandSyntaxError.getMessage());
+        } catch (CommandSyntaxException commandSyntaxException) {
+            System.out.println(commandSyntaxException.getMessage());
             fail();
         }
     }
@@ -85,7 +85,7 @@ class CommandParserTest {
             commandParser.parse(args, 0);
             assertEquals(2, commandParser.getLastProcessedIndex());
             assertEquals(3, commandParser.getCommandStringList().size());
-        } catch (CommandSyntaxError commandSyntaxError) {
+        } catch (CommandSyntaxException commandSyntaxException) {
             fail();
         }
 
@@ -104,10 +104,10 @@ class CommandParserTest {
         try {
             commandParser.parse(args, 0);
             fail();
-        } catch (CommandSyntaxError commandSyntaxError) {
-            System.out.println(commandSyntaxError.getMessage());
+        } catch (CommandSyntaxException commandSyntaxException) {
+            System.out.println(commandSyntaxException.getMessage());
             System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(commandSyntaxError.getArgumentPointerString());
+            System.out.println(commandSyntaxException.getArgumentPointerString());
 
         }
     }
@@ -125,10 +125,10 @@ class CommandParserTest {
         try {
             commandParser.parse(args, 0);
             fail();
-        } catch (CommandSyntaxError commandSyntaxError) {
-            System.out.println(commandSyntaxError.getMessage());
+        } catch (CommandSyntaxException commandSyntaxException) {
+            System.out.println(commandSyntaxException.getMessage());
             System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(commandSyntaxError.getArgumentPointerString());
+            System.out.println(commandSyntaxException.getArgumentPointerString());
 
         }
     }

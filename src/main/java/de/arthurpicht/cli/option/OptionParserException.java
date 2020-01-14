@@ -4,7 +4,11 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 public class OptionParserException extends UnrecognizedArgumentException {
 
-//    public OptionParserException() {
+    public OptionParserException(String[] args, int argumentIndex, String message) {
+        super(args, argumentIndex, message);
+    }
+
+    //    public OptionParserException() {
 //    }
 //
 //    public OptionParserException(String message) {

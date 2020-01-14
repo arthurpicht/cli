@@ -18,7 +18,7 @@ public class ParameterParserVar extends ParameterParser {
 
         for(int i=beginIndex; i<args.length; i++) {
             String argument = args[i];
-            this.argumentList.add(argument);
+            this.parameterList.add(argument);
         }
 
         this.lastProcessedIndex = args.length - 1;

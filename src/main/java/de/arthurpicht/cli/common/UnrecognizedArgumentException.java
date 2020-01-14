@@ -8,10 +8,6 @@ public class UnrecognizedArgumentException extends Exception {
     public UnrecognizedArgumentException() {
     }
 
-//    public UnrecognizedCLArgumentException(String argument) {
-//        this.argument = argument;
-//    }No argument found
-
     public UnrecognizedArgumentException(String message) {
         super(message);
     }

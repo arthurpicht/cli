@@ -16,8 +16,8 @@ class ParameterParserManyTest {
         try {
             argumentParserMany.parse(args, 0);
 
-            assertEquals(1, argumentParserMany.getArgumentList().size());
-            assertEquals("A", argumentParserMany.getArgumentList().get(0));
+            assertEquals(1, argumentParserMany.getParameterList().size());
+            assertEquals("A", argumentParserMany.getParameterList().get(0));
             assertEquals(0, argumentParserMany.getLastProcessedIndex());
 
         } catch (ParameterParserException e) {
@@ -34,9 +34,9 @@ class ParameterParserManyTest {
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserMany.parse(args, 0);
-            assertEquals(2, argumentParserMany.getArgumentList().size());
-            assertEquals("A", argumentParserMany.getArgumentList().get(0));
-            assertEquals("B", argumentParserMany.getArgumentList().get(1));
+            assertEquals(2, argumentParserMany.getParameterList().size());
+            assertEquals("A", argumentParserMany.getParameterList().get(0));
+            assertEquals("B", argumentParserMany.getParameterList().get(1));
             assertEquals(1, argumentParserMany.getLastProcessedIndex());
 
         } catch (ParameterParserException e) {
@@ -53,10 +53,10 @@ class ParameterParserManyTest {
         String[] args = {"A", "B", "C", "D"};
         try {
             argumentParserMany.parse(args, 1);
-            assertEquals(3, argumentParserMany.getArgumentList().size());
-            assertEquals("B", argumentParserMany.getArgumentList().get(0));
-            assertEquals("C", argumentParserMany.getArgumentList().get(1));
-            assertEquals("D", argumentParserMany.getArgumentList().get(2));
+            assertEquals(3, argumentParserMany.getParameterList().size());
+            assertEquals("B", argumentParserMany.getParameterList().get(0));
+            assertEquals("C", argumentParserMany.getParameterList().get(1));
+            assertEquals("D", argumentParserMany.getParameterList().get(2));
             assertEquals(3, argumentParserMany.getLastProcessedIndex());
 
         } catch (ParameterParserException e) {

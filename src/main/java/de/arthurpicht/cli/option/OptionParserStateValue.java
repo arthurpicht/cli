@@ -12,9 +12,11 @@ public class OptionParserStateValue extends OptionParserState {
     }
 
     @Override
-    public OptionParserState process(String arg) throws OptionParserException {
+    public OptionParserState process(String[] args, int processIndex) throws OptionParserException {
 
-        if (arg.startsWith("-")) throw new ValueExpectedExcpetion(this.nameArg);
+        String arg = args[processIndex];
+
+        if (arg.startsWith("-")) throw new ValueExpectedExcpetion(args, processIndex, this.nameArg);
 
         OptionParserResult optionParserResult = optionParser.getOptionParserResult();
         optionParserResult.addOption(this.option, arg);

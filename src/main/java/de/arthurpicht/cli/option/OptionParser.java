@@ -38,7 +38,7 @@ public class OptionParser extends Parser {
             String arg = args[i];
             System.out.println("verarbeite arg:" + arg);
 
-            optionParserState = optionParserState.process(arg);
+            optionParserState = optionParserState.process(args, i);
 
             System.out.println("zurückgegebener ParserState: " + optionParserState.getClass().getSimpleName());
 
@@ -51,7 +51,7 @@ public class OptionParser extends Parser {
 
         if (optionParserState instanceof OptionParserStateValue) {
             OptionParserStateValue optionParserStateValue = (OptionParserStateValue) optionParserState;
-            throw new ValueExpectedExcpetion(optionParserStateValue.getNameArg());
+            throw new ValueExpectedExcpetion(args, beginIndex, optionParserStateValue.getNameArg());
         }
 
     }

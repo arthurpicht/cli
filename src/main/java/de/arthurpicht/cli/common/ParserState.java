@@ -4,6 +4,6 @@ import de.arthurpicht.cli.option.OptionParserState;
 
 public abstract class ParserState {
 
-    public abstract OptionParserState process(String arg) throws UnrecognizedArgumentException;
+    public abstract OptionParserState process(String[] args, int processIndex) throws UnrecognizedArgumentException;
 
 }

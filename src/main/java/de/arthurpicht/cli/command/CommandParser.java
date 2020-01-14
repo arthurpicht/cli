@@ -22,7 +22,7 @@ public class CommandParser extends Parser {
     }
 
     @Override
-    public void parse(String[] args, int beginIndex) throws CommandSyntaxError {
+    public void parse(String[] args, int beginIndex) throws CommandSyntaxException {
 
         AssertMethodPrecondition.parameterNotNull("args", args);
 
@@ -49,13 +49,13 @@ public class CommandParser extends Parser {
                 curCommandSet = matchingCommand.getNext();
                 this.lastProcessedIndex = i;
             } else {
-                throw new CommandSyntaxError(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
+                throw new CommandSyntaxException(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
             }
         }
 
         // todo optional-flag
         if (!curCommandSet.isEmpty()) {
-            throw new CommandSyntaxError(args, this.lastProcessedIndex + 1, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
+            throw new CommandSyntaxException(args, this.lastProcessedIndex + 1, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
         }
 
     }

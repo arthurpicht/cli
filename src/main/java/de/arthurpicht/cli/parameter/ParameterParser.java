@@ -7,15 +7,15 @@ import java.util.List;
 
 public abstract class ParameterParser extends Parser {
 
-    protected List<String> argumentList;
+    protected List<String> parameterList;
 
     public ParameterParser() {
         super();
-        this.argumentList = new ArrayList<>();
+        this.parameterList = new ArrayList<>();
     }
 
-    public List<String> getArgumentList() {
-        return this.argumentList;
+    public List<String> getParameterList() {
+        return this.parameterList;
     }
 
 }

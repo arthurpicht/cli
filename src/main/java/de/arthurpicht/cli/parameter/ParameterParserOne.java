@@ -10,7 +10,7 @@ public class ParameterParserOne extends ParameterParser {
 
         if (args.length > beginIndex) {
             String argument = args[beginIndex];
-            this.argumentList.add(argument);
+            this.parameterList.add(argument);
             this.lastProcessedIndex = beginIndex;
         } else {
             throw new ParameterParserException(args, beginIndex, "One argument expected.");

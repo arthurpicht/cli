@@ -7,7 +7,7 @@ public class OptionParserStateFinished extends OptionParserState {
     }
 
     @Override
-    public OptionParserState process(String arg) throws OptionParserException {
+    public OptionParserState process(String[] args, int processIndex) throws OptionParserException {
         return null;
     }
 }
