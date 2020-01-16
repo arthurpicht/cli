@@ -82,9 +82,9 @@ public class Commands {
 
     }
 
-    public void showStatus() {
-        System.out.println("rootCommands size: " + this.rootCommands.size());
-        System.out.println("curCommand: " + (this.curCommand == null ? "root" : this.curCommand.toString()));
-    }
+//    public void showStatus() {
+//        System.out.println("rootCommands size: " + this.rootCommands.size());
+//        System.out.println("curCommand: " + (this.curCommand == null ? "root" : this.curCommand.toString()));
+//    }
 
 }

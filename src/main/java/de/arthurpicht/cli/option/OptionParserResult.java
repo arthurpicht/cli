@@ -19,12 +19,12 @@ public class OptionParserResult {
 
     public void addOption(Option option, String value) {
 
-        System.out.println("Option added to Result: " + option.getId() + " Value: " + value);
+//        System.out.println("Option added to Result: " + option.getId() + " Value: " + value);
 
         if (!option.hasArgument()) throw new IllegalStateException("No value expected.");
         this.optionParserResultBeanMap.put(option.getId(), new OptionParserResultBean(option, value));
 
-        System.out.println("Size: " + this.optionParserResultBeanMap.size());
+//        System.out.println("Size: " + this.optionParserResultBeanMap.size());
     }
 
     public boolean hasOption(String id) {

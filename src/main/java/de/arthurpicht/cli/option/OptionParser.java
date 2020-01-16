@@ -36,11 +36,11 @@ public class OptionParser extends Parser {
             this.lastProcessedIndex = i;
 
             String arg = args[i];
-            System.out.println("verarbeite arg:" + arg);
+//            System.out.println("verarbeite arg:" + arg);
 
             optionParserState = optionParserState.process(args, i);
 
-            System.out.println("zurückgegebener ParserState: " + optionParserState.getClass().getSimpleName());
+//            System.out.println("zurückgegebener ParserState: " + optionParserState.getClass().getSimpleName());
 
             if (optionParserState instanceof OptionParserStateFinished) {
                 this.lastProcessedIndex = i - 1;

@@ -71,11 +71,11 @@ class CommandsTest {
         Commands commandsRoot = new Commands();
         Commands commandsA = commandsRoot.add("A");
 
-        commandsA.showStatus();
+//        commandsA.showStatus();
 
         try {
             Commands commandsA2 = commandsRoot.add("A");
-            commandsA2.showStatus();
+//            commandsA2.showStatus();
 
             fail();
         } catch (CommandSpecException e) {
