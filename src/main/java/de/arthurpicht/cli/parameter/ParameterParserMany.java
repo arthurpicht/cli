@@ -12,7 +12,7 @@ public class ParameterParserMany extends ParameterParser {
     public void parse(String[] args, int beginIndex) throws ParameterParserException {
 
         if (args.length < this.nrOfArguments + beginIndex)
-            throw new ParameterParserException(args, beginIndex, "Not enough arguments found. required: " + this.nrOfArguments + "; found: " + (args.length - beginIndex) + ".");
+            throw new IllegalNumberOfParametersException(args, args.length, this.nrOfArguments, args.length - beginIndex);
 
         for(int i = beginIndex; i < beginIndex+this.nrOfArguments; i++) {
             String argument = args[i];

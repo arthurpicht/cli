@@ -6,6 +6,9 @@ import de.arthurpicht.cli.common.ArgsHelper;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ParameterParserExceptionTest {
 
     @Test
@@ -27,7 +30,6 @@ public class ParameterParserExceptionTest {
             System.out.println(e.getArgumentPointerString());
             e.printStackTrace();
         }
-
-
     }
+
 }
