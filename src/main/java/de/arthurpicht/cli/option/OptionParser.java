@@ -51,7 +51,7 @@ public class OptionParser extends Parser {
 
         if (optionParserState instanceof OptionParserStateValue) {
             OptionParserStateValue optionParserStateValue = (OptionParserStateValue) optionParserState;
-            throw new ValueExpectedExcpetion(args, beginIndex, optionParserStateValue.getNameArg());
+            throw new ValueExpectedExcpetion(args, args.length);
         }
 
     }

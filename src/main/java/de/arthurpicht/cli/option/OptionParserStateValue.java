@@ -16,7 +16,7 @@ public class OptionParserStateValue extends OptionParserState {
 
         String arg = args[processIndex];
 
-        if (arg.startsWith("-")) throw new ValueExpectedExcpetion(args, processIndex, this.nameArg);
+        if (arg.startsWith("-")) throw new ValueExpectedExcpetion(args, processIndex);
 
         OptionParserResult optionParserResult = optionParser.getOptionParserResult();
         optionParserResult.addOption(this.option, arg);
