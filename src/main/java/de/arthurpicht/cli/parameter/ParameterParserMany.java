@@ -19,6 +19,16 @@ public class ParameterParserMany extends ParameterParser {
             this.parameterList.add(argument);
         }
 
+        checkForTooManyParameters(args, beginIndex);
+
         this.lastProcessedIndex = beginIndex + this.nrOfArguments - 1;
+    }
+
+    private void checkForTooManyParameters(String[] args, int beginIndex) throws IllegalNumberOfParametersException {
+        if (args.length > beginIndex + this.nrOfArguments) {
+            int indexFailPointer = beginIndex + this.nrOfArguments;
+            int nrParametersFound = args.length - beginIndex;
+            throw new IllegalNumberOfParametersException(args, indexFailPointer, this.nrOfArguments, nrParametersFound);
+        }
     }
 }

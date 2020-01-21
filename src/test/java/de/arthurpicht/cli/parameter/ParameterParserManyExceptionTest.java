@@ -11,17 +11,13 @@ public class ParameterParserManyExceptionTest {
     @Test
     void parseInsufficientNumber() {
 
-        ParameterParserMany argumentParserMany = new ParameterParserMany(3);
+        ParameterParserMany parameterParserMany = new ParameterParserMany(3);
 
         String[] args = {"somethingElse", "A", "B"};
 
         try {
-            argumentParserMany.parse(args, 1);
+            parameterParserMany.parse(args, 1);
             fail();
-
-//            assertEquals(1, argumentParserMany.getParameterList().size());
-//            assertEquals("A", argumentParserMany.getParameterList().get(0));
-//            assertEquals(0, argumentParserMany.getLastProcessedIndex());
 
         } catch (IllegalNumberOfParametersException e) {
 
@@ -34,6 +30,59 @@ public class ParameterParserManyExceptionTest {
             fail();
         }
     }
+
+    @Test
+    void oneParameterSurplus() {
+
+        ParameterParserMany parameterParserMany = new ParameterParserMany(3);
+
+        String[] args = {"somethingElse", "A", "B", "C", "D"};
+
+        try {
+            parameterParserMany.parse(args, 1);
+            fail();
+
+        } catch (IllegalNumberOfParametersException e) {
+
+            assertEquals(3, Integer.parseInt(e.getNrParametersRequired()));
+            assertEquals(4, e.getNrParametersFound());
+
+            System.out.println(e.getMessage());
+            System.out.println(ArgsHelper.getArgsString(args));
+            System.out.println(e.getArgumentPointerString());
+
+        } catch (ParameterParserException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    void twoParametersSurplus() {
+
+        ParameterParserMany parameterParserMany = new ParameterParserMany(2);
+
+        String[] args = {"somethingElse", "A", "B", "C", "D"};
+
+        try {
+            parameterParserMany.parse(args, 1);
+            fail();
+
+        } catch (IllegalNumberOfParametersException e) {
+
+            assertEquals(2, Integer.parseInt(e.getNrParametersRequired()));
+            assertEquals(4, e.getNrParametersFound());
+
+            System.out.println(e.getMessage());
+            System.out.println(ArgsHelper.getArgsString(args));
+            System.out.println(e.getArgumentPointerString());
+
+        } catch (ParameterParserException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
 
 
 }

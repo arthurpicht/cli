@@ -11,7 +11,7 @@ class ParameterParserManyTest {
 
         ParameterParserMany argumentParserMany = new ParameterParserMany(1);
 
-        String[] args = {"A", "B", "C", "D"};
+        String[] args = {"A"};
 
         try {
             argumentParserMany.parse(args, 0);
@@ -31,7 +31,7 @@ class ParameterParserManyTest {
 
         ParameterParserMany argumentParserMany = new ParameterParserMany(2);
 
-        String[] args = {"A", "B", "C", "D"};
+        String[] args = {"A", "B"};
         try {
             argumentParserMany.parse(args, 0);
             assertEquals(2, argumentParserMany.getParameterList().size());
