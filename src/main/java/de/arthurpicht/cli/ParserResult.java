@@ -10,13 +10,13 @@ public class ParserResult {
     private final OptionParserResult optionParserResultGlobal;
     private final List<String> commandList;
     private final OptionParserResult optionParserResultSpecific;
-    private final List<String> argumentList;
+    private final List<String> parameterList;
 
-    public ParserResult(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> argumentList) {
+    public ParserResult(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
         this.optionParserResultGlobal = optionParserResultGlobal;
         this.commandList = commandList;
         this.optionParserResultSpecific = optionParserResultSpecific;
-        this.argumentList = argumentList;
+        this.parameterList = parameterList;
     }
 
     public OptionParserResult getOptionParserResultGlobal() {
@@ -31,7 +31,7 @@ public class ParserResult {
         return this.optionParserResultSpecific != null ? this.optionParserResultSpecific : new OptionParserResult();
     }
 
-    public List<String> getArgumentList() {
-        return this.argumentList != null ? this.argumentList : new ArrayList<>();
+    public List<String> getParameterList() {
+        return this.parameterList != null ? this.parameterList : new ArrayList<>();
     }
 }

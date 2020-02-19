@@ -43,7 +43,7 @@ class CommandLineInterfaceTest {
             assertTrue(optionParserResultGlobal.hasOption("idB"));
             assertEquals("valueOfB", optionParserResultGlobal.getValue("idB"));
 
-            List<String> argumentList = parserResult.getArgumentList();
+            List<String> argumentList = parserResult.getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
@@ -74,7 +74,7 @@ class CommandLineInterfaceTest {
 
             assertEquals(0, optionParserResultGlobal.getSize());
 
-            List<String> argumentList = parserResult.getArgumentList();
+            List<String> argumentList = parserResult.getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
@@ -119,7 +119,7 @@ class CommandLineInterfaceTest {
             assertEquals("commandA", commandList.get(0));
             assertEquals("commandB", commandList.get(1));
 
-            List<String> argumentList = parserResult.getArgumentList();
+            List<String> argumentList = parserResult.getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
@@ -185,7 +185,7 @@ class CommandLineInterfaceTest {
 
             // arguments
 
-            List<String> argumentList = parserResult.getArgumentList();
+            List<String> argumentList = parserResult.getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
