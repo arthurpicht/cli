@@ -64,8 +64,20 @@ class UnrecognizedArgumentExceptionTest {
     }
 
 
+    @Test
+    void getArgumentPointerStringForZeroArgument() {
 
-    // TODO Verhalten bei fehlendem Argument
+        String[] args = {};
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 1, "myMessage");
+
+        System.out.println(ArgsHelper.getArgsString(args));
+        System.out.println(unrecognizedArgumentException.getArgumentPointerString());
+
+        assertEquals("^", unrecognizedArgumentException.getArgumentPointerString());
+
+
+    }
+
 
 
 

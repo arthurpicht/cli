@@ -31,6 +31,8 @@ public class CommandParser extends Parser {
     @Override
     public void parse(String[] args, int beginIndex) throws CommandSyntaxException {
 
+        System.out.println("Command Parser. Starte mit beginIndex=" + beginIndex);
+
         AssertMethodPrecondition.parameterNotNull("args", args);
 
         this.lastProcessedIndex = beginIndex;

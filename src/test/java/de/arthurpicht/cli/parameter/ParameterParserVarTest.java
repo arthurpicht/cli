@@ -88,6 +88,23 @@ class ParameterParserVarTest {
         }
     }
 
+    @Test
+    void parseZero() {
+
+        ParameterParserVar argumentParserVar = new ParameterParserVar(0);
+
+        String[] args = {};
+
+        try {
+            argumentParserVar.parse(args, 0);
+
+        } catch (ParameterParserException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+
+    }
 
 
 }
