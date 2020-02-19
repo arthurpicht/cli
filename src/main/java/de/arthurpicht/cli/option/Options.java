@@ -42,6 +42,10 @@ public class Options {
         return this;
     }
 
+    public  boolean hasOptionWithId(String id) {
+        return this.idSet.contains(id);
+    }
+
     public boolean hasShortNameOption(Character shortName) {
         return this.shortNameMap.containsKey(shortName);
     }
@@ -60,6 +64,10 @@ public class Options {
 
     public boolean isEmpty() {
         return this.longNameMap.isEmpty() && this.shortNameMap.isEmpty();
+    }
+
+    public Set<String> getIds() {
+        return this.idSet;
     }
 
     private Set<Option> getAllOptions() {
@@ -132,5 +140,8 @@ public class Options {
 
     }
 
+    public static boolean hasDefinitions(Options options) {
+        return (options != null && options.idSet.size() != 0);
+    }
 
 }

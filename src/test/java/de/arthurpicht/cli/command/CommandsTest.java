@@ -1,5 +1,9 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.option.Option;
+import de.arthurpicht.cli.option.OptionBuilder;
+import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.utils.core.collection.Sets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -63,6 +67,26 @@ class CommandsTest {
 
         assertEquals(rootCommandSetExp, rootCommandSet);
 
+    }
+
+    @Test
+    void getSpecificOptionsOfSingleCommand() {
+
+        Options optionsSpecific = new Options()
+                .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
+
+        Commands commands = new Commands();
+        commands.add("A").withSpecificOptions(optionsSpecific);
+
+        Set<Command> rootCommandSet = commands.getRootCommands();
+        assertEquals(1, rootCommandSet.size());
+
+        Command command = Sets.getSomeElement(rootCommandSet);
+        assertNotNull(command);
+        assertEquals("[ A ]", command.toString());
+
+        assertTrue(command.hasSpecificOptions());
+        assertTrue(command.getSpecificOptions().hasOptionWithId("x"));
     }
 
     @Test

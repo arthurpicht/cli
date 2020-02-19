@@ -10,6 +10,7 @@ import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.option.OptionParser;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +36,11 @@ public class CommandLineInterface {
      *
      * @param optionsGlobal
      * @param commands
-     * @param optionsSpecific
      * @param parameters
      */
-    public CommandLineInterface(Options optionsGlobal, Commands commands, Options optionsSpecific, Parameters parameters) {
+    public CommandLineInterface(Options optionsGlobal, Commands commands, Parameters parameters) {
         this.optionsGlobal = optionsGlobal;
         this.commands = commands;
-        this.optionsSpecific = optionsSpecific;
         this.parameters = parameters;
 
         this.optionParserResultGlobal = null;
@@ -56,21 +55,22 @@ public class CommandLineInterface {
 
         int proceedingIndex = -1;
 
-        if (this.optionsGlobal != null) {
+        if (Options.hasDefinitions(this.optionsGlobal)) {
             OptionParser optionParserGlobal = new OptionParser(this.optionsGlobal);
             optionParserGlobal.parse(args, proceedingIndex + 1);
             this.optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
             proceedingIndex = optionParserGlobal.getLastProcessedIndex();
         }
 
-        if (this.commands != null) {
+        if (Commands.hasDefinitions(this.commands)) {
             CommandParser commandParser = new CommandParser(this.commands);
             commandParser.parse(args, proceedingIndex + 1);
             this.commandList = commandParser.getCommandStringList();
             proceedingIndex = commandParser.getLastProcessedIndex();
+            this.optionsSpecific = commandParser.getSpecificOptions();
         }
 
-        if (this.optionsSpecific != null) {
+        if (Options.hasDefinitions(this.optionsSpecific)) {
             OptionParser optionParserSpecific = new OptionParser(this.optionsSpecific);
             optionParserSpecific.parse(args, proceedingIndex + 1);
             this.optionParserResultSpecific = optionParserSpecific.getOptionParserResult();

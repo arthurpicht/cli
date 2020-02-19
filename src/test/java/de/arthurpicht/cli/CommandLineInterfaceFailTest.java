@@ -20,7 +20,7 @@ class CommandLineInterfaceFailTest {
 
         Parameters parameters = new ParametersOne();
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, parameters);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1", "arg2"};
 

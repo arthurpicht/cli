@@ -5,7 +5,7 @@ plugins {
 group 'com.github.arthurpicht'
 version '0.1-SNAPSHOT'
 
-sourceCompatibility = 1.8
+//sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -17,8 +17,7 @@ configurations.all {
 }
 
 dependencies {
-    // testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation 'com.github.arthurpicht:utils-core:master-SNAPSHOT'
+    implementation 'com.github.arthurpicht:utils-core:1.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 }

@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.common.Parser;
+import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
 
 import java.util.ArrayList;
@@ -11,14 +12,20 @@ public class CommandParser extends Parser {
 
     private Commands commands;
     private List<String> commandStringList;
+    private Options specificOptions;
 
     public CommandParser(Commands commands) {
         this.commands = commands;
         this.commandStringList = new ArrayList<>();
+        this.specificOptions = null;
     }
 
     public List<String> getCommandStringList() {
         return this.commandStringList;
+    }
+
+    public Options getSpecificOptions() {
+        return this.specificOptions != null ? this.specificOptions : new Options();
     }
 
     @Override
@@ -30,6 +37,8 @@ public class CommandParser extends Parser {
 
         Set<Command> curCommandSet = this.commands.getRootCommands();
 
+        Command lastCommand = null;
+
 //        if (curCommandSet.isEmpty()) {
 //            this.lastProcessedIndex = beginIndex - 1;
 //            return;
@@ -39,6 +48,7 @@ public class CommandParser extends Parser {
 
             if (curCommandSet.isEmpty()) {
                 this.lastProcessedIndex = i - 1;
+                this.specificOptions = lastCommand.getSpecificOptions();
                 return;
 //                throw new CommandSyntaxError("No definition found for: " + args[i]);
             }
@@ -48,6 +58,7 @@ public class CommandParser extends Parser {
                 this.commandStringList.add(args[i]);
                 curCommandSet = matchingCommand.getNext();
                 this.lastProcessedIndex = i;
+                lastCommand = matchingCommand;
             } else {
                 throw new CommandSyntaxException(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
             }
@@ -57,6 +68,8 @@ public class CommandParser extends Parser {
         if (!curCommandSet.isEmpty()) {
             throw new CommandSyntaxException(args, this.lastProcessedIndex + 1, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
         }
+
+        this.specificOptions = lastCommand.getSpecificOptions();
 
     }
 }

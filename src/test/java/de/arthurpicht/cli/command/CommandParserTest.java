@@ -1,9 +1,13 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.common.ArgsHelper;
+import de.arthurpicht.cli.option.OptionBuilder;
+import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.utils.core.collection.Sets;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -130,6 +134,115 @@ class CommandParserTest {
             System.out.println(ArgsHelper.getArgsString(args));
             System.out.println(commandSyntaxException.getArgumentPointerString());
 
+        }
+    }
+
+    @Test
+    void specificOptionOfSingleCommand() {
+
+        Options optionsSpecific = new Options()
+                .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
+
+        Commands commands = new Commands();
+        commands.add("A").withSpecificOptions(optionsSpecific);
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A"};
+
+        try {
+            commandParser.parse(args, 0);
+            assertEquals(0, commandParser.getLastProcessedIndex());
+
+            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            assertFalse(optionsSpecificBack.isEmpty());
+            assertTrue(optionsSpecificBack.hasOptionWithId("x"));
+
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    void specificOptionOfSingleCommandFollowedByOption() {
+
+        Options optionsSpecific = new Options()
+                .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
+
+        Commands commands = new Commands();
+        commands.add("A").withSpecificOptions(optionsSpecific);
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A", "--test"};
+
+        try {
+            commandParser.parse(args, 0);
+            assertEquals(0, commandParser.getLastProcessedIndex());
+
+            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            assertFalse(optionsSpecificBack.isEmpty());
+            assertTrue(optionsSpecificBack.hasOptionWithId("x"));
+
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+
+    @Test
+    void specificOptionOfCommandChain() {
+
+        Options optionsSpecific = new Options()
+                .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
+
+        Commands commands = new Commands();
+        commands.add("A").add("B").withSpecificOptions(optionsSpecific);
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A", "B"};
+
+        try {
+            commandParser.parse(args, 0);
+            assertEquals(1, commandParser.getLastProcessedIndex());
+
+            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            assertFalse(optionsSpecificBack.isEmpty());
+            assertTrue(optionsSpecificBack.hasOptionWithId("x"));
+
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    void specificOptionOfCommandChainFollowedByOption() {
+
+        Options optionsSpecific = new Options()
+                .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
+
+        Commands commands = new Commands();
+        commands.add("A").add("B").withSpecificOptions(optionsSpecific);
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A", "B", "--test"};
+
+        try {
+            commandParser.parse(args, 0);
+            assertEquals(1, commandParser.getLastProcessedIndex());
+
+            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            assertFalse(optionsSpecificBack.isEmpty());
+            assertTrue(optionsSpecificBack.hasOptionWithId("x"));
+
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+            fail();
         }
     }
 

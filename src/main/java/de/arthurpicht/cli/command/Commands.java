@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.utils.core.collection.Sets;
 
 import java.util.HashSet;
@@ -65,6 +66,15 @@ public class Commands {
         throw new RuntimeException("NIY");
     }
 
+    public Commands withSpecificOptions(Options specificOptions) {
+
+        if (this.isEmpty()) throw new CommandSpecException("No options defined yet.");
+
+        this.curCommand.setSpecificOptions(specificOptions);
+
+        return new Commands(this.rootCommands, this.curCommand);
+    }
+
     public Set<Command> getRootCommands() {
         return this.rootCommands;
     }
@@ -80,6 +90,10 @@ public class Commands {
             this.curCommand.addNext(command);
         }
 
+    }
+
+    public static boolean hasDefinitions(Commands commands) {
+        return (commands != null && !commands.isEmpty());
     }
 
 //    public void showStatus() {

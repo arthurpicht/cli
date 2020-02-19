@@ -18,13 +18,15 @@ class CommandLineInterfaceTest {
     @Test
     void optionsGlobalArgs() {
 
+
+
         Options optionsGlobal = new Options()
                 .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
                 .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
         Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, parameters);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1"};
 
@@ -60,7 +62,7 @@ class CommandLineInterfaceTest {
 
         Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, null, parameters);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, parameters);
 
         String[] args = {"arg1"};
 
@@ -95,7 +97,7 @@ class CommandLineInterfaceTest {
 
         Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, null, parameters);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "commandA", "commandB", "arg1"};
 
@@ -135,15 +137,17 @@ class CommandLineInterfaceTest {
                 .add(new Option("idB", 'b', "bbb", true,"" , "bbb help"));
 
         Commands commands = new Commands();
-        commands.add("commandA").add("commandB");
-
-        Options optionsSpecific = new Options()
+        commands.add("commandA").add("commandB").withSpecificOptions(new Options()
                 .add(new Option("idC", 'c', "ccc", true,"" , "ccc help"))
-                .add(new Option("idD", 'd', "ddd", true,"" , "ddd help"));
+                .add(new Option("idD", 'd', "ddd", true,"" , "ddd help")));
+
+//        Options optionsSpecific = new Options()
+//                .add(new Option("idC", 'c', "ccc", true,"" , "ccc help"))
+//                .add(new Option("idD", 'd', "ddd", true,"" , "ddd help"));
 
         Parameters parameters = new ParametersVar(0);
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, optionsSpecific, parameters);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, commands, parameters);
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "commandA", "commandB", "--ccc", "valueOfC", "arg1"};
 

@@ -2,6 +2,7 @@ package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.option.OptionParserResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParserResult {
@@ -19,18 +20,18 @@ public class ParserResult {
     }
 
     public OptionParserResult getOptionParserResultGlobal() {
-        return this.optionParserResultGlobal;
+        return this.optionParserResultGlobal != null ? this.optionParserResultGlobal : new OptionParserResult();
     }
 
     public List<String> getCommandList() {
-        return this.commandList;
+        return this.commandList != null ? this.commandList : new ArrayList<>();
     }
 
     public OptionParserResult getOptionParserResultSpecific() {
-        return this.optionParserResultSpecific;
+        return this.optionParserResultSpecific != null ? this.optionParserResultSpecific : new OptionParserResult();
     }
 
     public List<String> getArgumentList() {
-        return argumentList;
+        return this.argumentList != null ? this.argumentList : new ArrayList<>();
     }
 }

@@ -19,13 +19,16 @@ public class ParameterParserExceptionTest {
 
         ParametersOne argumentsOne = new ParametersOne();
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands, null, argumentsOne);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands, argumentsOne);
 
         String[] args = {"A"};
 
         try {
             commandLineInterface.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            System.out.println("ArgumentIndex: " + e.getArgumentIndex());
+
             System.out.println(ArgsHelper.getArgsString(args));
             System.out.println(e.getArgumentPointerString());
             e.printStackTrace();
