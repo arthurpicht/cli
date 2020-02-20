@@ -1,4 +1,4 @@
-package de.arthurpicht.cli.integration;
+package de.arthurpicht.cli.integration.demo;
 
 
 import de.arthurpicht.cli.CommandLineInterface;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class integTest1 {
+public class demo01 {
 
     @Test
     void test() {

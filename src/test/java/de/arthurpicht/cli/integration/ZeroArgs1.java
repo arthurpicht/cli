@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class ZeroArgs1 {
 
     @Test
-    void test() {
+    void zeroArgs() {
 
         CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
                 .withGlobalOptions(new Options()
@@ -33,6 +33,26 @@ public class ZeroArgs1 {
             System.out.println(e.getArgumentIndex());
             fail();
         }
+    }
+
+    @Test
+    void oneParamter() {
+        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+                .withParameters(new ParametersVar(1))
+                .build();
+
+        String[] args = {};
+
+        try {
+            ParserResult parserResult = commandLineInterface.parse(args);
+            fail();
+        } catch (UnrecognizedArgumentException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println(e.getArgumentIndex());
+
+        }
+
     }
 
 }

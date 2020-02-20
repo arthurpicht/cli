@@ -26,9 +26,12 @@ public class OptionParser extends Parser {
     @Override
     public void parse(String[] args, int beginIndex) throws UnrecognizedArgumentException {
 
-        this.lastProcessedIndex = beginIndex;
+        if (beginIndex >= args.length) {
+            this.lastProcessedIndex = beginIndex - 1;
+            return;
+        }
 
-        if (beginIndex >= args.length) return;
+        this.lastProcessedIndex = beginIndex;
 
         OptionParserState optionParserState = new OptionParserStateName(options, this);
         for (int i = beginIndex; i < args.length; i++) {

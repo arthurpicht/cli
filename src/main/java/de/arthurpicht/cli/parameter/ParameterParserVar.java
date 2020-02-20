@@ -11,10 +11,10 @@ public class ParameterParserVar extends ParameterParser {
     @Override
     public void parse(String[] args, int beginIndex) throws ParameterParserException {
 
-//        this.isParsed = true;
-
-        if (args.length < this.minimalNrOfArgument + beginIndex)
-            throw new ParameterParserException(args, beginIndex, "minimalNrOfArguments = " + this.minimalNrOfArgument + " is out of bounds. Arguments remaining = " + (args.length - beginIndex));
+        if (args.length < this.minimalNrOfArgument + beginIndex) {
+            int nrFoundArgs = args.length - beginIndex;
+            throw new ParameterParserException(args, beginIndex + nrFoundArgs, "Illegal number of arguments. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
+        }
 
         for(int i=beginIndex; i<args.length; i++) {
             String argument = args[i];

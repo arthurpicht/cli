@@ -68,7 +68,7 @@ class UnrecognizedArgumentExceptionTest {
     void getArgumentPointerStringForZeroArgument() {
 
         String[] args = {};
-        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 1, "myMessage");
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 0, "myMessage");
 
         System.out.println(ArgsHelper.getArgsString(args));
         System.out.println(unrecognizedArgumentException.getArgumentPointerString());

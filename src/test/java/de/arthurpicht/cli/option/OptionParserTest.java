@@ -7,28 +7,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OptionParserTest {
 
-//    @Test
-//    void empty() {
-//
-//        Options options = new Options()
-//                .add(new Option("idA", 'a', "aaa", true, "aaa help"))
-//                .add(new Option("idB", 'b', "bbb", true, "bbb help"));
-//
-//        String[] args = {};
-//
-//        try {
-//            OptionParser optionParser = new OptionParser(options);
-//            optionParser.parse(args, 0);
-//            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
-//
-//            assertEquals(0, optionParserResult.getSize());
-//            assertEquals(0, optionParser.getLastProcessedArgIndex());
-//
-//        } catch (CLIParserException e) {
-//            e.printStackTrace();
-//            fail(e);
-//        }
-//    }
+    @Test
+    void empty() {
+
+        Options options = new Options()
+                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
+
+        String[] args = {};
+
+        try {
+            OptionParser optionParser = new OptionParser(options);
+            optionParser.parse(args, 0);
+            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+
+            assertEquals(0, optionParserResult.getSize());
+            assertEquals(-1, optionParser.getLastProcessedIndex());
+
+        } catch (UnrecognizedArgumentException e) {
+            e.printStackTrace();
+            fail(e);
+        }
+    }
 
     @Test
     void optionValues1() {
