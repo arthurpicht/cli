@@ -62,8 +62,6 @@ public class CommandLineInterface {
             proceedingIndex = optionParserGlobal.getLastProcessedIndex();
         }
 
-        System.out.println("OptionParser abgeschlossen. Neuer proceedingIndex: " + proceedingIndex);
-
         if (Commands.hasDefinitions(this.commands)) {
             CommandParser commandParser = new CommandParser(this.commands);
             commandParser.parse(args, proceedingIndex + 1);
@@ -72,8 +70,6 @@ public class CommandLineInterface {
             this.optionsSpecific = commandParser.getSpecificOptions();
         }
 
-        System.out.println("CommandsParser abgeschlossen. Neuer proceedingIndex: " + proceedingIndex);
-
         if (Options.hasDefinitions(this.optionsSpecific)) {
             OptionParser optionParserSpecific = new OptionParser(this.optionsSpecific);
             optionParserSpecific.parse(args, proceedingIndex + 1);
@@ -81,16 +77,12 @@ public class CommandLineInterface {
             proceedingIndex = optionParserSpecific.getLastProcessedIndex();
         }
 
-        System.out.println("OptionParser (spec) abgeschlossen. Neuer proceedingIndex: " + proceedingIndex);
-
         if (this.parameters != null) {
             ParameterParser parameterParser = this.parameters.getParameterParser();
             parameterParser.parse(args, proceedingIndex + 1);
             this.parameterList = parameterParser.getParameterList();
             proceedingIndex = parameterParser.getLastProcessedIndex();
         }
-
-        System.out.println("ParameterParser abgeschlossen. Neuer proceedingIndex: " + proceedingIndex);
 
         boolean finished = (proceedingIndex + 1 == args.length);
         if (!finished) throw new UnrecognizedArgumentException("Unrecognized argument: " + args[proceedingIndex + 1]);

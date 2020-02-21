@@ -5,6 +5,8 @@ plugins {
 group 'com.github.arthurpicht'
 version '0.1-SNAPSHOT'
 
+archivesBaseName = "ap-cli"
+
 //sourceCompatibility = 1.8
 
 repositories {
