@@ -47,6 +47,10 @@ public class OptionParserResult {
         return this.optionParserResultBeanMap.size();
     }
 
+    public boolean isEmpty() {
+        return this.optionParserResultBeanMap.isEmpty();
+    }
+
 
 
 
