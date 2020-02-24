@@ -4,8 +4,8 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 public class ParameterParserException extends UnrecognizedArgumentException {
 
-    public ParameterParserException() {
-    }
+//    public ParameterParserException() {
+//    }
 
     public ParameterParserException(String[] args, int argumentIndex, String message) {
         super(args, argumentIndex, message);

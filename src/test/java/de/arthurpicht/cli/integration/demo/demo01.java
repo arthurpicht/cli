@@ -17,10 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class demo01 {
 
-    @Test
-    void test() {
-
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+    private CommandLineInterface getCommandLineInterface() {
+        return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(new Options()
                         .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v"))
                         .add(new OptionBuilder().withLongName("vv").withDescription("very verbose").build("vv"))
@@ -30,6 +28,23 @@ public class demo01 {
                                 .add(new OptionBuilder().withLongName("user").hasArgument().withDescription("username").build("user"))
                                 .add(new OptionBuilder().withLongName("password").hasArgument().withDescription("password").build("password"))))
                 .build();
+    }
+
+    @Test
+    void test() {
+
+//        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+//                .withGlobalOptions(new Options()
+//                        .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v"))
+//                        .add(new OptionBuilder().withLongName("vv").withDescription("very verbose").build("vv"))
+//                        .add(new OptionBuilder().withLongName("vvv").withDescription("very very verbose").build("vvv")))
+//                .withCommands(new Commands().add("adduser")
+//                        .withSpecificOptions(new Options()
+//                                .add(new OptionBuilder().withLongName("user").hasArgument().withDescription("username").build("user"))
+//                                .add(new OptionBuilder().withLongName("password").hasArgument().withDescription("password").build("password"))))
+//                .build();
+
+        CommandLineInterface commandLineInterface = getCommandLineInterface();
 
         String[] args = {"-v", "adduser", "--user", "Joe", "--password", "supersecret"};
 
@@ -56,10 +71,27 @@ public class demo01 {
             assertTrue(optionParserResultSpecific.hasOption("password"));
             assertEquals("supersecret", optionParserResultSpecific.getValue("password"));
 
+
+
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    void test2() {
 
+        CommandLineInterface commandLineInterface = getCommandLineInterface();
+
+        String[] args = {};
+
+        try {
+            ParserResult parserResult = commandLineInterface.parse(args);
+            fail();
+        } catch (UnrecognizedArgumentException e) {
+            System.out.println(e.getArgsAsString());
+            System.out.println(e.getArgumentPointerString());
+            e.printStackTrace();
+        }
     }
 }

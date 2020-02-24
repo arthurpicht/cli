@@ -63,7 +63,6 @@ class UnrecognizedArgumentExceptionTest {
         assertEquals("         ^", unrecognizedArgumentException.getArgumentPointerString());
     }
 
-
     @Test
     void getArgumentPointerStringForZeroArgument() {
 
@@ -74,12 +73,6 @@ class UnrecognizedArgumentExceptionTest {
         System.out.println(unrecognizedArgumentException.getArgumentPointerString());
 
         assertEquals("^", unrecognizedArgumentException.getArgumentPointerString());
-
-
     }
-
-
-
-
 
 }

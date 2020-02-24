@@ -31,8 +31,6 @@ public class CommandParser extends Parser {
     @Override
     public void parse(String[] args, int beginIndex) throws CommandSyntaxException {
 
-        System.out.println("Command Parser. Starte mit beginIndex=" + beginIndex);
-
         AssertMethodPrecondition.parameterNotNull("args", args);
 
         this.lastProcessedIndex = beginIndex;
@@ -41,18 +39,12 @@ public class CommandParser extends Parser {
 
         Command lastCommand = null;
 
-//        if (curCommandSet.isEmpty()) {
-//            this.lastProcessedIndex = beginIndex - 1;
-//            return;
-//        }
-
         for (int i = beginIndex; i < args.length; i++) {
 
             if (curCommandSet.isEmpty()) {
                 this.lastProcessedIndex = i - 1;
                 this.specificOptions = lastCommand.getSpecificOptions();
                 return;
-//                throw new CommandSyntaxError("No definition found for: " + args[i]);
             }
 
             Command matchingCommand = CommandsHelper.findMatchingCommand(curCommandSet, args[i]);
@@ -68,7 +60,11 @@ public class CommandParser extends Parser {
 
         // todo optional-flag
         if (!curCommandSet.isEmpty()) {
-            throw new CommandSyntaxException(args, this.lastProcessedIndex + 1, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
+            int argumentIndex = this.lastProcessedIndex + 1;
+            if (beginIndex == args.length) {
+                argumentIndex = this.lastProcessedIndex;
+            }
+            throw new CommandSyntaxException(args, argumentIndex, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
         }
 
         this.specificOptions = lastCommand.getSpecificOptions();
