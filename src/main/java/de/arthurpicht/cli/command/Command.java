@@ -23,6 +23,8 @@ public abstract class Command {
 
     public abstract boolean matches(String commandString);
 
+    public abstract Set<String> getAsStrings();
+
     public boolean hasPrevious() {
         return (this.previousCommand != null);
     }

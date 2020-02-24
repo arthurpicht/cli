@@ -33,6 +33,11 @@ public class OneOfManyCommand extends Command {
     }
 
     @Override
+    public Set<String> getAsStrings() {
+        return Collections.unmodifiableSet(this.commandStringSet);
+    }
+
+    @Override
     public String toString() {
         return Strings.listing(this.commandStringSet, " | ", "[ ", " ]");
     }

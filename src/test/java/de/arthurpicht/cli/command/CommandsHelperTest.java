@@ -55,4 +55,21 @@ class CommandsHelperTest {
 //        }
 
     }
+
+    @Test
+    void toFormattedList() {
+
+        Commands commands = new Commands()
+                .add("A")
+                .root().add("B")
+                .root().addOneOf("X1", "X2", "X3")
+                .root();
+
+        String commandsFormatted = CommandsHelper.toFormattedList(commands.getRootCommands());
+
+        // TODO Das könnte auch schief gehen, da keine zugesicherte Reihenfolge auf Sets:
+//        assertEquals("[ A | B | X1 | X2 | X3 ]", commandsFormatted);
+//        System.out.println(commandsFormatted);
+
+    }
 }

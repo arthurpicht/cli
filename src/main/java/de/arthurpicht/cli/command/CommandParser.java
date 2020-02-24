@@ -54,7 +54,7 @@ public class CommandParser extends Parser {
                 this.lastProcessedIndex = i;
                 lastCommand = matchingCommand;
             } else {
-                throw new CommandSyntaxException(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toString(curCommandSet) + ".");
+                throw new CommandSyntaxException(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toFormattedList(curCommandSet) + ".");
             }
         }
 
@@ -64,7 +64,7 @@ public class CommandParser extends Parser {
             if (beginIndex == args.length) {
                 argumentIndex = this.lastProcessedIndex;
             }
-            throw new CommandSyntaxException(args, argumentIndex, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toString(curCommandSet));
+            throw new CommandSyntaxException(args, argumentIndex, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toFormattedList(curCommandSet) + ".");
         }
 
         this.specificOptions = lastCommand.getSpecificOptions();

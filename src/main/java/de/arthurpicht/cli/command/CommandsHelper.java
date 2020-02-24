@@ -69,14 +69,14 @@ public class CommandsHelper {
         return commandChains;
     }
 
-    public static String toString(Set<Command> commandSet) {
+    public static String toFormattedList(Set<Command> commandSet) {
 
         Set<String> commandStringSet = new HashSet<>();
         for (Command command : commandSet) {
-            commandStringSet.add(command.toString());
+            commandStringSet.addAll(command.getCommandStrings());
         }
 
-        return Strings.listing(commandStringSet, ", ");
+        return Strings.listing(commandStringSet, " | ", "[ ", " ]");
     }
 
     public static boolean hasOpenLeaves(Commands commands) {

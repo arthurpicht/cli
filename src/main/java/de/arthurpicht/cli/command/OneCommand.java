@@ -31,6 +31,11 @@ public class OneCommand extends Command {
     }
 
     @Override
+    public Set<String> getAsStrings() {
+        return new HashSet<>(Collections.singletonList(this.commandString));
+    }
+
+    @Override
     public String toString() {
         return "[ " + this.commandString + " ]";
     }
