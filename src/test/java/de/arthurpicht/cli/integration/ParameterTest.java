@@ -98,6 +98,8 @@ public class ParameterTest {
             assertEquals(1, parserResult.getParameterList().size());
             assertEquals("myPara", parserResult.getParameterList().get(0));
 
+            parserResult.debugOut();
+
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

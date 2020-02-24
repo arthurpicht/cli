@@ -87,7 +87,7 @@ public class CommandLineInterface {
         boolean finished = (proceedingIndex + 1 == args.length);
         if (!finished) throw new UnrecognizedArgumentException("Unrecognized argument: " + args[proceedingIndex + 1]);
 
-        return new ParserResult(this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList);
+        return new ParserResult(args, this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList);
 
     }
 

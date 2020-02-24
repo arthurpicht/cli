@@ -100,4 +100,15 @@ public final class Option {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "Option{" +
+                "id='" + id + '\'' +
+                ", shortName=" + shortName +
+                ", longName='" + longName + '\'' +
+                ", hasArgument=" + hasArgument +
+                ", argumentName='" + argumentName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

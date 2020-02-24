@@ -39,6 +39,13 @@ public class OptionParserResult {
         return optionParserResultBean.getValue();
     }
 
+    public Option getOption(String id) {
+        OptionParserResultBean optionParserResultBean = this.optionParserResultBeanMap.get(id);
+        if (optionParserResultBean == null) throw new IllegalStateException("Unchecked call of method 'getValue' for id [" + id + "].");
+
+        return optionParserResultBean.getOption();
+    }
+
     public Set<String> getIdSet() {
         return this.optionParserResultBeanMap.keySet();
     }
