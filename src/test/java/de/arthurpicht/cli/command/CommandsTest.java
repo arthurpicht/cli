@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.command;
 
-import de.arthurpicht.cli.option.Option;
+import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.utils.core.collection.Sets;

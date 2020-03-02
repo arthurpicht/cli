@@ -1,4 +1,4 @@
-package de.arthurpicht.cli.command;
+package de.arthurpicht.cli.command.exceptions;
 
 import de.arthurpicht.cli.common.CLISpecificationException;
 

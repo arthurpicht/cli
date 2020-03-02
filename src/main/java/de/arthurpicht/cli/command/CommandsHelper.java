@@ -23,6 +23,14 @@ public class CommandsHelper {
         return allCommandsSet;
     }
 
+//    public static Command getCommandForName(Set<Command> commandSet, String commandName) {
+//
+//        for (Command command : commandSet) {
+//            if command.g
+//        }
+//
+//    }
+
     public static Set<Command> getLeaves(Set<Command> rootCommandSet) {
 
         Stack<Command> commandStack = new Stack<>();
@@ -49,14 +57,14 @@ public class CommandsHelper {
         return commandLeaves;
     }
 
-    public static Command findMatchingCommand(Set<Command> curCommandSet, String arg) {
-
-        for (Command command : curCommandSet) {
-            if (command.matches(arg)) return command;
-        }
-
-        return null;
-    }
+//    public static Command findMatchingCommand(Set<Command> curCommandSet, String arg) {
+//
+//        for (Command command : curCommandSet) {
+//            if (command.matches(arg)) return command;
+//        }
+//
+//        return null;
+//    }
 
     public static Set<String> getAllCommandChains(Commands commands) {
         Set<Command> leaveCommands = getLeaves(commands.getRootCommands());

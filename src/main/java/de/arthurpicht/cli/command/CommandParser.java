@@ -1,5 +1,8 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
+import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
+import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
@@ -29,7 +32,7 @@ public class CommandParser extends Parser {
     }
 
     @Override
-    public void parse(String[] args, int beginIndex) throws CommandSyntaxException {
+    public void parse(String[] args, int beginIndex) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
         AssertMethodPrecondition.parameterNotNull("args", args);
 
@@ -47,15 +50,30 @@ public class CommandParser extends Parser {
                 return;
             }
 
-            Command matchingCommand = CommandsHelper.findMatchingCommand(curCommandSet, args[i]);
-            if (matchingCommand != null) {
-                this.commandStringList.add(args[i]);
-                curCommandSet = matchingCommand.getNext();
+            CommandMatcher commandMatcher = new CommandMatcher(curCommandSet, args[i], true);
+            if (commandMatcher.hasMatchingCommand()) {
+                RecognizedCommand matchingCommand = commandMatcher.getMatchingCommand();
+                this.commandStringList.add(matchingCommand.getCommandName());
+                curCommandSet = matchingCommand.getCommand().getNext();
                 this.lastProcessedIndex = i;
-                lastCommand = matchingCommand;
+                lastCommand = matchingCommand.getCommand();
             } else {
-                throw new CommandSyntaxException(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toFormattedList(curCommandSet) + ".");
+                if (commandMatcher.hasCandidates()) {
+                    throw AmbiguousCommandException.createInstance(args, i, commandMatcher.getMatchingCandidates());
+                } else {
+                    throw IllegalCommandException.createInstance(args, i, curCommandSet);
+                }
             }
+
+//            Command matchingCommand = CommandMatcher.findMatchingCommand(curCommandSet, args[i]);
+//            if (matchingCommand != null) {
+//                this.commandStringList.add(args[i]);
+//                curCommandSet = matchingCommand.getNext();
+//                this.lastProcessedIndex = i;
+//                lastCommand = matchingCommand;
+//            } else {
+//                throw new IllegalCommandException(args, i, "No definition found for '" + args[i] + "'. Possible commands are: " + CommandsHelper.toFormattedList(curCommandSet) + ".");
+//            }
         }
 
         // todo optional-flag
@@ -64,7 +82,7 @@ public class CommandParser extends Parser {
             if (beginIndex == args.length) {
                 argumentIndex = this.lastProcessedIndex;
             }
-            throw new CommandSyntaxException(args, argumentIndex, "Insufficient number of commands. Next command is one of: " + CommandsHelper.toFormattedList(curCommandSet) + ".");
+            throw InsufficientNrOfCommandsException.createInstance(args, argumentIndex, curCommandSet);
         }
 
         this.specificOptions = lastCommand.getSpecificOptions();

@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.utils.core.collection.Sets;
 import de.arthurpicht.utils.core.strings.Strings;
 

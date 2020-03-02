@@ -1,6 +1,5 @@
 package de.arthurpicht.cli.command;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +32,11 @@ public class OpenCommand extends Command {
     }
 
     @Override
+    public Set<String> getMatchingCandidates(String commandString) {
+        return new HashSet<>(Set.of(commandString));
+    }
+
+    @Override
     public Set<String> getAsStrings() {
         return new HashSet<>(Collections.singletonList("*"));
     }
@@ -41,7 +45,5 @@ public class OpenCommand extends Command {
     public String toString() {
         return "[ * ]";
     }
-
-
 
 }

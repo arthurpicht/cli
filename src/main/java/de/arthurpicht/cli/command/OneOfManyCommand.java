@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.*;
@@ -30,6 +31,18 @@ public class OneOfManyCommand extends Command {
     @Override
     public boolean matches(String commandString) {
         return this.commandStringSet.contains(commandString);
+    }
+
+    @Override
+    public Set<String> getMatchingCandidates(String commandString) {
+        Set<String> matchingCandidates = new HashSet<>();
+
+        for (String commandStringElement : this.commandStringSet) {
+            if (commandStringElement.startsWith(commandString)) {
+                matchingCandidates.add(commandStringElement);
+            }
+        }
+        return matchingCandidates;
     }
 
     @Override

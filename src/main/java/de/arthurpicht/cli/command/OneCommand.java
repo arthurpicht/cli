@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.exceptions.CommandSpecException;
+
 import java.util.*;
 
 public class OneCommand extends Command {
@@ -28,6 +30,17 @@ public class OneCommand extends Command {
     @Override
     public boolean matches(String commandString) {
         return this.commandString.equals(commandString);
+    }
+
+    @Override
+    public Set<String> getMatchingCandidates(String commandString) {
+        Set<String> matchingCandidates = new HashSet<>();
+
+        if (this.commandString.startsWith(commandString)) {
+            matchingCandidates.add(this.commandString);
+        }
+
+        return matchingCandidates;
     }
 
     @Override

@@ -21,7 +21,21 @@ public abstract class Command {
 
     public abstract Set<String> getCommandStrings();
 
+    /**
+     * Checks if specified command matches command definition exactly.
+     *
+     * @param commandString
+     * @return
+     */
     public abstract boolean matches(String commandString);
+
+    /**
+     * Checks if specified command is a matching abbreviation for the command definition.
+     *
+     * @param commandString
+     * @return
+     */
+    public abstract Set<String> getMatchingCandidates(String commandString);
 
     public abstract Set<String> getAsStrings();
 
