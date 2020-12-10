@@ -1,6 +1,9 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.utils.core.collection.Sets;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,10 +13,14 @@ class CommandTest {
     void getCommandChainString() {
 
         Commands commands = new Commands();
-        Command command = commands.add("A").add("B").add("C").getCurrentCommand();
+        Set<Command> leafCommands = commands.add("A").add("B").add("C").getCurrentCommands();
 
-        String commandChainString = command.getCommandChainString();
-        assertEquals("[ A ] [ B ] [ C ]", commandChainString);
+        assertEquals(1, leafCommands.size());
+
+        Command commandC = Sets.getSomeElement(leafCommands);
+
+        String commandChainString = commandC.getCommandChainString();
+        assertEquals("A B C", commandChainString);
 
     }
 
@@ -21,10 +28,14 @@ class CommandTest {
     void getCommandChainString2() {
 
         Commands commands = new Commands();
-        Command command = commands.add("A").add("B").addOpen().getCurrentCommand();
+        Set<Command> leafCommands = commands.add("A").add("B").addOpen().getCurrentCommands();
 
-        String commandChainString = command.getCommandChainString();
-        assertEquals("[ A ] [ B ] [ * ]", commandChainString);
+        assertEquals(1, leafCommands.size());
+
+        Command commandB = Sets.getSomeElement(leafCommands);
+
+        String commandChainString = commandB.getCommandChainString();
+        assertEquals("A B *", commandChainString);
 
     }
 

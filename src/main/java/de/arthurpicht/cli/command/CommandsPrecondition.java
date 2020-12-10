@@ -4,6 +4,7 @@ import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.utils.core.collection.Sets;
 import de.arthurpicht.utils.core.strings.Strings;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CommandsPrecondition {
@@ -31,8 +32,13 @@ public class CommandsPrecondition {
     }
 
     private static Set<Command> getNextCommandsForCurrentLevel(Commands commands) {
-        if (commands.hasCurrentCommand()) {
-            return commands.getCurrentCommand().getNext();
+        if (commands.hasCurrentCommands()) {
+            Set<Command> nextCommands = new HashSet<>();
+            for (Command curCommand : commands.getCurrentCommands()) {
+                nextCommands.addAll(curCommand.getNext());
+            }
+            return nextCommands;
+//            return commands.getCurrentCommand().getNext();
         } else {
             return commands.getRootCommands();
         }

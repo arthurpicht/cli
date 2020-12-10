@@ -37,13 +37,18 @@ public class OpenCommand extends Command {
     }
 
     @Override
-    public Set<String> getAsStrings() {
-        return new HashSet<>(Collections.singletonList("*"));
+    public String asString() {
+        return "*";
     }
+
+//    @Override
+//    public String toString() {
+//        return "[ * ]";
+//    }
 
     @Override
     public String toString() {
-        return "[ * ]";
+        return "*";
     }
 
 }

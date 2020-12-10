@@ -10,20 +10,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CommandsHelperTest {
 
+    private final boolean OUT = false;
+
     @Test
     void getLeaves() {
 
         Commands commands = new Commands();
 
-        Command leafC = commands.add("A").add("B").add("C").getCurrentCommand();
-        Command leafF = commands.root().add("D").add("E").add("F").getCurrentCommand();
+        Set<Command> leafC = commands.add("A").add("B").add("C").getCurrentCommands();
+        Set<Command> leafF = commands.root().add("D").add("E").add("F").getCurrentCommands();
 
         Set<Command> rootCommands = commands.getRootCommands();
         Set<Command> leaveCommands = CommandsHelper.getLeaves(rootCommands);
 
         Set<Command> leaveCommandSetExp = new HashSet<>();
-        leaveCommandSetExp.add(leafC);
-        leaveCommandSetExp.add(leafF);
+        leaveCommandSetExp.addAll(leafC);
+        leaveCommandSetExp.addAll(leafF);
 
         assertEquals(leaveCommandSetExp, leaveCommands);
 
@@ -42,17 +44,22 @@ class CommandsHelperTest {
 
         Set<String> commandChains = CommandsHelper.getAllCommandChains(commands);
 
+        if (OUT) {
+            for (String commandChain : commandChains) {
+                System.out.println(commandChain);
+            }
+        }
+
         Set<String> commandChainsExp = Sets.newHashSet(
-                "[ D ] [ E ] [ F ] [ G1 | G2 | G3 ] [ * ]",
-                "[ A ] [ B ] [ C1 ]",
-                "[ A ] [ B ] [ C2 ]"
+                "D E F G1 *",
+                "D E F G2 *",
+                "D E F G3 *",
+                "A B C1",
+                "A B C2"
         );
 
         assertEquals(commandChainsExp, commandChains);
 
-//        for (String commandChain : commandChains) {
-//            System.out.println(commandChain);
-//        }
 
     }
 

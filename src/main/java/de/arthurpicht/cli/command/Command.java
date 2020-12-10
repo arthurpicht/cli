@@ -37,7 +37,7 @@ public abstract class Command {
      */
     public abstract Set<String> getMatchingCandidates(String commandString);
 
-    public abstract Set<String> getAsStrings();
+    public abstract String asString();
 
     public boolean hasPrevious() {
         return (this.previousCommand != null);

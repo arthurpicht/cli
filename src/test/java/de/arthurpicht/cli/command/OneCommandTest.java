@@ -10,6 +10,6 @@ class OneCommandTest {
     void testToString() {
         OneCommand oneCommand = new OneCommand(null,"command1");
         String string = oneCommand.toString();
-        assertEquals("[ command1 ]", string);
+        assertEquals("command1", string);
     }
 }
