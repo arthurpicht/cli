@@ -55,6 +55,12 @@ public class Commands {
         return Sets.getSomeElement(this.curCommands);
     }
 
+    /**
+     * Returns a new Commands object whith current command set to the specified subsequent command.
+     *
+     * @param commandString
+     * @return
+     */
     public Commands trace(String commandString) {
         if (this.isEmpty())
             throw new CommandSpecException("Commands is empty.");
@@ -75,6 +81,14 @@ public class Commands {
             }
         }
         throw new CommandSpecException("No such command to trace: " + commandString);
+    }
+
+    public Commands tracePath(String... commandStrings) {
+        Commands commands = this.root();
+        for (String commandString : commandStrings) {
+            commands = commands.trace(commandString);
+        }
+        return commands;
     }
 
     public Commands add(String commandString) {
