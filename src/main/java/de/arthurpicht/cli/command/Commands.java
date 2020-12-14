@@ -39,8 +39,20 @@ public class Commands {
     }
 
     public Set<Command> getCurrentCommands() {
-        if (!hasCurrentCommands()) throw new RuntimeException("No current commands.");
+        if (!hasCurrentCommands()) throw new CommandSpecException("No current commands.");
         return this.curCommands;
+    }
+
+    /**
+     * Returns the current command if exactly one exists. A RuntimeException is thrown
+     * in all other cases.
+     *
+     * @return
+     */
+    public Command getCurrentCommand() {
+        if (!hasCurrentCommands()) throw new CommandSpecException("No current commands.");
+        if (this.rootCommands.size() > 1) throw new CommandSpecException("More than one command.");
+        return Sets.getSomeElement(this.curCommands);
     }
 
     public Commands trace(String commandString) {

@@ -16,16 +16,33 @@ class CommandsTest {
 
     private static final boolean OUT = false;
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     void afterInit() {
         Commands commands = new Commands();
 
         assertTrue(commands.isEmpty());
         assertFalse(commands.hasCurrentCommands());
+
+        try {
+            commands.getCurrentCommands();
+            fail(CommandSpecException.class.getSimpleName() + " expected");
+        } catch (CommandSpecException e) {
+            // din
+        }
+
+        try {
+            commands.getCurrentCommand();
+            fail(CommandSpecException.class.getSimpleName() + " expected");
+        } catch (CommandSpecException e) {
+            // din
+        }
+
     }
 
     @Test
     void firstCommand() {
+
         Commands commands = new Commands();
         Commands newStateOfCommands = commands.add("test");
 
@@ -34,6 +51,15 @@ class CommandsTest {
 
         assertFalse(newStateOfCommands.isEmpty());
         assertTrue(newStateOfCommands.hasCurrentCommands());
+
+        Set<Command> currentCommands = newStateOfCommands.getCurrentCommands();
+        assertEquals(1, currentCommands.size());
+
+        Command currentCommand = Sets.getSomeElement(currentCommands);
+        assertEquals("test", currentCommand.asString());
+
+        currentCommand = newStateOfCommands.getCurrentCommand();
+        assertEquals("test", currentCommand.asString());
     }
 
     @Test
@@ -108,18 +134,6 @@ class CommandsTest {
         );
 
         assertEquals(commandChainsExp, commandChains);
-    }
-
-    @Test
-    void trace() {
-
-        Commands commands = new Commands().add("A")
-                .root().trace("A");
-
-        assertEquals(1, commands.getCurrentCommands().size());
-
-        Command command = Sets.getSomeElement(commands.getCurrentCommands());
-        assertEquals("A", command.asString());
     }
 
     @Test
