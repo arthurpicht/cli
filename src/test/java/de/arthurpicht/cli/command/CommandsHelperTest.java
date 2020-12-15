@@ -18,7 +18,7 @@ class CommandsHelperTest {
         Commands commands = new Commands();
 
         Set<Command> leafC = commands.add("A").add("B").add("C").getCurrentCommands();
-        Set<Command> leafF = commands.root().add("D").add("E").add("F").getCurrentCommands();
+        Set<Command> leafF = commands.reset().add("D").add("E").add("F").getCurrentCommands();
 
         Set<Command> rootCommands = commands.getRootCommands();
         Set<Command> leaveCommands = CommandsHelper.getLeaves(rootCommands);
@@ -40,7 +40,7 @@ class CommandsHelperTest {
         Commands commandsB = commands.add("A").add("B");
         commandsB.add("C1");
         commandsB.add("C2");
-        commands.root().add("D").add("E").add("F").addOneOf("G1", "G2", "G3").addOpen();
+        commands.reset().add("D").add("E").add("F").addOneOf("G1", "G2", "G3").addOpen();
 
         Set<String> commandChains = CommandsHelper.getAllCommandChains(commands);
 
@@ -68,9 +68,9 @@ class CommandsHelperTest {
 
         Commands commands = new Commands()
                 .add("A")
-                .root().add("B")
-                .root().addOneOf("X1", "X2", "X3")
-                .root();
+                .reset().add("B")
+                .reset().addOneOf("X1", "X2", "X3")
+                .reset();
 
         String commandsFormatted = CommandsHelper.toFormattedList(commands.getRootCommands());
 

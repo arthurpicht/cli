@@ -441,7 +441,7 @@ class CommandParserTest {
     void abbreviation3() {
 
         Commands commands = new Commands();
-        commands.add("ABC").add("B").add("C").root().add("X").add("Z");
+        commands.add("ABC").add("B").add("C").reset().add("X").add("Z");
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -467,7 +467,7 @@ class CommandParserTest {
     void abbreviation_fail_() {
 
         Commands commands = new Commands();
-        commands.add("ABC").add("B").add("C").root().add("AX").add("Z");
+        commands.add("ABC").add("B").add("C").reset().add("AX").add("Z");
 
         CommandParser commandParser = new CommandParser(commands);
 

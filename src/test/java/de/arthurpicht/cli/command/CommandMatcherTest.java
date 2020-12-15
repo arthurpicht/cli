@@ -54,7 +54,7 @@ class CommandMatcherTest {
     @Test
     void abbreviation_plausibility_positive_2() {
 
-        Commands commands = new Commands().add("ABC").root().add("AXY");
+        Commands commands = new Commands().add("ABC").reset().add("AXY");
 
         CommandMatcher commandMatcher = new CommandMatcher(commands.getRootCommands(), "A", true);
 

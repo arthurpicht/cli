@@ -22,10 +22,26 @@ public class Commands {
         this.curCommands = curCommands;
     }
 
-    public Commands root() {
+    private Commands(Set<Command> rootCommands, Command curCommand) {
+        this.rootCommands = rootCommands;
+        this.curCommands = Sets.newHashSet(curCommand);
+    }
+
+    /**
+     * Resetes Commands object. After executing, current objects property is empty.
+     * Root commands can be traced or added next.
+     *
+     * @return
+     */
+    public Commands reset() {
         return new Commands(this.rootCommands, new HashSet<>());
     }
 
+    /**
+     * Checks if Commands object is empty, meaning no commands are added yet.
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return this.rootCommands.isEmpty();
     }
@@ -34,6 +50,13 @@ public class Commands {
         return this.rootCommands;
     }
 
+    /**
+     * Checks if Commands object references at least one current object.
+     * No current objects are referenced before adding the first command and after
+     * reset.
+     *
+     * @return if current commands are referenced
+     */
     public boolean hasCurrentCommands() {
         return !this.curCommands.isEmpty();
     }
@@ -61,7 +84,7 @@ public class Commands {
      * @param commandString
      * @return
      */
-    public Commands trace(String commandString) {
+    public Commands traceNext(String commandString) {
         if (this.isEmpty())
             throw new CommandSpecException("Commands is empty.");
         if (this.curCommands.size() > 1)
@@ -73,20 +96,39 @@ public class Commands {
                 }
             }
         } else {
-            Command command = Sets.getSomeElement(this.curCommands);
+            Command command = this.getCurrentCommand();
             for (Command nextCommand : command.getNext()) {
                 if (nextCommand.asString().equals(commandString)) {
-                    return new Commands(this.rootCommands, Sets.newHashSet(nextCommand));
+                    return new Commands(this.rootCommands, nextCommand);
                 }
             }
         }
         throw new CommandSpecException("No such command to trace: " + commandString);
     }
 
+    public Commands tracePrevious() {
+
+        if (this.isEmpty())
+            throw new CommandSpecException("Commands is empty.");
+        if (!this.hasCurrentCommands())
+            throw new CommandSpecException("No current command.");
+        if (this.curCommands.size() > 1) {
+            throw new CommandSpecException("Ambiguous trace operation. More than one current object.");
+        }
+
+        Command command = this.getCurrentCommand();
+        if (!command.hasPrevious())
+            throw new CommandSpecException("Command is root command.");
+
+        Command previousCommand = command.getPrevious();
+
+        return new Commands(this.rootCommands, previousCommand);
+    }
+
     public Commands tracePath(String... commandStrings) {
-        Commands commands = this.root();
+        Commands commands = this.reset();
         for (String commandString : commandStrings) {
-            commands = commands.trace(commandString);
+            commands = commands.traceNext(commandString);
         }
         return commands;
     }
