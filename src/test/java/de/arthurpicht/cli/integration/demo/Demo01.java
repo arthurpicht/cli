@@ -1,6 +1,5 @@
 package de.arthurpicht.cli.integration.demo;
 
-
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
 import de.arthurpicht.cli.ParserResult;
@@ -15,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class demo01 {
+public class Demo01 {
 
     private CommandLineInterface getCommandLineInterface() {
         return new CommandLineInterfaceBuilder()
@@ -32,17 +31,6 @@ public class demo01 {
 
     @Test
     void test() {
-
-//        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
-//                .withGlobalOptions(new Options()
-//                        .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v"))
-//                        .add(new OptionBuilder().withLongName("vv").withDescription("very verbose").build("vv"))
-//                        .add(new OptionBuilder().withLongName("vvv").withDescription("very very verbose").build("vvv")))
-//                .withCommands(new Commands().add("adduser")
-//                        .withSpecificOptions(new Options()
-//                                .add(new OptionBuilder().withLongName("user").hasArgument().withDescription("username").build("user"))
-//                                .add(new OptionBuilder().withLongName("password").hasArgument().withDescription("password").build("password"))))
-//                .build();
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
 

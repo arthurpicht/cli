@@ -2,6 +2,7 @@ package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.collection.Sets;
 
 import java.util.HashSet;
@@ -211,6 +212,19 @@ public class Commands {
         }
 
         return new Commands(this.rootCommands, this.curCommands);
+        // TODO = return this?
+    }
+
+    public Commands withParameters(Parameters parameters) {
+
+        if (this.isEmpty()) throw new CommandSpecException("No commands defined yet.");
+
+        for (Command command : this.curCommands) {
+            command.setParameters(parameters);
+        }
+
+        return new Commands(this.rootCommands, this.curCommands);
+        // TODO = return this?
     }
 
     public static boolean hasDefinitions(Commands commands) {

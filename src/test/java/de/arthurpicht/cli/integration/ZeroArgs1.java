@@ -20,7 +20,6 @@ public class ZeroArgs1 {
         CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
                 .withGlobalOptions(new Options()
                         .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v")))
-                .withParameters(new ParametersVar(0))
                 .build();
 
         String[] args = {};
@@ -35,24 +34,26 @@ public class ZeroArgs1 {
         }
     }
 
-    @Test
-    void oneParamter() {
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
-                .withParameters(new ParametersVar(1))
-                .build();
+    // TODO reimplement with "default command"
 
-        String[] args = {};
-
-        try {
-            ParserResult parserResult = commandLineInterface.parse(args);
-            fail();
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-            System.out.println(e.getArgumentIndex());
-
-        }
-
-    }
+//    @Test
+//    void oneParamter() {
+//        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+////                .withParameters(new ParametersVar(1))
+//                .build();
+//
+//        String[] args = {};
+//
+//        try {
+//            ParserResult parserResult = commandLineInterface.parse(args);
+//            fail();
+//        } catch (UnrecognizedArgumentException e) {
+//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//            System.out.println(e.getArgumentIndex());
+//
+//        }
+//
+//    }
 
 }

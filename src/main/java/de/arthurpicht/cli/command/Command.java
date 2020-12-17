@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.*;
@@ -10,11 +11,13 @@ public abstract class Command {
     private Command previousCommand;
     private Set<Command> nextCommands;
     private Options specificOptions;
+    private Parameters parameters;
 
     public Command(Command previousCommand) {
         this.previousCommand = previousCommand;
         this.nextCommands = new HashSet<>();
         this.specificOptions = null;
+        this.parameters = null;
     }
 
     public abstract boolean isOpen();
@@ -69,6 +72,18 @@ public abstract class Command {
 
     public void setSpecificOptions(Options options) {
         this.specificOptions = options;
+    }
+
+    public boolean hasParameters() {
+        return (this.parameters != null);
+    }
+
+    public Parameters getParameters() {
+        return this.parameters;
+    }
+
+    public void setParameters(Parameters parameters) {
+        this.parameters = parameters;
     }
 
     /**

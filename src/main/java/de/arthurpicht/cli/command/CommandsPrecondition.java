@@ -38,7 +38,6 @@ public class CommandsPrecondition {
                 nextCommands.addAll(curCommand.getNext());
             }
             return nextCommands;
-//            return commands.getCurrentCommand().getNext();
         } else {
             return commands.getRootCommands();
         }

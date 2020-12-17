@@ -17,9 +17,9 @@ public class ParameterParserExceptionTest {
         Commands commands = new Commands();
         commands.add("A");
 
-        ParametersOne argumentsOne = new ParametersOne();
+//        ParametersOne argumentsOne = new ParametersOne();
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands, argumentsOne);
+        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
 
         String[] args = {"A"};
 

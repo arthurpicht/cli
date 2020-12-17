@@ -3,6 +3,8 @@ package de.arthurpicht.cli.command;
 import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.cli.parameter.ParametersOne;
 import de.arthurpicht.utils.core.collection.Sets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -154,6 +156,27 @@ class CommandsTest {
 
         assertTrue(command.hasSpecificOptions());
         assertTrue(command.getSpecificOptions().hasOptionWithId("x"));
+        assertFalse(command.hasParameters());
+    }
+
+    @Test
+    void getParametersOfSingleCommand() {
+
+        Parameters parameters = new ParametersOne();
+
+        Commands commands = new Commands();
+        commands.add("A").withParameters(parameters);
+
+        Set<Command> rootCommandSet = commands.getRootCommands();
+        assertEquals(1, rootCommandSet.size());
+
+        Command command = Sets.getSomeElement(rootCommandSet);
+        assertNotNull(command);
+        assertEquals("A", command.toString());
+
+        assertTrue(command.hasParameters());
+        assertTrue(command.getParameters() instanceof ParametersOne);
+        assertFalse(command.hasSpecificOptions());
     }
 
     @Test

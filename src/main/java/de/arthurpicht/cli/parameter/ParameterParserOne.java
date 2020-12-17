@@ -13,7 +13,7 @@ public class ParameterParserOne extends ParameterParser {
             this.parameterList.add(argument);
             this.lastProcessedIndex = beginIndex;
         } else {
-            throw new ParameterParserException(args, beginIndex, "One argument expected.");
+            throw new ParameterParserException(args, beginIndex, "One parameter expected.");
         }
     }
 

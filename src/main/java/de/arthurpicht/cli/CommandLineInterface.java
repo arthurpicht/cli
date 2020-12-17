@@ -1,24 +1,23 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.parameter.ParameterParser;
-import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.CommandsHelper;
-import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.common.CLISpecificationException;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParser;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.utils.core.strings.Strings;
+import de.arthurpicht.cli.parameter.ParameterParser;
+import de.arthurpicht.cli.parameter.Parameters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandLineInterface {
 
-    private Options optionsGlobal;
-    private Commands commands;
+    private final Options optionsGlobal;
+    private final Commands commands;
     private Options optionsSpecific;
     private Parameters parameters;
 
@@ -36,12 +35,11 @@ public class CommandLineInterface {
      *
      * @param optionsGlobal
      * @param commands
-     * @param parameters
      */
-    public CommandLineInterface(Options optionsGlobal, Commands commands, Parameters parameters) {
+    public CommandLineInterface(Options optionsGlobal, Commands commands) {
         this.optionsGlobal = optionsGlobal;
         this.commands = commands;
-        this.parameters = parameters;
+//        this.parameters = parameters;
 
         this.optionParserResultGlobal = null;
         this.commandList = new ArrayList<>();
@@ -68,6 +66,7 @@ public class CommandLineInterface {
             this.commandList = commandParser.getCommandStringList();
             proceedingIndex = commandParser.getLastProcessedIndex();
             this.optionsSpecific = commandParser.getSpecificOptions();
+            this.parameters = commandParser.getParameters();
         }
 
         if (Options.hasDefinitions(this.optionsSpecific)) {

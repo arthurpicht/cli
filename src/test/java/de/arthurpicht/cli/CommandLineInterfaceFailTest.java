@@ -11,27 +11,29 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class CommandLineInterfaceFailTest {
 
-    @Test
-    void notFinished() {
+// TODO substitute with "default command"
 
-        Options optionsGlobal = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
-
-        Parameters parameters = new ParametersOne();
-
-        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, parameters);
-
-        String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1", "arg2"};
-
-        try {
-            ParserResult parserResult = commandLineInterface.parse(args);
-            fail();
-
-        } catch (UnrecognizedArgumentException e) {
-            System.out.println("Expected exception: " + e.getMessage());
-        }
-    }
+//    @Test
+//    void notFinished() {
+//
+//        Options optionsGlobal = new Options()
+//                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
+//                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
+//
+//        Parameters parameters = new ParametersOne();
+//
+//        CommandLineInterface commandLineInterface = new CommandLineInterface(optionsGlobal, null, parameters);
+//
+//        String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1", "arg2"};
+//
+//        try {
+//            ParserResult parserResult = commandLineInterface.parse(args);
+//            fail();
+//
+//        } catch (UnrecognizedArgumentException e) {
+//            System.out.println("Expected exception: " + e.getMessage());
+//        }
+//    }
 
 
 }
