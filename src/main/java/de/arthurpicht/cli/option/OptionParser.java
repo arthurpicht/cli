@@ -1,12 +1,13 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 public class OptionParser extends Parser {
 
-    private Options options;
-    private OptionParserResult optionParserResult;
+    private final Options options;
+    private final OptionParserResult optionParserResult;
 
     public OptionParser(Options options) {
         this.options = options;
@@ -14,48 +15,38 @@ public class OptionParser extends Parser {
     }
 
     public OptionParserResult getOptionParserResult() {
-//        if (this.lastProcessedArgIndex < 0) throw new IllegalStateException("Not parsed yet.");
         return this.optionParserResult;
     }
 
-//    public int getLastProcessedArgIndex() {
-////        if (this.lastProcessedArgIndex < 0) throw new IllegalStateException("Not parsed yet.");
-//        return this.lastProcessedArgIndex;
-//    }
-
     @Override
-    public void parse(String[] args, int beginIndex) throws UnrecognizedArgumentException {
+    public void parse(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException {
 
-        if (beginIndex >= args.length) {
-            this.lastProcessedIndex = beginIndex - 1;
-            return;
-        }
-
-        this.lastProcessedIndex = beginIndex;
+        if (!argumentIterator.hasNext()) return;
 
         OptionParserState optionParserState = new OptionParserStateName(options, this);
-        for (int i = beginIndex; i < args.length; i++) {
+        while (argumentIterator.hasNext()) {
 
-            this.lastProcessedIndex = i;
-
-            String arg = args[i];
-//            System.out.println("verarbeite arg:" + arg);
-
-            optionParserState = optionParserState.process(args, i);
-
-//            System.out.println("zurückgegebener ParserState: " + optionParserState.getClass().getSimpleName());
+            argumentIterator.getNext();
+            optionParserState = optionParserState.process(argumentIterator);
 
             if (optionParserState instanceof OptionParserStateFinished) {
-                this.lastProcessedIndex = i - 1;
+                stepBack(argumentIterator);
                 return;
             }
-
         }
 
         if (optionParserState instanceof OptionParserStateValue) {
-            OptionParserStateValue optionParserStateValue = (OptionParserStateValue) optionParserState;
-            throw new ValueExpectedExcpetion(args, args.length);
+            throw new ValueExpectedException(argumentIterator);
         }
 
     }
+
+    private void stepBack(ArgumentIterator argumentIterator) {
+        if (argumentIterator.hasPrevious()) {
+            argumentIterator.getPrevious();
+        } else {
+            argumentIterator.reset();
+        }
+    }
+
 }

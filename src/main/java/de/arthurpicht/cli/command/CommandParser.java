@@ -3,6 +3,7 @@ package de.arthurpicht.cli.command;
 import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
+import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
@@ -39,48 +40,53 @@ public class CommandParser extends Parser {
     }
 
     @Override
-    public void parse(String[] args, int beginIndex) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
+    public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
-        AssertMethodPrecondition.parameterNotNull("args", args);
-
-        this.lastProcessedIndex = beginIndex;
+//        this.lastProcessedIndex = beginIndex;
 
         Set<Command> curCommandSet = this.commands.getRootCommands();
 
         Command lastCommand = null;
 
-        for (int i = beginIndex; i < args.length; i++) {
+//        for (int i = beginIndex; i < args.length; i++) {
+        while (argumentIterator.hasNext()) {
 
             if (curCommandSet.isEmpty()) {
-                this.lastProcessedIndex = i - 1;
+//                this.lastProcessedIndex = i - 1;
                 this.specificOptions = lastCommand.getSpecificOptions();
                 this.parameters = lastCommand.getParameters();
                 return;
             }
 
-            CommandMatcher commandMatcher = new CommandMatcher(curCommandSet, args[i], true);
+            String curArgument = argumentIterator.getNext();
+
+            CommandMatcher commandMatcher = new CommandMatcher(curCommandSet, curArgument, true);
             if (commandMatcher.hasMatchingCommand()) {
                 RecognizedCommand matchingCommand = commandMatcher.getMatchingCommand();
                 this.commandStringList.add(matchingCommand.getCommandName());
                 curCommandSet = matchingCommand.getCommand().getNext();
-                this.lastProcessedIndex = i;
+//                this.lastProcessedIndex = i;
                 lastCommand = matchingCommand.getCommand();
             } else {
                 if (commandMatcher.hasCandidates()) {
-                    throw AmbiguousCommandException.createInstance(args, i, commandMatcher.getMatchingCandidates());
+                    throw AmbiguousCommandException.createInstance(argumentIterator, commandMatcher.getMatchingCandidates());
                 } else {
-                    throw IllegalCommandException.createInstance(args, i, curCommandSet);
+                    throw IllegalCommandException.createInstance(argumentIterator, curCommandSet);
                 }
             }
         }
 
-        // todo optional-flag
         if (!curCommandSet.isEmpty()) {
-            int argumentIndex = this.lastProcessedIndex + 1;
-            if (beginIndex == args.length) {
-                argumentIndex = this.lastProcessedIndex;
-            }
-            throw InsufficientNrOfCommandsException.createInstance(args, argumentIndex, curCommandSet);
+            // insufficient number of arguments
+//            int argumentIndex;
+//            if (!argumentIterator.hasNext()) {
+//                // no further arguments
+//                argumentIndex = argumentIterator.getIndex();
+//            } else {
+//                // has next argument, is specific option or parameter
+//                argumentIndex = argumentIterator.getIndex() + 1;
+//            }
+            throw InsufficientNrOfCommandsException.createInstance(argumentIterator, curCommandSet);
         }
 
         this.specificOptions = lastCommand.getSpecificOptions();

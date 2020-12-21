@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.common.ArgsHelper;
+import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,9 +15,10 @@ public class ParameterParserManyExceptionTest {
         ParameterParserMany parameterParserMany = new ParameterParserMany(3);
 
         String[] args = {"somethingElse", "A", "B"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            parameterParserMany.parse(args, 1);
+            parameterParserMany.parse(argumentIterator);
             fail();
 
         } catch (IllegalNumberOfParametersException e) {
@@ -37,9 +39,10 @@ public class ParameterParserManyExceptionTest {
         ParameterParserMany parameterParserMany = new ParameterParserMany(3);
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            parameterParserMany.parse(args, 1);
+            parameterParserMany.parse(argumentIterator);
             fail();
 
         } catch (IllegalNumberOfParametersException e) {
@@ -63,9 +66,10 @@ public class ParameterParserManyExceptionTest {
         ParameterParserMany parameterParserMany = new ParameterParserMany(2);
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            parameterParserMany.parse(args, 1);
+            parameterParserMany.parse(argumentIterator);
             fail();
 
         } catch (IllegalNumberOfParametersException e) {

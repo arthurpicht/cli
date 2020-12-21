@@ -2,21 +2,22 @@ package de.arthurpicht.cli.command.exceptions;
 
 import de.arthurpicht.cli.command.Command;
 import de.arthurpicht.cli.command.CommandsHelper;
+import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 import java.util.Set;
 
 public class IllegalCommandException extends CommandParserException {
 
-    private Set<Command> validCommandSet;
+    private final Set<Command> validCommandSet;
 
-    public static IllegalCommandException createInstance(String[] args, int argumentIndex, Set<Command> validCommandSet) {
-        String message = "No definition found for '" + args[argumentIndex] + "'. Possible commands are: " + CommandsHelper.toFormattedList(validCommandSet) + ".";
-        return new IllegalCommandException(args, argumentIndex, message, validCommandSet);
+    public static IllegalCommandException createInstance(ArgumentIterator argumentIterator, Set<Command> validCommandSet) {
+        String message = "Command [" + argumentIterator.getCurrent() + "] not recognized. Possible commands are: " + CommandsHelper.toFormattedList(validCommandSet) + ".";
+        return new IllegalCommandException(argumentIterator, message, validCommandSet);
     }
 
-    public IllegalCommandException(String[] args, int argumentIndex, String message, Set<Command> validCommandSet) {
-        super(args, argumentIndex, message);
+    public IllegalCommandException(ArgumentIterator argumentIterator, String message, Set<Command> validCommandSet) {
+        super(argumentIterator, message);
         this.validCommandSet = validCommandSet;
     }
 

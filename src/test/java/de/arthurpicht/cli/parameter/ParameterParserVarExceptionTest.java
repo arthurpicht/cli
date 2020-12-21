@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.common.ArgsHelper;
+import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,9 +15,10 @@ public class ParameterParserVarExceptionTest {
         ParameterParserVar argumentParserVar = new ParameterParserVar(1);
 
         String[] args = {};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            argumentParserVar.parse(args, 0);
+            argumentParserVar.parse(argumentIterator);
             fail();
 
         } catch (ParameterParserException e) {
@@ -37,9 +39,10 @@ public class ParameterParserVarExceptionTest {
         ParameterParserVar argumentParserVar = new ParameterParserVar(5);
 
         String[] args = {"A", "B", "C", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            argumentParserVar.parse(args, 0);
+            argumentParserVar.parse(argumentIterator);
             fail();
 
         } catch (ParameterParserException e) {

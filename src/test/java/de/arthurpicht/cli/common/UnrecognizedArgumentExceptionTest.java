@@ -10,7 +10,8 @@ class UnrecognizedArgumentExceptionTest {
     void getArgumentPointerStringMultiAt0() {
 
         String[] args = {"AA", "BB", "CC"};
-        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 0, "myMessage");
+        Arguments arguments = new Arguments(args);
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 0, "myMessage");
 
         assertEquals(0, unrecognizedArgumentException.getArgumentIndex());
         assertEquals("myMessage", unrecognizedArgumentException.getMessage());
@@ -25,7 +26,8 @@ class UnrecognizedArgumentExceptionTest {
     void getArgumentPointerStringMultiAt1() {
 
         String[] args = {"AA", "BB", "CC"};
-        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 1, "myMessage");
+        Arguments arguments = new Arguments(args);
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 1, "myMessage");
 
         assertEquals(1, unrecognizedArgumentException.getArgumentIndex());
         assertEquals("myMessage", unrecognizedArgumentException.getMessage());
@@ -40,7 +42,8 @@ class UnrecognizedArgumentExceptionTest {
     void getArgumentPointerStringMultiAtLast() {
 
         String[] args = {"AA", "BB", "CC"};
-        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 2, "myMessage");
+        Arguments arguments = new Arguments(args);
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 2, "myMessage");
 
         assertEquals(2, unrecognizedArgumentException.getArgumentIndex());
         assertEquals("myMessage", unrecognizedArgumentException.getMessage());
@@ -55,7 +58,8 @@ class UnrecognizedArgumentExceptionTest {
     void getArgumentPointerStringMultiAtLastPlus1() {
 
         String[] args = {"AA", "BB", "CC"};
-        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 3, "myMessage");
+        Arguments arguments = new Arguments(args);
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 3, "myMessage");
 
         System.out.println(ArgsHelper.getArgsString(args));
         System.out.println(unrecognizedArgumentException.getArgumentPointerString());
@@ -67,7 +71,8 @@ class UnrecognizedArgumentExceptionTest {
     void getArgumentPointerStringForZeroArgument() {
 
         String[] args = {};
-        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(args, 0, "myMessage");
+        Arguments arguments = new Arguments(args);
+        UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 0, "myMessage");
 
         System.out.println(ArgsHelper.getArgsString(args));
         System.out.println(unrecognizedArgumentException.getArgumentPointerString());

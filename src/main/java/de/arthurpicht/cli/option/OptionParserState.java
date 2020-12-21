@@ -12,6 +12,4 @@ public abstract class OptionParserState extends ParserState {
         this.optionParser = optionParser;
     }
 
-//    public abstract OptionParserState process(String arg) throws OptionParserException;
-
 }

@@ -1,32 +1,29 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
+
 public class OptionParserStateValue extends OptionParserState {
 
-    private Option option;
-    private String nameArg;
+    private final Option option;
 
-    public OptionParserStateValue(Options options, OptionParser optionParser, Option option, String nameArg) {
+    public OptionParserStateValue(Options options, OptionParser optionParser, Option option) {
         super(options, optionParser);
         this.option = option;
-        this.nameArg = nameArg;
     }
 
     @Override
-    public OptionParserState process(String[] args, int processIndex) throws OptionParserException {
+    public OptionParserState process(ArgumentIterator argumentIterator) throws OptionParserException {
 
-        String arg = args[processIndex];
+        String arg = argumentIterator.getCurrent();
 
-        if (arg.startsWith("-")) throw new ValueExpectedExcpetion(args, processIndex);
+        if (arg.startsWith("-")) {
+            throw ValueExpectedException.forPreviousArgument(argumentIterator);
+        }
 
         OptionParserResult optionParserResult = optionParser.getOptionParserResult();
         optionParserResult.addOption(this.option, arg);
-//        OptionParserResultBean optionParserResultBean = new OptionParserResultBean(this.option, arg);
-//        this.optionParser.addOptionParserResult(optionParserResultBean);
 
         return new OptionParserStateName(this.options, this.optionParser);
     }
 
-    public String getNameArg() {
-        return this.nameArg;
-    }
 }

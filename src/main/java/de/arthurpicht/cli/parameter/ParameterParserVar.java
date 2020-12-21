@@ -1,27 +1,38 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
+import de.arthurpicht.cli.common.Arguments;
+
 public class ParameterParserVar extends ParameterParser {
 
-    private int minimalNrOfArgument;
+    private final int minimalNrOfArgument;
 
     public ParameterParserVar(int minimalNrOfArguments) {
         this.minimalNrOfArgument = minimalNrOfArguments;
     }
 
     @Override
-    public void parse(String[] args, int beginIndex) throws ParameterParserException {
+    public void parse(ArgumentIterator argumentIterator) throws ParameterParserException {
 
-        if (args.length < this.minimalNrOfArgument + beginIndex) {
-            int nrFoundArgs = args.length - beginIndex;
-            throw new ParameterParserException(args, beginIndex + nrFoundArgs, "Illegal number of arguments. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
+        Arguments arguments = argumentIterator.getArguments();
+        int beginIndex = argumentIterator.getIndex() + 1;
+
+        if (arguments.size() < this.minimalNrOfArgument + beginIndex) {
+            int nrFoundArgs = arguments.size() - beginIndex;
+            throw new ParameterParserException(arguments, beginIndex + nrFoundArgs, "Illegal number of arguments. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
         }
 
-        for(int i=beginIndex; i<args.length; i++) {
-            String argument = args[i];
+        while (argumentIterator.hasNext()) {
+            String argument = argumentIterator.getNext();
             this.parameterList.add(argument);
         }
 
-        this.lastProcessedIndex = args.length - 1;
+//        for(int i=beginIndex; i<args.length; i++) {
+//            String argument = args[i];
+//            this.parameterList.add(argument);
+//        }
+//
+//        this.lastProcessedIndex = args.length - 1;
 
     }
 }

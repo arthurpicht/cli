@@ -1,25 +1,17 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
+import de.arthurpicht.cli.common.Arguments;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 public class ParameterParserException extends UnrecognizedArgumentException {
 
-//    public ParameterParserException() {
-//    }
-
-    public ParameterParserException(String[] args, int argumentIndex, String message) {
-        super(args, argumentIndex, message);
+    public ParameterParserException(ArgumentIterator argumentIterator, String message) {
+        super(argumentIterator, message);
     }
 
-//    public ArgumentParserException(String message, Throwable cause) {
-//        super(message, cause);
-//    }
-//
-//    public ArgumentParserException(Throwable cause) {
-//        super(cause);
-//    }
-//
-//    public ArgumentParserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-//        super(message, cause, enableSuppression, writableStackTrace);
-//    }
+    public ParameterParserException(Arguments arguments, int argumentIndex, String message) {
+        super(arguments, argumentIndex, message);
+    }
+
 }

@@ -1,28 +1,32 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OptionParserTest {
+class OptionParserOptionsMixedOptionsTest {
+
+    private Options getOptions() {
+        return new Options()
+                .add(new Option("idA", 'a', "aaa", false, "", "aaa help"))
+                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
+    }
 
     @Test
     void empty() {
 
-        Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
-
         String[] args = {};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            OptionParser optionParser = new OptionParser(options);
-            optionParser.parse(args, 0);
+            OptionParser optionParser = new OptionParser(getOptions());
+            optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getOptionParserResult();
 
             assertEquals(0, optionParserResult.getSize());
-            assertEquals(-1, optionParser.getLastProcessedIndex());
+            assertEquals(-1, argumentIterator.getIndex());
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
@@ -33,25 +37,21 @@ class OptionParserTest {
     @Test
     void optionValues1() {
 
-        Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "" , "bbb help"));
-
-        String[] args = {"-a", "valueOfA", "-b", "valueOfB"};
+        String[] args = {"-a", "-b", "valueOfB"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            OptionParser optionParser = new OptionParser(options);
-            optionParser.parse(args, 0);
+            OptionParser optionParser = new OptionParser(getOptions());
+            optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getOptionParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
             assertTrue(optionParserResult.hasOption("idA"));
-            assertEquals("valueOfA", optionParserResult.getValue("idA"));
             assertTrue(optionParserResult.hasOption("idB"));
             assertEquals("valueOfB", optionParserResult.getValue("idB"));
 
-            assertEquals(3, optionParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
@@ -62,25 +62,21 @@ class OptionParserTest {
     @Test
     void optionValues2() {
 
-        Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
-
-        String[] args = {"-b", "valueOfB", "-a", "valueOfA"};
+        String[] args = {"-b", "valueOfB", "-a"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            OptionParser optionParser = new OptionParser(options);
-            optionParser.parse(args, 0);
+            OptionParser optionParser = new OptionParser(getOptions());
+            optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getOptionParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
             assertTrue(optionParserResult.hasOption("idA"));
-            assertEquals("valueOfA", optionParserResult.getValue("idA"));
             assertTrue(optionParserResult.hasOption("idB"));
             assertEquals("valueOfB", optionParserResult.getValue("idB"));
 
-            assertEquals(3, optionParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
@@ -91,25 +87,21 @@ class OptionParserTest {
     @Test
     void optionValuesLong() {
 
-        Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
-
-        String[] args = {"-b", "valueOfB", "--aaa", "valueOfA"};
+        String[] args = {"-b", "valueOfB", "--aaa"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            OptionParser optionParser = new OptionParser(options);
-            optionParser.parse(args, 0);
+            OptionParser optionParser = new OptionParser(getOptions());
+            optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getOptionParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
             assertTrue(optionParserResult.hasOption("idA"));
-            assertEquals("valueOfA", optionParserResult.getValue("idA"));
             assertTrue(optionParserResult.hasOption("idB"));
             assertEquals("valueOfB", optionParserResult.getValue("idB"));
 
-            assertEquals(3, optionParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
@@ -120,25 +112,21 @@ class OptionParserTest {
     @Test
     void optionValuesFinished() {
 
-        Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
-
-        String[] args = {"-a", "valueOfA", "-b", "valueOfB", "command"};
+        String[] args = {"-a", "-b", "valueOfB", "command"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            OptionParser optionParser = new OptionParser(options);
-            optionParser.parse(args, 0);
+            OptionParser optionParser = new OptionParser(getOptions());
+            optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getOptionParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
             assertTrue(optionParserResult.hasOption("idA"));
-            assertEquals("valueOfA", optionParserResult.getValue("idA"));
             assertTrue(optionParserResult.hasOption("idB"));
             assertEquals("valueOfB", optionParserResult.getValue("idB"));
 
-            assertEquals(3, optionParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
@@ -149,31 +137,27 @@ class OptionParserTest {
     @Test
     void optionBeginFinished() {
 
-        Options options = new Options()
-                .add(new Option("idA", 'a', "aaa", true, "", "aaa help"))
-                .add(new Option("idB", 'b', "bbb", true, "", "bbb help"));
-
-        String[] args = {"command1", "-a", "valueOfA", "-b", "valueOfB", "command2"};
+        String[] args = {"command1", "-a", "-b", "valueOfB", "command2"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(options);
-            optionParser.parse(args, 1);
+
+            OptionParser optionParser = new OptionParser(getOptions());
+            optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getOptionParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
             assertTrue(optionParserResult.hasOption("idA"));
-            assertEquals("valueOfA", optionParserResult.getValue("idA"));
             assertTrue(optionParserResult.hasOption("idB"));
             assertEquals("valueOfB", optionParserResult.getValue("idB"));
 
-            assertEquals(4, optionParser.getLastProcessedIndex());
+            assertEquals(3, argumentIterator.getIndex());
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
         }
     }
-
 
 }

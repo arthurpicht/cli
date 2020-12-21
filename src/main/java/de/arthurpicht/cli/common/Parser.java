@@ -2,12 +2,12 @@ package de.arthurpicht.cli.common;
 
 public abstract class Parser {
 
-    protected int lastProcessedIndex;
+//    protected int lastProcessedIndex;
 
-    public abstract void parse(String[] args, int beginIndex) throws UnrecognizedArgumentException;
+    public abstract void parse(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException;
 
-    public int getLastProcessedIndex() {
-        return this.lastProcessedIndex;
-    }
+//    public int getLastProcessedIndex() {
+//        return this.lastProcessedIndex;
+//    }
 
 }

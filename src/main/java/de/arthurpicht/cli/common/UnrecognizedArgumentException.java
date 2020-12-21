@@ -2,12 +2,18 @@ package de.arthurpicht.cli.common;
 
 public class UnrecognizedArgumentException extends Exception {
 
-    private String[] args;
-    private int argumentIndex = -1;
+    private final Arguments arguments;
+    private final int argumentIndex;
 
-    public UnrecognizedArgumentException(String[] args, int argumentIndex, String message) {
+    public UnrecognizedArgumentException(ArgumentIterator argumentIterator, String message) {
         super(message);
-        this.args = args;
+        this.arguments = argumentIterator.getArguments();
+        this.argumentIndex = argumentIterator.getIndex();
+    }
+
+    public UnrecognizedArgumentException(Arguments arguments, int argumentIndex, String message) {
+        super(message);
+        this.arguments = arguments;
         this.argumentIndex = argumentIndex;
     }
 
@@ -16,7 +22,7 @@ public class UnrecognizedArgumentException extends Exception {
     }
 
     public String getArgsAsString() {
-        return ArgsHelper.getArgsString(this.args);
+        return this.arguments.asString();
     }
 
     public String getArgumentPointerString() {
@@ -26,21 +32,12 @@ public class UnrecognizedArgumentException extends Exception {
         int precursorIndex = this.argumentIndex - 1;
         int totalLengthPrecursors = 0;
         for (int i=0; i <= precursorIndex; i++) {
-            totalLengthPrecursors += args[i].length();
+            totalLengthPrecursors += arguments.get(i).length();
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i=0; i < totalLengthPrecursors; i++) {
-            stringBuilder.append(' ');
-        }
-
-        for (int i=1; i <= this.argumentIndex; i++) {
-            stringBuilder.append(' ');
-        }
-
-        stringBuilder.append('^');
-
-        return stringBuilder.toString();
+        return " ".repeat(Math.max(0, totalLengthPrecursors)) +
+                " ".repeat(this.argumentIndex) +
+                '^';
     }
 
 }

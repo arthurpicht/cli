@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
+
 public class OptionParserStateName extends OptionParserState {
 
     public OptionParserStateName(Options options, OptionParser optionParser) {
@@ -7,45 +9,39 @@ public class OptionParserStateName extends OptionParserState {
     }
 
     @Override
-    public OptionParserState process(String[] args, int processIndex) throws OptionParserException {
+    public OptionParserState process(ArgumentIterator argumentIterator) throws OptionParserException {
 
-        String arg = args[processIndex];
+        String arg = argumentIterator.getCurrent();
         Option option;
 
         if (arg.startsWith("--")) {
             String longName = arg.substring(2);
-            if (longName.equals("")) throw new MalformedOptionException(args, processIndex);
+            if (longName.equals("")) throw new MalformedOptionException(argumentIterator);
 
-            if (!this.options.hasLongNameOption(longName)) throw new UnspecifiedOptionException(args, processIndex);
+            if (!this.options.hasLongNameOption(longName)) throw new UnspecifiedOptionException(argumentIterator);
             option = this.options.getLongNameOption(longName);
 
         } else if (arg.startsWith("-")) {
             String shortName = arg.substring(1);
-            if (shortName.equals("")) throw new MalformedOptionException(args, processIndex);
-            if (shortName.length() > 1) throw new MalformedOptionException(args, processIndex);
+            if (shortName.equals("")) throw new MalformedOptionException(argumentIterator);
+            if (shortName.length() > 1) throw new MalformedOptionException(argumentIterator);
             Character shortNameChar = shortName.charAt(0);
 
-            if (!this.options.hasShortNameOption(shortNameChar)) throw new UnspecifiedOptionException(args, processIndex);
+            if (!this.options.hasShortNameOption(shortNameChar)) throw new UnspecifiedOptionException(argumentIterator);
             option = this.options.getShortNameOption(shortNameChar);
 
         } else {
             return new OptionParserStateFinished(this.options, this.optionParser);
-//            throw new IllegalArgException(arg);
         }
 
         if (option.hasArgument()) {
-            return new OptionParserStateValue(this.options, this.optionParser, option, arg);
+            return new OptionParserStateValue(this.options, this.optionParser, option);
         }
 
         OptionParserResult optionParserResult = this.optionParser.getOptionParserResult();
         optionParserResult.addOption(option);
 
-//        OptionParserResultBean optionParserResultBean = new OptionParserResultBean(option);
-//        this.optionParser.addOptionParserResult(optionParserResultBean);
-
         return new OptionParserStateName(this.options, this.optionParser);
-
     }
-
 
 }

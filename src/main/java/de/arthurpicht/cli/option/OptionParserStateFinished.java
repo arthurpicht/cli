@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.common.ArgumentIterator;
+
 public class OptionParserStateFinished extends OptionParserState {
 
     public OptionParserStateFinished(Options options, OptionParser optionParser) {
@@ -7,7 +9,7 @@ public class OptionParserStateFinished extends OptionParserState {
     }
 
     @Override
-    public OptionParserState process(String[] args, int processIndex) throws OptionParserException {
+    public OptionParserState process(ArgumentIterator argumentIterator) throws OptionParserException {
         return null;
     }
 }

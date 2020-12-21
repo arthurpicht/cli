@@ -5,6 +5,7 @@ import de.arthurpicht.cli.command.exceptions.CommandParserException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.ArgsHelper;
+import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CommandParserTest {
 
-    private static final boolean OUT = false;
+    private static final boolean OUT = true;
 
     @Test
     void parse1() {
@@ -26,16 +27,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
-            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -52,16 +54,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
-            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -78,9 +81,10 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "something", "C2"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(4, commandStringList.size());
@@ -88,7 +92,7 @@ class CommandParserTest {
             assertEquals("B", commandStringList.get(1));
             assertEquals("something", commandStringList.get(2));
             assertEquals("C2", commandStringList.get(3));
-            assertEquals(3, commandParser.getLastProcessedIndex());
+            assertEquals(3, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -106,16 +110,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(3, commandParser.getCommandStringList().size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
-            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -133,9 +138,10 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "D", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             fail();
         } catch (AmbiguousCommandException| InsufficientNrOfCommandsException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
@@ -147,7 +153,7 @@ class CommandParserTest {
     }
 
     @Test
-    void checkFail3() {
+    void checkFail3_neg() {
 
         Commands commands = new Commands();
         commands.add("A").add("B").add("C");
@@ -155,9 +161,10 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             fail();
 
         } catch (IllegalCommandException | AmbiguousCommandException e) {
@@ -184,7 +191,7 @@ class CommandParserTest {
     }
 
     @Test
-    void checkZeroArg1() {
+    void checkZeroArg1_neg() {
 
         Commands commands = new Commands();
         commands.add("A").add("B").add("C");
@@ -192,14 +199,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             fail();
         } catch (AmbiguousCommandException | IllegalCommandException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
         } catch (InsufficientNrOfCommandsException insufficientNrOfCommandsException) {
-            if (OUT) System.out.println(insufficientNrOfCommandsException.getMessage());
+            assertEquals(
+                    "Insufficient number of commands. Next command is one of: [ A ].",
+                    insufficientNrOfCommandsException.getMessage());
             assertEquals(0, insufficientNrOfCommandsException.getArgumentIndex());
             assertEquals("", insufficientNrOfCommandsException.getArgsAsString());
             assertEquals("^", insufficientNrOfCommandsException.getArgumentPointerString());
@@ -207,7 +217,7 @@ class CommandParserTest {
     }
 
     @Test
-    void checkZeroArg2() {
+    void checkZeroArg2_neg() {
 
         Commands commands = new Commands();
         commands.add("A").add("B").add("C");
@@ -215,22 +225,24 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"X"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            commandParser.parse(args, 1);
+            commandParser.parse(argumentIterator);
             fail();
         } catch (AmbiguousCommandException | IllegalCommandException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
-        } catch (InsufficientNrOfCommandsException insufficientNrOfCommandsException) {
-            if (OUT) System.out.println(insufficientNrOfCommandsException.getMessage());
-            assertEquals(1, insufficientNrOfCommandsException.getArgumentIndex());
-            assertEquals("X", insufficientNrOfCommandsException.getArgsAsString());
-            assertEquals("  ^", insufficientNrOfCommandsException.getArgumentPointerString());
+        } catch (InsufficientNrOfCommandsException e) {
+            if (OUT) System.out.println(e.getMessage());
+            assertEquals("Insufficient number of commands. Next command is one of: [ A ].", e.getMessage());
+            assertEquals(1, e.getArgumentIndex());
+            assertEquals("X", e.getArgsAsString());
+            assertEquals("  ^", e.getArgumentPointerString());
         }
     }
 
     @Test
-    void checkNoFound() {
+    void commandNotRecognized1_neg() {
 
         Commands commands = new Commands();
         commands.add("E").add("F");
@@ -238,18 +250,44 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 1);
+            commandParser.parse(argumentIterator);
             fail();
         } catch (AmbiguousCommandException | InsufficientNrOfCommandsException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
-        } catch (IllegalCommandException illegalCommandException) {
-            if (OUT) System.out.println(illegalCommandException.getMessage());
-            assertEquals(1, illegalCommandException.getArgumentIndex());
-            assertEquals("A B C D", illegalCommandException.getArgsAsString());
-            assertEquals("  ^", illegalCommandException.getArgumentPointerString());
+        } catch (IllegalCommandException e) {
+            if (OUT) System.out.println(e.getMessage());
+            assertEquals("Command [A] not recognized. Possible commands are: [ E ].", e.getMessage());
+            assertEquals(0, e.getArgumentIndex());
+            assertEquals("A B C D", e.getArgsAsString());
+            assertEquals("^", e.getArgumentPointerString());
+        }
+    }
 
+    @Test
+    void commandNotRecognized2_neg() {
+
+        Commands commands = new Commands();
+        commands.add("E").add("F");
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"E", "B", "C", "D"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+
+        try {
+            commandParser.parse(argumentIterator);
+            fail();
+        } catch (AmbiguousCommandException | InsufficientNrOfCommandsException e) {
+            fail("Wrong exception thrown: " + e.getClass().getName());
+        } catch (IllegalCommandException e) {
+            if (OUT) System.out.println(e.getMessage());
+            assertEquals("Command [B] not recognized. Possible commands are: [ F ].", e.getMessage());
+            assertEquals(1, e.getArgumentIndex());
+            assertEquals("E B C D", e.getArgsAsString());
+            assertEquals("  ^", e.getArgumentPointerString());
         }
     }
 
@@ -265,15 +303,16 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
 
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
-            assertEquals(0, commandParser.getLastProcessedIndex());
+            assertEquals(0, argumentIterator.getIndex());
 
             Options optionsSpecificBack = commandParser.getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
@@ -297,14 +336,15 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "--test"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
-            assertEquals(0, commandParser.getLastProcessedIndex());
+            assertEquals(0, argumentIterator.getIndex());
 
             Options optionsSpecificBack = commandParser.getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
@@ -329,16 +369,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
 
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(2, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
-            assertEquals(1, commandParser.getLastProcessedIndex());
+            assertEquals(1, argumentIterator.getIndex());
 
             Options optionsSpecificBack = commandParser.getSpecificOptions();
 
@@ -363,9 +404,10 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "--test"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
 
             List<String> commandStringList = commandParser.getCommandStringList();
 
@@ -373,7 +415,7 @@ class CommandParserTest {
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
 
-            assertEquals(1, commandParser.getLastProcessedIndex());
+            assertEquals(1, argumentIterator.getIndex());
 
             Options optionsSpecificBack = commandParser.getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
@@ -394,16 +436,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
-            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -420,16 +463,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
-            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -446,16 +490,17 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             List<String> commandStringList = commandParser.getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
-            assertEquals(2, commandParser.getLastProcessedIndex());
+            assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
             if (OUT) System.out.println(commandParserException.getMessage());
@@ -472,9 +517,10 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(commands);
 
         String[] args = {"A", "B", "C"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            commandParser.parse(args, 0);
+            commandParser.parse(argumentIterator);
             fail();
 
         } catch (AmbiguousCommandException e) {

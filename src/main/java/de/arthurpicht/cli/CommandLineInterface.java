@@ -3,6 +3,7 @@ package de.arthurpicht.cli;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.CommandsHelper;
+import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParser;
@@ -39,7 +40,6 @@ public class CommandLineInterface {
     public CommandLineInterface(Options optionsGlobal, Commands commands) {
         this.optionsGlobal = optionsGlobal;
         this.commands = commands;
-//        this.parameters = parameters;
 
         this.optionParserResultGlobal = null;
         this.commandList = new ArrayList<>();
@@ -51,40 +51,47 @@ public class CommandLineInterface {
 
     public ParserResult parse(String[] args) throws UnrecognizedArgumentException {
 
-        int proceedingIndex = -1;
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+//        int proceedingIndex = -1;
 
         if (Options.hasDefinitions(this.optionsGlobal)) {
             OptionParser optionParserGlobal = new OptionParser(this.optionsGlobal);
-            optionParserGlobal.parse(args, proceedingIndex + 1);
+            optionParserGlobal.parse(argumentIterator);
             this.optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
-            proceedingIndex = optionParserGlobal.getLastProcessedIndex();
+//            proceedingIndex = optionParserGlobal.getLastProcessedIndex();
         }
 
         if (Commands.hasDefinitions(this.commands)) {
             CommandParser commandParser = new CommandParser(this.commands);
-            commandParser.parse(args, proceedingIndex + 1);
+            commandParser.parse(argumentIterator);
             this.commandList = commandParser.getCommandStringList();
-            proceedingIndex = commandParser.getLastProcessedIndex();
+//            proceedingIndex = commandParser.getLastProcessedIndex();
             this.optionsSpecific = commandParser.getSpecificOptions();
             this.parameters = commandParser.getParameters();
         }
 
         if (Options.hasDefinitions(this.optionsSpecific)) {
             OptionParser optionParserSpecific = new OptionParser(this.optionsSpecific);
-            optionParserSpecific.parse(args, proceedingIndex + 1);
+            optionParserSpecific.parse(argumentIterator);
             this.optionParserResultSpecific = optionParserSpecific.getOptionParserResult();
-            proceedingIndex = optionParserSpecific.getLastProcessedIndex();
+//            proceedingIndex = optionParserSpecific.getLastProcessedIndex();
         }
 
         if (this.parameters != null) {
             ParameterParser parameterParser = this.parameters.getParameterParser();
-            parameterParser.parse(args, proceedingIndex + 1);
+            parameterParser.parse(argumentIterator);
             this.parameterList = parameterParser.getParameterList();
-            proceedingIndex = parameterParser.getLastProcessedIndex();
+//            proceedingIndex = parameterParser.getLastProcessedIndex();
         }
 
-        boolean finished = (proceedingIndex + 1 == args.length);
-        if (!finished) throw new UnrecognizedArgumentException(args, proceedingIndex + 1 , "Unrecognized argument: " + args[proceedingIndex + 1]);
+//        boolean finished = (proceedingIndex + 1 == args.length);
+//        boolean finished = !argumentIterator.hasNext();
+//        if (!finished) throw new UnrecognizedArgumentException(argumentIterator.getArguments(), argumentIterator.getIndex() + 1 , "Unrecognized argument: " + args[proceedingIndex + 1]);
+
+        if (argumentIterator.hasNext()) {
+            String arg = argumentIterator.getNext();
+            throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
+        }
 
         return new ParserResult(args, this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList);
 
