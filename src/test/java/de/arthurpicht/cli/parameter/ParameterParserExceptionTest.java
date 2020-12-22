@@ -2,7 +2,6 @@ package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.common.ArgsHelper;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 

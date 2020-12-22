@@ -1,6 +1,5 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.common.ArgsHelper;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
