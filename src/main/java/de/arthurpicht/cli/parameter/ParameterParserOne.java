@@ -19,14 +19,6 @@ public class ParameterParserOne extends ParameterParser {
         } else {
             throw new ParameterParserException(arguments, argumentIterator.getIndex() + 1, "One parameter expected.");
         }
-
-//        if (arguments.size() > beginIndex) {
-//            String argument = arguments.get(beginIndex);
-//            this.parameterList.add(argument);
-//            this.lastProcessedIndex = beginIndex;
-//        } else {
-//            throw new ParameterParserException(args, beginIndex, "One parameter expected.");
-//        }
     }
 
 }

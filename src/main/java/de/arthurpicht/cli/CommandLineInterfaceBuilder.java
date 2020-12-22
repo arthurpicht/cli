@@ -8,12 +8,10 @@ public class CommandLineInterfaceBuilder {
 
     private Options optionsGlobal;
     private Commands commands;
-//    private Parameters parameters;
 
     public CommandLineInterfaceBuilder() {
         this.optionsGlobal = null;
         this.commands = null;
-//        this.parameters = null;
     }
 
     public CommandLineInterfaceBuilder withGlobalOptions(Options options) {
@@ -26,14 +24,8 @@ public class CommandLineInterfaceBuilder {
         return this;
     }
 
-//    public CommandLineInterfaceBuilder withParameters(Parameters parameters) {
-//        this.parameters = parameters;
-//        return this;
-//    }
-//
     public CommandLineInterface build() {
         return new CommandLineInterface(this.optionsGlobal, this.commands);
     }
-
 
 }

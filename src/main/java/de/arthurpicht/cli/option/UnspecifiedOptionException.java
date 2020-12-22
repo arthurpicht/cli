@@ -11,15 +11,4 @@ public class UnspecifiedOptionException extends OptionParserException {
         super(argumentIterator, "Unknown option: '" + argumentIterator.getCurrent() + "'");
     }
 
-
-
-//    public UnspecifiedOptionException(String[] args, int argumentIndex) {
-//        super(args, argumentIndex, "Unknown option: '" + args[argumentIndex] + "'");
-//    }
-//
-//    public UnspecifiedOptionException(String[] args, int argumentIndex, String message) {
-//        super(args, argumentIndex, message);
-//    }
-
-
 }

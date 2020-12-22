@@ -1,6 +1,5 @@
 package de.arthurpicht.cli.command;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,11 +39,6 @@ public class OpenCommand extends Command {
     public String asString() {
         return "*";
     }
-
-//    @Override
-//    public String toString() {
-//        return "[ * ]";
-//    }
 
     @Override
     public String toString() {

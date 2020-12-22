@@ -7,7 +7,6 @@ public class OptionComparator implements Comparator<Option> {
     @Override
     public int compare(Option o1, Option o2) {
         return String.CASE_INSENSITIVE_ORDER.compare(getCompareString(o1), getCompareString(o2));
-//        return getCompareString(o1).compareTo(getCompareString(o2));
     }
 
     private String getCompareString(Option option) {

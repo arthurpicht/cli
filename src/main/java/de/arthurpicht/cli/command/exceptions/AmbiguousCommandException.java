@@ -12,8 +12,6 @@ import java.util.Set;
  */
 public class AmbiguousCommandException extends CommandParserException {
 
-    private Set<RecognizedCommand> matchingCandidates;
-
     public static AmbiguousCommandException createInstance(ArgumentIterator argumentIterator, Set<RecognizedCommand> matchingCandidates) {
         String message = "Ambiguous command '" + argumentIterator.getCurrent() + "'. Possible candidates are: " + Strings.listing(RecognizedCommand.getCommandNames(matchingCandidates), ", ", "[", "]");
         return new AmbiguousCommandException(argumentIterator, message, matchingCandidates);
@@ -21,11 +19,6 @@ public class AmbiguousCommandException extends CommandParserException {
 
     private AmbiguousCommandException(ArgumentIterator argumentIterator, String message, Set<RecognizedCommand> matchingCandidates) {
         super(argumentIterator, message);
-        this.matchingCandidates = matchingCandidates;
-    }
-
-    public Set<RecognizedCommand> getMatchingCandidates() {
-        return this.matchingCandidates;
     }
 
 }

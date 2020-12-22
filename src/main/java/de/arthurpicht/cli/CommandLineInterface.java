@@ -52,20 +52,17 @@ public class CommandLineInterface {
     public ParserResult parse(String[] args) throws UnrecognizedArgumentException {
 
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
-//        int proceedingIndex = -1;
 
         if (Options.hasDefinitions(this.optionsGlobal)) {
             OptionParser optionParserGlobal = new OptionParser(this.optionsGlobal);
             optionParserGlobal.parse(argumentIterator);
             this.optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
-//            proceedingIndex = optionParserGlobal.getLastProcessedIndex();
         }
 
         if (Commands.hasDefinitions(this.commands)) {
             CommandParser commandParser = new CommandParser(this.commands);
             commandParser.parse(argumentIterator);
             this.commandList = commandParser.getCommandStringList();
-//            proceedingIndex = commandParser.getLastProcessedIndex();
             this.optionsSpecific = commandParser.getSpecificOptions();
             this.parameters = commandParser.getParameters();
         }
@@ -74,19 +71,13 @@ public class CommandLineInterface {
             OptionParser optionParserSpecific = new OptionParser(this.optionsSpecific);
             optionParserSpecific.parse(argumentIterator);
             this.optionParserResultSpecific = optionParserSpecific.getOptionParserResult();
-//            proceedingIndex = optionParserSpecific.getLastProcessedIndex();
         }
 
         if (this.parameters != null) {
             ParameterParser parameterParser = this.parameters.getParameterParser();
             parameterParser.parse(argumentIterator);
             this.parameterList = parameterParser.getParameterList();
-//            proceedingIndex = parameterParser.getLastProcessedIndex();
         }
-
-//        boolean finished = (proceedingIndex + 1 == args.length);
-//        boolean finished = !argumentIterator.hasNext();
-//        if (!finished) throw new UnrecognizedArgumentException(argumentIterator.getArguments(), argumentIterator.getIndex() + 1 , "Unrecognized argument: " + args[proceedingIndex + 1]);
 
         if (argumentIterator.hasNext()) {
             String arg = argumentIterator.getNext();

@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class OptionParserResultBean {
 
-    private Option option;
-    private String value;
+    private final Option option;
+    private final String value;
 
     public OptionParserResultBean(Option option) {
         this.option = option;

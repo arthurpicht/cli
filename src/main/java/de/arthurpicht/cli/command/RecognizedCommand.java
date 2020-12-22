@@ -11,7 +11,6 @@ public class RecognizedCommand {
     private final String arg;
 
     public RecognizedCommand(Command command, String commandName, String arg) {
-
         this.command = command;
         this.commandName = commandName;
         this.arg = arg;

@@ -6,9 +6,9 @@ import java.util.*;
 
 public class Options {
 
-    private Map<Character, Option> shortNameMap;
-    private Map<String, Option> longNameMap;
-    private Set<String> idSet;
+    private final Map<Character, Option> shortNameMap;
+    private final Map<String, Option> longNameMap;
+    private final Set<String> idSet;
 
     public Options() {
         this.shortNameMap = new HashMap<>();
@@ -83,7 +83,7 @@ public class Options {
     public String getHelpString() {
 
         List<Option> orderedOptionList = new ArrayList<>(this.getAllOptions());
-        Collections.sort(orderedOptionList, new OptionComparator());
+        orderedOptionList.sort(new OptionComparator());
 
         StringBuilder stringBuilder = new StringBuilder();
 

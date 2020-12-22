@@ -15,8 +15,8 @@ import java.util.Set;
 
 public class CommandParser extends Parser {
 
-    private Commands commands;
-    private List<String> commandStringList;
+    private final Commands commands;
+    private final List<String> commandStringList;
     private Options specificOptions;
     private Parameters parameters;
 
@@ -42,17 +42,13 @@ public class CommandParser extends Parser {
     @Override
     public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
-//        this.lastProcessedIndex = beginIndex;
-
         Set<Command> curCommandSet = this.commands.getRootCommands();
 
         Command lastCommand = null;
 
-//        for (int i = beginIndex; i < args.length; i++) {
         while (argumentIterator.hasNext()) {
 
             if (curCommandSet.isEmpty()) {
-//                this.lastProcessedIndex = i - 1;
                 this.specificOptions = lastCommand.getSpecificOptions();
                 this.parameters = lastCommand.getParameters();
                 return;
@@ -65,7 +61,6 @@ public class CommandParser extends Parser {
                 RecognizedCommand matchingCommand = commandMatcher.getMatchingCommand();
                 this.commandStringList.add(matchingCommand.getCommandName());
                 curCommandSet = matchingCommand.getCommand().getNext();
-//                this.lastProcessedIndex = i;
                 lastCommand = matchingCommand.getCommand();
             } else {
                 if (commandMatcher.hasCandidates()) {
@@ -77,15 +72,6 @@ public class CommandParser extends Parser {
         }
 
         if (!curCommandSet.isEmpty()) {
-            // insufficient number of arguments
-//            int argumentIndex;
-//            if (!argumentIterator.hasNext()) {
-//                // no further arguments
-//                argumentIndex = argumentIterator.getIndex();
-//            } else {
-//                // has next argument, is specific option or parameter
-//                argumentIndex = argumentIterator.getIndex() + 1;
-//            }
             throw InsufficientNrOfCommandsException.createInstance(argumentIterator, curCommandSet);
         }
 

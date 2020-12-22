@@ -2,7 +2,7 @@ package de.arthurpicht.cli.parameter;
 
 public class ParametersVar extends Parameters {
 
-    private int minimalNrOfArguments;
+    private final int minimalNrOfArguments;
 
     public ParametersVar(int minimalNrOfArguments) {
         this.minimalNrOfArguments = minimalNrOfArguments;

@@ -34,5 +34,4 @@ public class ValueExpectedException extends OptionParserException {
         super(arguments, argumentIndex, message);
     }
 
-
 }

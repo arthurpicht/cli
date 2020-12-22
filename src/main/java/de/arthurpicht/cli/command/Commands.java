@@ -211,8 +211,7 @@ public class Commands {
             command.setSpecificOptions(specificOptions);
         }
 
-        return new Commands(this.rootCommands, this.curCommands);
-        // TODO = return this?
+        return this;
     }
 
     public Commands withParameters(Parameters parameters) {
@@ -223,8 +222,7 @@ public class Commands {
             command.setParameters(parameters);
         }
 
-        return new Commands(this.rootCommands, this.curCommands);
-        // TODO = return this?
+        return this;
     }
 
     public static boolean hasDefinitions(Commands commands) {

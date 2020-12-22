@@ -1,19 +1,17 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.command.exceptions.CommandSpecException;
+import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.*;
 
 public class OneCommand extends Command {
 
-    private String commandString;
+    private final String commandString;
 
     public OneCommand(Command previousCommand, String commandString) {
         super(previousCommand);
-
-        // TODO assert
-        if (commandString == null || commandString.equals("")) throw new CommandSpecException("command is null or empty");
-
+        if (Strings.isNullOrEmpty(commandString)) throw new CommandSpecException("Command string is null or empty.");
         this.commandString = commandString;
     }
 
@@ -48,14 +46,8 @@ public class OneCommand extends Command {
         return this.commandString;
     }
 
-//    @Override
-//    public String toString() {
-//        return "[ " + this.commandString + " ]";
-//    }
-
     public String toString() {
         return this.commandString;
     }
-
 
 }

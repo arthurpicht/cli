@@ -9,7 +9,7 @@ public class OptionParserStateFinished extends OptionParserState {
     }
 
     @Override
-    public OptionParserState process(ArgumentIterator argumentIterator) throws OptionParserException {
+    public OptionParserState process(ArgumentIterator argumentIterator) {
         return null;
     }
 }

@@ -8,8 +8,8 @@ import java.util.*;
 
 public abstract class Command {
 
-    private Command previousCommand;
-    private Set<Command> nextCommands;
+    private final Command previousCommand;
+    private final Set<Command> nextCommands;
     private Options specificOptions;
     private Parameters parameters;
 
