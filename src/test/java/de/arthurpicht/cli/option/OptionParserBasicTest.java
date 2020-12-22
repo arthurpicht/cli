@@ -155,7 +155,6 @@ public class OptionParserBasicTest {
             e.printStackTrace();
             fail(e);
         }
-
     }
 
 }

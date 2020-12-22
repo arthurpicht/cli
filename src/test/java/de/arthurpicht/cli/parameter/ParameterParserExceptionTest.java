@@ -6,6 +6,8 @@ import de.arthurpicht.cli.common.ArgsHelper;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.printStacktrace;
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -17,8 +19,6 @@ public class ParameterParserExceptionTest {
         Commands commands = new Commands();
         commands.add("A");
 
-//        ParametersOne argumentsOne = new ParametersOne();
-
         CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
 
         String[] args = {"A"};
@@ -26,12 +26,11 @@ public class ParameterParserExceptionTest {
         try {
             commandLineInterface.parse(args);
         } catch (UnrecognizedArgumentException e) {
-
-            System.out.println("ArgumentIndex: " + e.getArgumentIndex());
-
-            System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(e.getArgumentPointerString());
-            e.printStackTrace();
+            println("ArgumentIndex: " + e.getArgumentIndex());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
+            printStacktrace(e);
+            fail(e);
         }
     }
 

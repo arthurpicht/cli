@@ -3,6 +3,8 @@ package de.arthurpicht.cli.parameter;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.printStacktrace;
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParameterParserVarTest {
@@ -28,7 +30,7 @@ class ParameterParserVarTest {
 
         } catch (ParameterParserException e) {
             e.printStackTrace();
-            fail();
+            fail(e);
         }
     }
 
@@ -50,7 +52,7 @@ class ParameterParserVarTest {
 
         } catch (ParameterParserException e) {
             e.printStackTrace();
-            fail();
+            fail(e);
         }
     }
 
@@ -72,7 +74,7 @@ class ParameterParserVarTest {
 
         } catch (ParameterParserException e) {
             e.printStackTrace();
-            fail();
+            fail(e);
         }
     }
 
@@ -89,7 +91,7 @@ class ParameterParserVarTest {
             fail();
 
         } catch (ParameterParserException e) {
-            System.out.println("Expected Exception: " + e.getMessage());
+            println("Expected Exception: " + e.getMessage());
         }
     }
 
@@ -105,8 +107,8 @@ class ParameterParserVarTest {
             argumentParserVar.parse(argumentIterator);
 
         } catch (ParameterParserException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            println(e.getMessage());
+            printStacktrace(e);
             fail();
         }
     }

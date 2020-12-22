@@ -3,11 +3,11 @@ package de.arthurpicht.cli.parameter;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static de.arthurpicht.cli.TestOut.println;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class ParameterParserManyTest {
-
-    private static boolean OUT = true;
 
     @Test
     void parseFirst() {
@@ -25,7 +25,7 @@ class ParameterParserManyTest {
             assertEquals(0, argumentIterator.getIndex());
 
         } catch (ParameterParserException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail();
         }
     }
@@ -46,7 +46,7 @@ class ParameterParserManyTest {
             assertEquals(1, argumentIterator.getIndex());
 
         } catch (ParameterParserException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail();
         }
     }
@@ -68,7 +68,7 @@ class ParameterParserManyTest {
             assertEquals(3, argumentIterator.getIndex());
 
         } catch (ParameterParserException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail();
         }
     }
@@ -86,7 +86,7 @@ class ParameterParserManyTest {
             fail();
 
         } catch (ParameterParserException e) {
-            out("Expected Exception: " + e.getMessage());
+            println("Expected Exception: " + e.getMessage());
         }
     }
 
@@ -103,12 +103,8 @@ class ParameterParserManyTest {
             fail();
 
         } catch (ParameterParserException e) {
-            out("Expected Exception: " + e.getMessage());
+            println("Expected Exception: " + e.getMessage());
         }
-    }
-
-    private void out(String string) {
-        if (OUT) System.out.println(string);
     }
 
 }

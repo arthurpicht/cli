@@ -84,7 +84,10 @@ public class CommandsHelper {
             commandStringSet.addAll(command.getCommandStrings());
         }
 
-        return Strings.listing(commandStringSet, " | ", "[ ", " ]");
+        List<String> commandStringList = new ArrayList<>(commandStringSet);
+        Collections.sort(commandStringList);
+
+        return Strings.listing(commandStringList, " | ", "[ ", " ]");
     }
 
     public static boolean hasOpenLeaves(Commands commands) {

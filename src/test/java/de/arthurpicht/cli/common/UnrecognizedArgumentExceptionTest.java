@@ -2,6 +2,7 @@ package de.arthurpicht.cli.common;
 
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UnrecognizedArgumentExceptionTest {
@@ -16,8 +17,8 @@ class UnrecognizedArgumentExceptionTest {
         assertEquals(0, unrecognizedArgumentException.getArgumentIndex());
         assertEquals("myMessage", unrecognizedArgumentException.getMessage());
 
-        System.out.println(ArgsHelper.getArgsString(args));
-        System.out.println(unrecognizedArgumentException.getArgumentPointerString());
+        println(unrecognizedArgumentException.getArgsAsString());
+        println(unrecognizedArgumentException.getArgumentPointerString());
 
         assertEquals("^", unrecognizedArgumentException.getArgumentPointerString());
     }
@@ -32,8 +33,8 @@ class UnrecognizedArgumentExceptionTest {
         assertEquals(1, unrecognizedArgumentException.getArgumentIndex());
         assertEquals("myMessage", unrecognizedArgumentException.getMessage());
 
-        System.out.println(ArgsHelper.getArgsString(args));
-        System.out.println(unrecognizedArgumentException.getArgumentPointerString());
+        println(unrecognizedArgumentException.getArgsAsString());
+        println(unrecognizedArgumentException.getArgumentPointerString());
 
         assertEquals("   ^", unrecognizedArgumentException.getArgumentPointerString());
     }
@@ -48,8 +49,8 @@ class UnrecognizedArgumentExceptionTest {
         assertEquals(2, unrecognizedArgumentException.getArgumentIndex());
         assertEquals("myMessage", unrecognizedArgumentException.getMessage());
 
-        System.out.println(ArgsHelper.getArgsString(args));
-        System.out.println(unrecognizedArgumentException.getArgumentPointerString());
+        println(unrecognizedArgumentException.getArgsAsString());
+        println(unrecognizedArgumentException.getArgumentPointerString());
 
         assertEquals("      ^", unrecognizedArgumentException.getArgumentPointerString());
     }
@@ -61,8 +62,8 @@ class UnrecognizedArgumentExceptionTest {
         Arguments arguments = new Arguments(args);
         UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 3, "myMessage");
 
-        System.out.println(ArgsHelper.getArgsString(args));
-        System.out.println(unrecognizedArgumentException.getArgumentPointerString());
+        println(unrecognizedArgumentException.getArgsAsString());
+        println(unrecognizedArgumentException.getArgumentPointerString());
 
         assertEquals("         ^", unrecognizedArgumentException.getArgumentPointerString());
     }
@@ -74,8 +75,8 @@ class UnrecognizedArgumentExceptionTest {
         Arguments arguments = new Arguments(args);
         UnrecognizedArgumentException unrecognizedArgumentException = new UnrecognizedArgumentException(arguments, 0, "myMessage");
 
-        System.out.println(ArgsHelper.getArgsString(args));
-        System.out.println(unrecognizedArgumentException.getArgumentPointerString());
+        println(unrecognizedArgumentException.getArgsAsString());
+        println(unrecognizedArgumentException.getArgumentPointerString());
 
         assertEquals("^", unrecognizedArgumentException.getArgumentPointerString());
     }

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static de.arthurpicht.cli.TestOut.printStacktrace;
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Demo01 {
@@ -59,8 +61,6 @@ public class Demo01 {
             assertTrue(optionParserResultSpecific.hasOption("password"));
             assertEquals("supersecret", optionParserResultSpecific.getValue("password"));
 
-
-
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
         }
@@ -74,12 +74,12 @@ public class Demo01 {
         String[] args = {};
 
         try {
-            ParserResult parserResult = commandLineInterface.parse(args);
+            commandLineInterface.parse(args);
             fail();
         } catch (UnrecognizedArgumentException e) {
-            System.out.println(e.getArgsAsString());
-            System.out.println(e.getArgumentPointerString());
-            e.printStackTrace();
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
+            printStacktrace(e);
         }
     }
 }

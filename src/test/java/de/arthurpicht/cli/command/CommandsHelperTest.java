@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandsHelperTest {
-
-    private final boolean OUT = false;
 
     @Test
     void getLeaves() {
@@ -28,9 +27,7 @@ class CommandsHelperTest {
         leaveCommandSetExp.addAll(leafF);
 
         assertEquals(leaveCommandSetExp, leaveCommands);
-
     }
-
 
     @Test
     void getAllCommandChains() {
@@ -44,10 +41,8 @@ class CommandsHelperTest {
 
         Set<String> commandChains = CommandsHelper.getAllCommandChains(commands);
 
-        if (OUT) {
-            for (String commandChain : commandChains) {
-                System.out.println(commandChain);
-            }
+        for (String commandChain : commandChains) {
+            println(commandChain);
         }
 
         Set<String> commandChainsExp = Sets.newHashSet(
@@ -59,8 +54,6 @@ class CommandsHelperTest {
         );
 
         assertEquals(commandChainsExp, commandChains);
-
-
     }
 
     @Test
@@ -74,9 +67,8 @@ class CommandsHelperTest {
 
         String commandsFormatted = CommandsHelper.toFormattedList(commands.getRootCommands());
 
-        // TODO Das könnte auch schief gehen, da keine zugesicherte Reihenfolge auf Sets:
-//        assertEquals("[ A | B | X1 | X2 | X3 ]", commandsFormatted);
-//        System.out.println(commandsFormatted);
+        println(commandsFormatted);
 
+        assertEquals("[ A | B | X1 | X2 | X3 ]", commandsFormatted);
     }
 }

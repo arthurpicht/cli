@@ -43,7 +43,7 @@ class ParameterParserOneTest {
         ParameterParserOne argumentParserOne = new ParameterParserOne();
         try {
             argumentParserOne.parse(argumentIterator);
-            fail();
+            fail("Exception expected.");
         } catch (ParameterParserException e) {
             // din
         }

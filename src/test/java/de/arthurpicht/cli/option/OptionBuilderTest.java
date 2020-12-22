@@ -32,7 +32,6 @@ class OptionBuilderTest {
         assertTrue(option.hasArgumentName());
         assertEquals("ARG", option.getArgumentName());
         assertFalse(option.hasHelpText());
-
     }
 
 }

@@ -1,9 +1,9 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.common.ArgsHelper;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -22,9 +22,9 @@ public class ParameterParserVarExceptionTest {
             fail();
 
         } catch (ParameterParserException e) {
-            System.out.println(e.getMessage());
-            System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals("Illegal number of arguments. Minimal number expected: 1, found: 0.", e.getMessage());
             assertEquals("^", e.getArgumentPointerString());
@@ -46,9 +46,9 @@ public class ParameterParserVarExceptionTest {
             fail();
 
         } catch (ParameterParserException e) {
-            System.out.println(e.getMessage());
-            System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals("Illegal number of arguments. Minimal number expected: 5, found: 4.", e.getMessage());
             assertEquals("        ^", e.getArgumentPointerString());

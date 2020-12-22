@@ -4,12 +4,12 @@ import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.printStacktrace;
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class OptionParserOptionsWithArgumentsExceptionTest {
-
-    private static final boolean OUT = false;
 
     private Options getOptions() {
         return new Options()
@@ -30,14 +30,14 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (MalformedOptionException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(1, e.getArgumentIndex());
 
         } catch (UnrecognizedArgumentException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail(e);
         }
     }
@@ -55,9 +55,9 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (MalformedOptionException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(1, e.getArgumentIndex());
 
@@ -80,14 +80,14 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (MalformedOptionException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(1, e.getArgumentIndex());
 
         } catch (UnrecognizedArgumentException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail("Wrong exception.");
         }
     }
@@ -105,9 +105,9 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (UnspecifiedOptionException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(1, e.getArgumentIndex());
 
@@ -130,14 +130,14 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception exception.");
 
         } catch (UnspecifiedOptionException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(1, e.getArgumentIndex());
 
         } catch (UnrecognizedArgumentException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail("Wrong exception");
         }
     }
@@ -155,14 +155,14 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (ValueExpectedException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(2, e.getArgumentIndex());
 
         } catch (UnrecognizedArgumentException e) {
-            out(e.getMessage());
+            println(e.getMessage());
             fail("Wrong exception.");
         }
     }
@@ -180,11 +180,11 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (ValueExpectedException e) {
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
-            outStacktrace(e);
+            printStacktrace(e);
 
             assertEquals(2, e.getArgumentIndex());
 
@@ -207,15 +207,15 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (ValueExpectedException e) {
-            outStacktrace(e);
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            printStacktrace(e);
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(4, e.getArgumentIndex());
 
         } catch (UnrecognizedArgumentException e) {
-            outStacktrace(e);
+            printStacktrace(e);
             fail("Wrong exception thrown: " + e.getClass().getSimpleName());
         }
     }
@@ -233,24 +233,17 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
             fail("Exception expected.");
 
         } catch (ValueExpectedException e) {
-            outStacktrace(e);
-            out(e.getMessage());
-            out(e.getArgsAsString());
-            out(e.getArgumentPointerString());
+            printStacktrace(e);
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals(4, e.getArgumentIndex());
 
         } catch (UnrecognizedArgumentException e) {
-            outStacktrace(e);
+            printStacktrace(e);
             fail("Wrong exception: " + e.getClass().getSimpleName());
         }
     }
 
-    private void out(String string) {
-        if (OUT) System.out.println(string);
-    }
-
-    private void outStacktrace(Exception e) {
-        if (OUT) e.printStackTrace();
-    }
 }

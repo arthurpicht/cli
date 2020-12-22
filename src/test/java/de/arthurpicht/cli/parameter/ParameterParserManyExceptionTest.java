@@ -4,6 +4,7 @@ import de.arthurpicht.cli.common.ArgsHelper;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -23,9 +24,9 @@ public class ParameterParserManyExceptionTest {
 
         } catch (IllegalNumberOfParametersException e) {
 
-            System.out.println(e.getMessage());
-            System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
         } catch (ParameterParserException e) {
             e.printStackTrace();
@@ -50,9 +51,9 @@ public class ParameterParserManyExceptionTest {
             assertEquals(3, Integer.parseInt(e.getNrParametersRequired()));
             assertEquals(4, e.getNrParametersFound());
 
-            System.out.println(e.getMessage());
-            System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
         } catch (ParameterParserException e) {
             e.printStackTrace();
@@ -77,16 +78,14 @@ public class ParameterParserManyExceptionTest {
             assertEquals(2, Integer.parseInt(e.getNrParametersRequired()));
             assertEquals(4, e.getNrParametersFound());
 
-            System.out.println(e.getMessage());
-            System.out.println(ArgsHelper.getArgsString(args));
-            System.out.println(e.getArgumentPointerString());
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
         } catch (ParameterParserException e) {
             e.printStackTrace();
             fail();
         }
     }
-
-
 
 }

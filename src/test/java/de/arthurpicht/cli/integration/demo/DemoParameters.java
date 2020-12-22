@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DemoParameters {
@@ -81,7 +82,7 @@ public class DemoParameters {
             fail("Parameter is missing. Exception expected.");
         } catch (UnrecognizedArgumentException e) {
             // din
-            out(e.getMessage());
+            println(e.getMessage());
         }
     }
 
@@ -166,12 +167,8 @@ public class DemoParameters {
             fail("Parameter is missing. Exception expected.");
         } catch (UnrecognizedArgumentException e) {
             // din
-            out(e.getMessage());
+            println(e.getMessage());
         }
-    }
-
-    private static void out(String string) {
-        if (OUT) System.out.println(string);
     }
 
 }

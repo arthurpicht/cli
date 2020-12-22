@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CommandTest {
 
@@ -21,7 +21,6 @@ class CommandTest {
 
         String commandChainString = commandC.getCommandChainString();
         assertEquals("A B C", commandChainString);
-
     }
 
     @Test
@@ -36,8 +35,6 @@ class CommandTest {
 
         String commandChainString = commandB.getCommandChainString();
         assertEquals("A B *", commandChainString);
-
     }
-
 
 }

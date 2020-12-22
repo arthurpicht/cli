@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static de.arthurpicht.cli.TestOut.printStacktrace;
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandParserTest {
-
-    private static final boolean OUT = true;
 
     @Test
     void parse1() {
@@ -40,8 +40,8 @@ class CommandParserTest {
             assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            fail(commandParserException);
         }
     }
 
@@ -67,8 +67,8 @@ class CommandParserTest {
             assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            fail(commandParserException);
         }
     }
 
@@ -95,8 +95,8 @@ class CommandParserTest {
             assertEquals(3, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            fail(commandParserException);
         }
     }
 
@@ -123,8 +123,8 @@ class CommandParserTest {
             assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            fail(commandParserException);
         }
     }
 
@@ -146,7 +146,7 @@ class CommandParserTest {
         } catch (AmbiguousCommandException| InsufficientNrOfCommandsException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
         } catch (IllegalCommandException illegalCommandException) {
-            if (OUT) System.out.println(illegalCommandException.getMessage());
+            println(illegalCommandException.getMessage());
             assertEquals("A B D D", illegalCommandException.getArgsAsString());
             assertEquals("    ^", illegalCommandException.getArgumentPointerString());
         }
@@ -171,22 +171,16 @@ class CommandParserTest {
             fail("Wrong exception: " + e.getClass().getName());
 
         } catch (InsufficientNrOfCommandsException insufficientNrOfCommandsException) {
-            if (OUT) {
-                System.out.println(insufficientNrOfCommandsException.getMessage());
-
-                System.out.println(insufficientNrOfCommandsException.getArgsAsString());
-                System.out.println(insufficientNrOfCommandsException.getArgumentPointerString());
-            }
+            println(insufficientNrOfCommandsException.getMessage());
+            println(insufficientNrOfCommandsException.getArgsAsString());
+            println(insufficientNrOfCommandsException.getArgumentPointerString());
 
             assertEquals("A B", insufficientNrOfCommandsException.getArgsAsString());
             assertEquals("    ^", insufficientNrOfCommandsException.getArgumentPointerString());
             assertEquals(2, insufficientNrOfCommandsException.getArgumentIndex());
 
-            if (OUT) {
-                System.out.println(ArgsHelper.getArgsString(args));
-                System.out.println(insufficientNrOfCommandsException.getArgumentPointerString());
-            }
-
+            println(insufficientNrOfCommandsException.getArgsAsString());
+            println(insufficientNrOfCommandsException.getArgumentPointerString());
         }
     }
 
@@ -203,7 +197,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            fail();
+            fail("Exception expected");
         } catch (AmbiguousCommandException | IllegalCommandException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
         } catch (InsufficientNrOfCommandsException insufficientNrOfCommandsException) {
@@ -229,11 +223,11 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            fail();
+            fail("Exception expected.");
         } catch (AmbiguousCommandException | IllegalCommandException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
         } catch (InsufficientNrOfCommandsException e) {
-            if (OUT) System.out.println(e.getMessage());
+            println(e.getMessage());
             assertEquals("Insufficient number of commands. Next command is one of: [ A ].", e.getMessage());
             assertEquals(1, e.getArgumentIndex());
             assertEquals("X", e.getArgsAsString());
@@ -254,11 +248,11 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            fail();
+            fail("Exception expected.");
         } catch (AmbiguousCommandException | InsufficientNrOfCommandsException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
         } catch (IllegalCommandException e) {
-            if (OUT) System.out.println(e.getMessage());
+            println(e.getMessage());
             assertEquals("Command [A] not recognized. Possible commands are: [ E ].", e.getMessage());
             assertEquals(0, e.getArgumentIndex());
             assertEquals("A B C D", e.getArgsAsString());
@@ -279,11 +273,11 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            fail();
+            fail("Exception expected.");
         } catch (AmbiguousCommandException | InsufficientNrOfCommandsException e) {
             fail("Wrong exception thrown: " + e.getClass().getName());
         } catch (IllegalCommandException e) {
-            if (OUT) System.out.println(e.getMessage());
+            println(e.getMessage());
             assertEquals("Command [B] not recognized. Possible commands are: [ F ].", e.getMessage());
             assertEquals(1, e.getArgumentIndex());
             assertEquals("E B C D", e.getArgsAsString());
@@ -319,8 +313,8 @@ class CommandParserTest {
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
         } catch (CommandParserException e) {
-            if (OUT) e.printStackTrace();
-            fail();
+            printStacktrace(e);
+            fail(e);
         }
     }
 
@@ -351,8 +345,8 @@ class CommandParserTest {
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
         } catch (CommandParserException e) {
-            if (OUT) e.printStackTrace();
-            fail();
+            printStacktrace(e);
+            fail(e);
         }
     }
 
@@ -387,8 +381,8 @@ class CommandParserTest {
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
         } catch (CommandParserException e) {
-            if (OUT) e.printStackTrace();
-            fail();
+            printStacktrace(e);
+            fail(e);
         }
     }
 
@@ -422,8 +416,8 @@ class CommandParserTest {
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
         } catch (CommandParserException e) {
-            if (OUT) e.printStackTrace();
-            fail();
+            printStacktrace(e);
+            fail(e);
         }
     }
 
@@ -449,8 +443,9 @@ class CommandParserTest {
             assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            printStacktrace(commandParserException);
+            fail(commandParserException);
         }
     }
 
@@ -476,8 +471,9 @@ class CommandParserTest {
             assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            printStacktrace(commandParserException);
+            fail(commandParserException);
         }
     }
 
@@ -503,8 +499,9 @@ class CommandParserTest {
             assertEquals(2, argumentIterator.getIndex());
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            printStacktrace(commandParserException);
+            fail(commandParserException);
         }
     }
 
@@ -525,21 +522,18 @@ class CommandParserTest {
 
         } catch (AmbiguousCommandException e) {
 
-            if (OUT) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getArgsAsString());
-                System.out.println(e.getArgumentPointerString());
-            }
+            println(e.getMessage());
+            println(e.getArgsAsString());
+            println(e.getArgumentPointerString());
 
             assertEquals("A B C", e.getArgsAsString());
             assertEquals("^", e.getArgumentPointerString());
             // TODO Check candidates
 
         } catch (CommandParserException commandParserException) {
-            if (OUT) System.out.println(commandParserException.getMessage());
-            fail();
+            println(commandParserException.getMessage());
+            fail(commandParserException);
         }
     }
-
 
 }

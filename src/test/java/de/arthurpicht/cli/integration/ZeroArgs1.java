@@ -10,6 +10,8 @@ import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParametersVar;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.printStacktrace;
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ZeroArgs1 {
@@ -25,12 +27,12 @@ public class ZeroArgs1 {
         String[] args = {};
 
         try {
-            ParserResult parserResult = commandLineInterface.parse(args);
+            commandLineInterface.parse(args);
         } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-            System.out.println(e.getArgumentIndex());
-            fail();
+            printStacktrace(e);
+            println(e.getMessage());
+            println(e.getArgumentIndex());
+            fail(e);
         }
     }
 

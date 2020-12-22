@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CommandsTestTraceNext {
-
-    private static boolean OUT = true;
 
     @Test
     void empty_neg() {
@@ -20,7 +19,7 @@ public class CommandsTestTraceNext {
             commands.traceNext("some");
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                     exception.getMessage());
         }
     }
@@ -32,7 +31,7 @@ public class CommandsTestTraceNext {
             commands.traceNext("some");
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                     exception.getMessage());
         }
     }
@@ -44,7 +43,7 @@ public class CommandsTestTraceNext {
             commands.traceNext("some");
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                     exception.getMessage());
         }
     }
@@ -92,10 +91,8 @@ public class CommandsTestTraceNext {
 
         Set<String> commandChains = CommandsHelper.getAllCommandChains(commands);
 
-        if (OUT) {
-            for (String commandChain : commandChains) {
-                System.out.println(commandChain);
-            }
+        for (String commandChain : commandChains) {
+            println(commandChain);
         }
 
         Set<String> commandChainsExp = Sets.newHashSet(
@@ -106,10 +103,5 @@ public class CommandsTestTraceNext {
 
         assertEquals(commandChainsExp, commandChains);
     }
-
-    private static void out(String string) {
-        if (OUT) System.out.println(string);
-    }
-
 
 }

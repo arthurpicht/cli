@@ -2,6 +2,7 @@ package de.arthurpicht.cli.option;
 
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OptionsHelpStringTest {
@@ -20,11 +21,16 @@ class OptionsHelpStringTest {
 
         String helpString = options.getHelpString();
 
-        System.out.println(helpString);
+        assertEquals("-a,--all                  do not hide entries starting with .\n" +
+                "-A,--almost-all           do not list implied . and ..\n" +
+                "   --block-size <SIZE>    use SIZE-byte blocks\n" +
+                "-b,--escape               print octal escapes for nongraphic characters\n" +
+                "-B,--ignore-backups       do not hide entries starting with .\n" +
+                "-c                        with -lt: sort by, and show ctime\n" +
+                "-C                        list entries by columns", helpString);
 
 
-
-
+        println(helpString);
     }
 
 }

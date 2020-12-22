@@ -12,11 +12,10 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandsTest {
-
-    private static final boolean OUT = false;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
@@ -122,10 +121,8 @@ class CommandsTest {
 
         Set<String> commandChains = CommandsHelper.getAllCommandChains(commands);
 
-        if (OUT) {
-            for (String commandChain : commandChains) {
-                System.out.println(commandChain);
-            }
+        for (String commandChain : commandChains) {
+            println(commandChain);
         }
 
         Set<String> commandChainsExp = Sets.newHashSet(
@@ -190,7 +187,7 @@ class CommandsTest {
             fail();
         } catch (CommandSpecException e) {
             // expected
-            if (OUT) System.out.println(e.getMessage());
+            println(e.getMessage());
         }
     }
 
@@ -207,7 +204,7 @@ class CommandsTest {
             fail();
         } catch (CommandSpecException e) {
             // expected
-            if (OUT) System.out.println(e.getMessage());
+            println(e.getMessage());
         }
     }
 

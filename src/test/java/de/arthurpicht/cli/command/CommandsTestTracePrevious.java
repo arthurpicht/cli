@@ -3,12 +3,11 @@ package de.arthurpicht.cli.command;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CommandsTestTracePrevious {
-
-    private static final boolean OUT = true;
 
     @Test
     public void empty_neg() {
@@ -17,7 +16,7 @@ public class CommandsTestTracePrevious {
             commands.tracePrevious();
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                      exception.getMessage());
         }
     }
@@ -29,7 +28,7 @@ public class CommandsTestTracePrevious {
             commands.tracePrevious();
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                     exception.getMessage());
         }
     }
@@ -41,7 +40,7 @@ public class CommandsTestTracePrevious {
             commands.tracePrevious();
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                     exception.getMessage());
         }
     }
@@ -53,7 +52,7 @@ public class CommandsTestTracePrevious {
             commands.tracePrevious();
             fail();
         } catch (CLISpecificationException exception) {
-            out("Expected exception message: " +
+            println("Expected exception message: " +
                     exception.getMessage());
         }
     }
@@ -63,10 +62,5 @@ public class CommandsTestTracePrevious {
         Commands commands = new Commands().add("A").add("B").tracePrevious();
         assertEquals("A", commands.getCurrentCommand().asString());
     }
-
-    private static void out(String string) {
-        if (OUT) System.out.println(string);
-    }
-
 
 }

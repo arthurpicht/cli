@@ -66,9 +66,6 @@ class CommandMatcherTest {
 
         assertTrue(commandMatcher.getMatchingCandidates().contains(new RecognizedCommand(new OneCommand(null, "ABC"), "ABC", "A")));
         assertTrue(commandMatcher.getMatchingCandidates().contains(new RecognizedCommand(new OneCommand(null, "AXY"), "AXY", "A")));
-
     }
-
-
 
 }
