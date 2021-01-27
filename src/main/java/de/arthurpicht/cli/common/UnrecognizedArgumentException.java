@@ -25,6 +25,10 @@ public class UnrecognizedArgumentException extends Exception {
         return this.arguments.asString();
     }
 
+    public String getIndexedArgument() {
+        return this.arguments.get(this.argumentIndex);
+    }
+
     public String getArgumentPointerString() {
 
         if (this.argumentIndex < 0) return "";

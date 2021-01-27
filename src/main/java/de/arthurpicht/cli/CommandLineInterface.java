@@ -26,6 +26,7 @@ public class CommandLineInterface {
     private List<String> commandList;
     private OptionParserResult optionParserResultSpecific;
     private List<String> parameterList;
+    private CommandExecutor commandExecutor;
 
     /**
      * Initialisierung der CLI-Spezifikation. Es bestehen folgende Einschränkungen:
@@ -45,6 +46,7 @@ public class CommandLineInterface {
         this.commandList = new ArrayList<>();
         this.optionParserResultSpecific = null;
         this.parameterList = new ArrayList<>();
+        this.commandExecutor = null;
 
         checkPreconditions();
     }
@@ -53,18 +55,23 @@ public class CommandLineInterface {
 
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
+        System.out.println("CLI _ argumentIterator Index: " + argumentIterator.getIndex());
+
         if (Options.hasDefinitions(this.optionsGlobal)) {
+            System.out.println("Options.hasDefinitions!");
             OptionParser optionParserGlobal = new OptionParser(this.optionsGlobal);
             optionParserGlobal.parse(argumentIterator);
             this.optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
         }
 
         if (Commands.hasDefinitions(this.commands)) {
+            System.out.println("Commands.hasDefinitions!");
             CommandParser commandParser = new CommandParser(this.commands);
             commandParser.parse(argumentIterator);
             this.commandList = commandParser.getCommandStringList();
             this.optionsSpecific = commandParser.getSpecificOptions();
             this.parameters = commandParser.getParameters();
+            this.commandExecutor = commandParser.getCommandExecutor();
         }
 
         if (Options.hasDefinitions(this.optionsSpecific)) {
@@ -84,8 +91,29 @@ public class CommandLineInterface {
             throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
         }
 
-        return new ParserResult(args, this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList);
+        return new ParserResult(args, this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList, this.commandExecutor);
 
+    }
+
+    /**
+     * Parses specified arguments against cli specification and executes CommandExecutor, if found.
+     *
+     * @param args cli arguments
+     * @return parser result
+     * @throws UnrecognizedArgumentException
+     */
+    public ParserResult execute(String[] args) throws UnrecognizedArgumentException {
+        ParserResult parserResult = this.parse(args);
+        CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+        if (commandExecutor != null) {
+            commandExecutor.execute(
+                    parserResult.getOptionParserResultGlobal(),
+                    parserResult.getCommandList(),
+                    parserResult.getOptionParserResultSpecific(),
+                    parserResult.getParameterList()
+            );
+        }
+        return parserResult;
     }
 
     private void checkPreconditions() {
@@ -96,9 +124,9 @@ public class CommandLineInterface {
             }
         }
 
-        if (this.parameters != null && commands != null && CommandsHelper.hasOpenLeaves(this.commands)) {
-            throw new CLISpecificationException("Commands must not end open if parameters are defined.");
-        }
+//        if (this.parameters != null && commands != null && CommandsHelper.hasOpenLeaves(this.commands)) {
+//            throw new CLISpecificationException("Commands must not end open if parameters are defined.");
+//        }
     }
 
 }

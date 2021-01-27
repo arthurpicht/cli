@@ -3,6 +3,7 @@ package de.arthurpicht.cli.integration.demo;
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
 import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
@@ -19,16 +20,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Demo01 {
 
     private CommandLineInterface getCommandLineInterface() {
+
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(new Options()
                         .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v"))
                         .add(new OptionBuilder().withLongName("vv").withDescription("very verbose").build("vv"))
                         .add(new OptionBuilder().withLongName("vvv").withDescription("very very verbose").build("vvv")))
-                .withCommands(new Commands().add("adduser")
-                        .withSpecificOptions(new Options()
-                                .add(new OptionBuilder().withLongName("user").hasArgument().withDescription("username").build("user"))
-                                .add(new OptionBuilder().withLongName("password").hasArgument().withDescription("password").build("password"))))
-                .build();
+                .withCommands(new Commands()
+                        .add(new CommandSequenceBuilder()
+                                .addCommand("adduser")
+                                .withSpecificOptions(
+                                        new Options()
+                                                .add(new OptionBuilder().withLongName("user").hasArgument().withDescription("username").build("user"))
+                                                .add(new OptionBuilder().withLongName("password").hasArgument().withDescription("password").build("password"))
+                                ).build()
+                        )
+                ).build();
     }
 
     @Test

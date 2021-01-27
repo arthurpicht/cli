@@ -3,6 +3,7 @@ package de.arthurpicht.cli.integration.demo;
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
 import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
@@ -38,13 +39,9 @@ public class DemoParameters {
                 .add(new OptionBuilder().withShortName('v').withLongName("verbose").build("VERBOSE"));
 
         Commands commands = new Commands()
-                .add("add")
-                .withSpecificOptions(specificOptionsAddUser)
-                .reset().add("delete")
-                .withSpecificOptions(specificOptionsDeleteUser)
-                .reset().add("show")
-                .withSpecificOptions(specificOptionsShow)
-                .withParameters(new ParametersOne());
+                .add(new CommandSequenceBuilder().addCommand("add").withSpecificOptions(specificOptionsAddUser).build())
+                .add(new CommandSequenceBuilder().addCommand("delete").withSpecificOptions(specificOptionsDeleteUser).build())
+                .add(new CommandSequenceBuilder().addCommand("show").withSpecificOptions(specificOptionsShow).withParameters(new ParametersOne()).build());
 
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)

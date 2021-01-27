@@ -2,5 +2,5 @@ package de.arthurpicht.cli;
 
 public class TestConfig {
 
-    public static final boolean OUT = false;
+    public static final boolean OUT = true;
 }

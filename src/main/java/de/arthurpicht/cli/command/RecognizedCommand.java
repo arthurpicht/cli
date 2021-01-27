@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.tree.Command;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

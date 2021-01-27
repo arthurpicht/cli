@@ -16,13 +16,22 @@ public class ParserResult {
     private final List<String> commandList;
     private final OptionParserResult optionParserResultSpecific;
     private final List<String> parameterList;
+    private final CommandExecutor commandExecutor;
 
-    public ParserResult(String[] args, OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
+    public ParserResult(
+            String[] args,
+            OptionParserResult optionParserResultGlobal,
+            List<String> commandList,
+            OptionParserResult optionParserResultSpecific,
+            List<String> parameterList,
+            CommandExecutor commandExecutor
+    ) {
         this.args = Arrays.asList(args);
         this.optionParserResultGlobal = optionParserResultGlobal;
         this.commandList = commandList;
         this.optionParserResultSpecific = optionParserResultSpecific;
         this.parameterList = parameterList;
+        this.commandExecutor = commandExecutor;
     }
 
     public OptionParserResult getOptionParserResultGlobal() {
@@ -39,6 +48,10 @@ public class ParserResult {
 
     public List<String> getParameterList() {
         return this.parameterList != null ? this.parameterList : new ArrayList<>();
+    }
+
+    public CommandExecutor getCommandExecutor() {
+        return this.commandExecutor;
     }
 
     public void debugOut() {

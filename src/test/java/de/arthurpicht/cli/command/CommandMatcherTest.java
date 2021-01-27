@@ -1,6 +1,11 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.tree.Command;
+import de.arthurpicht.cli.command.tree.OneCommand;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,9 +14,10 @@ class CommandMatcherTest {
     @Test
     void hasMatchingCommand_plausibility_positive_1() {
 
-        Commands commands = new Commands().add("A");
+        Set<Command> commandCandidates = new HashSet<>();
+        commandCandidates.add(new OneCommand("A"));
 
-        CommandMatcher commandMatcher = new CommandMatcher(commands.getRootCommands(), "A", true);
+        CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, "A", true);
 
         assertTrue(commandMatcher.hasMatchingCommand());
         assertNotNull(commandMatcher.getMatchingCommand());
@@ -25,9 +31,10 @@ class CommandMatcherTest {
     @Test
     void hasMatchingCommand_plausibility_negative_1() {
 
-        Commands commands = new Commands().add("A");
+        Set<Command> commandCandidates = new HashSet<>();
+        commandCandidates.add(new OneCommand("A"));
 
-        CommandMatcher commandMatcher = new CommandMatcher(commands.getRootCommands(), "B", true);
+        CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, "B", true);
 
         assertFalse(commandMatcher.hasMatchingCommand());
         assertNull(commandMatcher.getMatchingCommand());
@@ -38,9 +45,10 @@ class CommandMatcherTest {
     @Test
     void abbreviation_plausibility_positive_1() {
 
-        Commands commands = new Commands().add("ABC");
+        Set<Command> commandCandidates = new HashSet<>();
+        commandCandidates.add(new OneCommand("ABC"));
 
-        CommandMatcher commandMatcher = new CommandMatcher(commands.getRootCommands(), "A", true);
+        CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, "A", true);
 
         assertTrue(commandMatcher.hasMatchingCommand());
         assertNotNull(commandMatcher.getMatchingCommand());
@@ -54,9 +62,11 @@ class CommandMatcherTest {
     @Test
     void abbreviation_plausibility_positive_2() {
 
-        Commands commands = new Commands().add("ABC").reset().add("AXY");
+        Set<Command> commandCandidates = new HashSet<>();
+        commandCandidates.add(new OneCommand("ABC"));
+        commandCandidates.add(new OneCommand("AXY"));
 
-        CommandMatcher commandMatcher = new CommandMatcher(commands.getRootCommands(), "A", true);
+        CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, "A", true);
 
         assertFalse(commandMatcher.hasMatchingCommand());
         assertNull(commandMatcher.getMatchingCommand());
@@ -64,8 +74,8 @@ class CommandMatcherTest {
         assertTrue(commandMatcher.hasCandidates());
         assertEquals(2, commandMatcher.getMatchingCandidates().size());
 
-        assertTrue(commandMatcher.getMatchingCandidates().contains(new RecognizedCommand(new OneCommand(null, "ABC"), "ABC", "A")));
-        assertTrue(commandMatcher.getMatchingCandidates().contains(new RecognizedCommand(new OneCommand(null, "AXY"), "AXY", "A")));
+        assertTrue(commandMatcher.getMatchingCandidates().contains(new RecognizedCommand(new OneCommand("ABC"), "ABC", "A")));
+        assertTrue(commandMatcher.getMatchingCandidates().contains(new RecognizedCommand(new OneCommand("AXY"), "AXY", "A")));
     }
 
 }

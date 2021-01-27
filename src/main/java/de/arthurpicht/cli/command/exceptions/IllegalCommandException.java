@@ -1,9 +1,8 @@
 package de.arthurpicht.cli.command.exceptions;
 
-import de.arthurpicht.cli.command.Command;
 import de.arthurpicht.cli.command.CommandsHelper;
+import de.arthurpicht.cli.command.tree.Command;
 import de.arthurpicht.cli.common.ArgumentIterator;
-import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 import java.util.Set;
 

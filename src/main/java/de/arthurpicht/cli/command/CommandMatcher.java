@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.command.tree.Command;
 import de.arthurpicht.utils.core.collection.Sets;
 
 import java.util.HashSet;
@@ -7,15 +8,15 @@ import java.util.Set;
 
 public class CommandMatcher {
 
-    private final Set<Command> curCommandSet;
+    private final Set<Command> commandCandidates;
     private final String arg;
     private final boolean allowAbbreviation;
 
     private RecognizedCommand matchingCommand;
     private Set<RecognizedCommand> matchingCandidates;
 
-    public CommandMatcher(Set<Command> curCommandSet, String arg, boolean allowAbbreviation) {
-        this.curCommandSet = curCommandSet;
+    public CommandMatcher(Set<Command> commandCandidates, String arg, boolean allowAbbreviation) {
+        this.commandCandidates = commandCandidates;
         this.arg = arg;
         this.allowAbbreviation = allowAbbreviation;
 
@@ -28,7 +29,7 @@ public class CommandMatcher {
 
     private void findMatchingCommand() {
 
-        for (Command command : this.curCommandSet) {
+        for (Command command : this.commandCandidates) {
 
             if (command.matches(this.arg)) {
                 this.matchingCommand = new RecognizedCommand(command, this.arg, this.arg);

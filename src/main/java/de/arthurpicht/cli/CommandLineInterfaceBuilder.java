@@ -2,7 +2,6 @@ package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.Parameters;
 
 public class CommandLineInterfaceBuilder {
 

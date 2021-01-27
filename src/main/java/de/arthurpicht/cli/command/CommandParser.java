@@ -1,13 +1,15 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.CommandExecutor;
 import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
+import de.arthurpicht.cli.command.tree.Command;
+import de.arthurpicht.cli.command.tree.CommandTreeIterator;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,14 @@ public class CommandParser extends Parser {
     private final List<String> commandStringList;
     private Options specificOptions;
     private Parameters parameters;
+    private CommandExecutor commandExecutor;
 
     public CommandParser(Commands commands) {
         this.commands = commands;
         this.commandStringList = new ArrayList<>();
         this.specificOptions = null;
         this.parameters = null;
+        this.commandExecutor = null;
     }
 
     public List<String> getCommandStringList() {
@@ -39,44 +43,55 @@ public class CommandParser extends Parser {
         return this.parameters;
     }
 
+    public CommandExecutor getCommandExecutor() {
+        return this.commandExecutor;
+    }
+
     @Override
     public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
-        Set<Command> curCommandSet = this.commands.getRootCommands();
+        // System.out.println("argumentIterator Index: " + argumentIterator.getIndex());
+
+        CommandTreeIterator commandTreeIterator = new CommandTreeIterator(this.commands);
+
+        Set<Command> commandCandidates = commandTreeIterator.getCommandCandidates();
 
         Command lastCommand = null;
 
         while (argumentIterator.hasNext()) {
 
-            if (curCommandSet.isEmpty()) {
-                this.specificOptions = lastCommand.getSpecificOptions();
-                this.parameters = lastCommand.getParameters();
+            if (commandCandidates.isEmpty()) {
+                this.specificOptions = lastCommand.getCommandTerminator().getSpecificOptions();
+                this.parameters = lastCommand.getCommandTerminator().getParameters();
+                this.commandExecutor = lastCommand.getCommandTerminator().getCommandExecutor();
                 return;
             }
 
             String curArgument = argumentIterator.getNext();
 
-            CommandMatcher commandMatcher = new CommandMatcher(curCommandSet, curArgument, true);
+            CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, curArgument, true);
             if (commandMatcher.hasMatchingCommand()) {
                 RecognizedCommand matchingCommand = commandMatcher.getMatchingCommand();
                 this.commandStringList.add(matchingCommand.getCommandName());
-                curCommandSet = matchingCommand.getCommand().getNext();
+                commandTreeIterator.stepForward(matchingCommand.getCommand());
+                commandCandidates = commandTreeIterator.getCommandCandidates();
                 lastCommand = matchingCommand.getCommand();
             } else {
                 if (commandMatcher.hasCandidates()) {
                     throw AmbiguousCommandException.createInstance(argumentIterator, commandMatcher.getMatchingCandidates());
                 } else {
-                    throw IllegalCommandException.createInstance(argumentIterator, curCommandSet);
+                    throw IllegalCommandException.createInstance(argumentIterator, commandCandidates);
                 }
             }
         }
 
-        if (!curCommandSet.isEmpty()) {
-            throw InsufficientNrOfCommandsException.createInstance(argumentIterator, curCommandSet);
+        if (!commandCandidates.isEmpty()) {
+            throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
         }
 
-        this.specificOptions = lastCommand.getSpecificOptions();
-        this.parameters = lastCommand.getParameters();
+        this.specificOptions = lastCommand.getCommandTerminator().getSpecificOptions();
+        this.parameters = lastCommand.getCommandTerminator().getParameters();
+        this.commandExecutor = lastCommand.getCommandTerminator().getCommandExecutor();
     }
 
 }

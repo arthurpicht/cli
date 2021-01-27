@@ -1,18 +1,5 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.cli.parameter.ParametersVar;
-import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.common.UnrecognizedArgumentException;
-import de.arthurpicht.cli.option.Option;
-import de.arthurpicht.cli.option.OptionParserResult;
-import de.arthurpicht.cli.option.Options;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class CommandLineInterfaceTest {
 
     // TODO for all test cases: default command with parametersVar min 0

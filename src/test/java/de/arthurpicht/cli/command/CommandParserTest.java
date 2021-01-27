@@ -18,10 +18,36 @@ import static org.junit.jupiter.api.Assertions.*;
 class CommandParserTest {
 
     @Test
+    void singleCommand() {
+
+        Commands commands = new Commands();
+        commands.add(new CommandSequenceBuilder().addCommand("A").build());
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+
+        try {
+            commandParser.parse(argumentIterator);
+            List<String> commandStringList = commandParser.getCommandStringList();
+
+            assertEquals(1, commandStringList.size());
+            assertEquals("A", commandStringList.get(0));
+            assertEquals(0, argumentIterator.getIndex());
+
+        } catch (CommandParserException commandParserException) {
+            println(commandParserException.getMessage());
+            fail(commandParserException);
+        }
+
+    }
+
+    @Test
     void parse1() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -48,7 +74,7 @@ class CommandParserTest {
     void check2() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").addOpen();
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B").addOpen().build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -72,10 +98,12 @@ class CommandParserTest {
     }
 
     @Test
-    void check3() {
+    void illegalCommand_neg() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").addOpen().addOneOf("C1", "C2", "C3");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C1").build());
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C2").build());
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C3").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -84,27 +112,19 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
-
-            assertEquals(4, commandStringList.size());
-            assertEquals("A", commandStringList.get(0));
-            assertEquals("B", commandStringList.get(1));
-            assertEquals("something", commandStringList.get(2));
-            assertEquals("C2", commandStringList.get(3));
-            assertEquals(3, argumentIterator.getIndex());
+            fail();
 
         } catch (CommandParserException commandParserException) {
-            println(commandParserException.getMessage());
-            fail(commandParserException);
+            assertTrue(commandParserException instanceof IllegalCommandException);
+            assertEquals("something", commandParserException.getIndexedArgument());
         }
     }
-
 
     @Test
     void checkFail1() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -132,7 +152,7 @@ class CommandParserTest {
     checkFail2_expect_IllegalCommandException() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -155,7 +175,7 @@ class CommandParserTest {
     void checkFail3_neg() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -187,7 +207,7 @@ class CommandParserTest {
     void checkZeroArg1_neg() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -213,7 +233,7 @@ class CommandParserTest {
     void checkZeroArg2_neg() {
 
         Commands commands = new Commands();
-        commands.add("A").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -238,7 +258,7 @@ class CommandParserTest {
     void commandNotRecognized1_neg() {
 
         Commands commands = new Commands();
-        commands.add("E").add("F");
+        commands.add(new CommandSequenceBuilder().addCommands("E", "F").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -263,7 +283,7 @@ class CommandParserTest {
     void commandNotRecognized2_neg() {
 
         Commands commands = new Commands();
-        commands.add("E").add("F");
+        commands.add(new CommandSequenceBuilder().addCommands("E", "F").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -291,7 +311,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
 
         Commands commands = new Commands();
-        commands.add("A").withSpecificOptions(optionsSpecific);
+        commands.add(new CommandSequenceBuilder().addCommand("A").withSpecificOptions(optionsSpecific).build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -324,7 +344,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
 
         Commands commands = new Commands();
-        commands.add("A").withSpecificOptions(optionsSpecific);
+        commands.add(new CommandSequenceBuilder().addCommand("A").withSpecificOptions(optionsSpecific).build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -357,7 +377,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
 
         Commands commands = new Commands();
-        commands.add("A").add("B").withSpecificOptions(optionsSpecific);
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecific).build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -392,7 +412,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('x').withLongName("x").withDescription("this is x").build("x"));
 
         Commands commands = new Commands();
-        commands.add("A").add("B").withSpecificOptions(optionsSpecific);
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecific).build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -424,7 +444,7 @@ class CommandParserTest {
     void abbreviation1() {
 
         Commands commands = new Commands();
-        commands.add("ABC").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -452,7 +472,9 @@ class CommandParserTest {
     void abbreviation2() {
 
         Commands commands = new Commands();
-        commands.addOneOf("ABC", "X", "Y").add("B").add("C");
+        commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
+        commands.add(new CommandSequenceBuilder().addCommands("X", "B", "C").build());
+        commands.add(new CommandSequenceBuilder().addCommands("Y", "B", "C").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -480,7 +502,8 @@ class CommandParserTest {
     void abbreviation3() {
 
         Commands commands = new Commands();
-        commands.add("ABC").add("B").add("C").reset().add("X").add("Z");
+        commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
+        commands.add(new CommandSequenceBuilder().addCommands("X", "Z").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -508,7 +531,9 @@ class CommandParserTest {
     void abbreviation_fail_() {
 
         Commands commands = new Commands();
-        commands.add("ABC").add("B").add("C").reset().add("AX").add("Z");
+        commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
+        commands.add(new CommandSequenceBuilder().addCommands("AX", "BB", "CC").build());
+        commands.add(new CommandSequenceBuilder().addCommands("X", "Z").build());
 
         CommandParser commandParser = new CommandParser(commands);
 
@@ -527,7 +552,10 @@ class CommandParserTest {
 
             assertEquals("A B C", e.getArgsAsString());
             assertEquals("^", e.getArgumentPointerString());
-            // TODO Check candidates
+
+            assertEquals(2, e.getMatchingCandidatesStrings().size());
+            assertTrue(e.getMatchingCandidatesStrings().contains("ABC"));
+            assertTrue(e.getMatchingCandidatesStrings().contains("AX"));
 
         } catch (CommandParserException commandParserException) {
             println(commandParserException.getMessage());

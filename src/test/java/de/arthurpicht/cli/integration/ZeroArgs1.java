@@ -2,12 +2,9 @@ package de.arthurpicht.cli.integration;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
-import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.ParametersVar;
 import org.junit.jupiter.api.Test;
 
 import static de.arthurpicht.cli.TestOut.printStacktrace;

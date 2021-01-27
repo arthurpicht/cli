@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.command.exceptions;
 
 import de.arthurpicht.cli.command.RecognizedCommand;
+import de.arthurpicht.cli.command.tree.Command;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.utils.core.strings.Strings;
@@ -12,6 +13,8 @@ import java.util.Set;
  */
 public class AmbiguousCommandException extends CommandParserException {
 
+    private Set<String> matchingCandidatesStrings;
+
     public static AmbiguousCommandException createInstance(ArgumentIterator argumentIterator, Set<RecognizedCommand> matchingCandidates) {
         String message = "Ambiguous command '" + argumentIterator.getCurrent() + "'. Possible candidates are: " + Strings.listing(RecognizedCommand.getCommandNames(matchingCandidates), ", ", "[", "]");
         return new AmbiguousCommandException(argumentIterator, message, matchingCandidates);
@@ -19,6 +22,10 @@ public class AmbiguousCommandException extends CommandParserException {
 
     private AmbiguousCommandException(ArgumentIterator argumentIterator, String message, Set<RecognizedCommand> matchingCandidates) {
         super(argumentIterator, message);
+        this.matchingCandidatesStrings = RecognizedCommand.getCommandNames(matchingCandidates);
     }
 
+    public Set<String> getMatchingCandidatesStrings() {
+        return matchingCandidatesStrings;
+    }
 }

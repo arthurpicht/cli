@@ -3,6 +3,7 @@ package de.arthurpicht.cli.integration.demo;
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
 import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
@@ -35,9 +36,8 @@ public class DemoSpecificOptions {
                 .add(new OptionBuilder().withLongName("doit").build("DOIT"));
 
         Commands commands = new Commands()
-                .add("addUser").withSpecificOptions(specificOptionsAddUser)
-                .reset()
-                .add("deleteUser").withSpecificOptions(specificOptionsDeleteUser);
+                .add(new CommandSequenceBuilder().addCommand("addUser").withSpecificOptions(specificOptionsAddUser).build())
+                .add(new CommandSequenceBuilder().addCommand("deleteUser").withSpecificOptions(specificOptionsDeleteUser).build());
 
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)

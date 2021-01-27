@@ -1,4 +1,4 @@
-package de.arthurpicht.cli.command;
+package de.arthurpicht.cli.command.tree;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +11,8 @@ import java.util.Set;
 public class OpenCommand extends Command {
 
 
-    public OpenCommand(Command previousCommand) {
-        super(previousCommand);
+    public OpenCommand() {
+        super();
     }
 
     @Override
@@ -21,8 +21,8 @@ public class OpenCommand extends Command {
     }
 
     @Override
-    public Set<String> getCommandStrings() {
-        return new HashSet<>();
+    public String getCommandString() {
+        return null;
     }
 
     @Override
