@@ -24,9 +24,11 @@ public class Commands {
     // TODO Take measures for sub-sequences ("--")
 
     private final CommandTree commandTree;
+    private DefaultCommand defaultCommand;
 
     public Commands() {
         this.commandTree = new CommandTree();
+        this.defaultCommand = null;
     }
 
     public CommandTree getCommandTree() {
@@ -61,6 +63,24 @@ public class Commands {
         return this;
     }
 
+    public Commands setDefaultCommand(DefaultCommand defaultCommand) {
+        this.defaultCommand = defaultCommand;
+        return this;
+    }
+
+    public boolean hasDefaultCommand() {
+        return this.defaultCommand != null;
+    }
+
+    public static boolean hasDefaultCommand(Commands commands) {
+        if (commands == null) return false;
+        return commands.hasDefaultCommand();
+    }
+
+    public DefaultCommand getDefaultCommand() {
+        return this.defaultCommand;
+    }
+
     public boolean isEmpty() {
         return this.commandTree.isEmpty();
     }
@@ -70,6 +90,7 @@ public class Commands {
     }
 
     public static boolean hasDefinitions(Commands commands) {
+        if (commands == null) return false;
         return !commands.isEmpty();
     }
 

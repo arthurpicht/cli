@@ -3,6 +3,8 @@ package de.arthurpicht.cli;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.CommandsHelper;
+import de.arthurpicht.cli.command.DefaultCommand;
+import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -39,6 +41,9 @@ public class CommandLineInterface {
      * @param commands
      */
     public CommandLineInterface(Options optionsGlobal, Commands commands) {
+
+        if (commands == null) throw new CLISpecificationException("No commands specified. Specify default command at least.");
+
         this.optionsGlobal = optionsGlobal;
         this.commands = commands;
 
@@ -55,23 +60,26 @@ public class CommandLineInterface {
 
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
-        System.out.println("CLI _ argumentIterator Index: " + argumentIterator.getIndex());
-
         if (Options.hasDefinitions(this.optionsGlobal)) {
-            System.out.println("Options.hasDefinitions!");
             OptionParser optionParserGlobal = new OptionParser(this.optionsGlobal);
             optionParserGlobal.parse(argumentIterator);
             this.optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
         }
 
         if (Commands.hasDefinitions(this.commands)) {
-            System.out.println("Commands.hasDefinitions!");
             CommandParser commandParser = new CommandParser(this.commands);
             commandParser.parse(argumentIterator);
             this.commandList = commandParser.getCommandStringList();
             this.optionsSpecific = commandParser.getSpecificOptions();
             this.parameters = commandParser.getParameters();
             this.commandExecutor = commandParser.getCommandExecutor();
+        } else {
+            if (Commands.hasDefaultCommand(this.commands)) {
+                DefaultCommand defaultCommand = this.commands.getDefaultCommand();
+                this.optionsSpecific = defaultCommand.getOptionsSpecific();
+                this.parameters = defaultCommand.getParameters();
+                this.commandExecutor = defaultCommand.getCommandExecutor();
+            }
         }
 
         if (Options.hasDefinitions(this.optionsSpecific)) {
@@ -118,9 +126,12 @@ public class CommandLineInterface {
 
     private void checkPreconditions() {
 
+        if (this.commands.isEmpty() && !this.commands.hasDefaultCommand())
+            throw new CLISpecificationException("Commands are specified as empty. Specify at least default command.");
+
         if (this.optionsGlobal != null && !this.optionsGlobal.isEmpty() && this.optionsSpecific != null && !this.optionsSpecific.isEmpty()) {
-            if (this.commands == null || this.commands.isEmpty()) {
-                throw new CLISpecificationException("Commands must be specified if global options and specific options are specified.");
+            if (this.commands.isEmpty()) {
+                throw new CLISpecificationException("Commands must be specified if both global options and specific options are specified.");
             }
         }
 
