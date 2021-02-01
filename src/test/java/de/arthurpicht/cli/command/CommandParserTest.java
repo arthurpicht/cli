@@ -148,8 +148,7 @@ class CommandParserTest {
     }
 
     @Test
-    void
-    checkFail2_expect_IllegalCommandException() {
+    void illegalCommandException_neg() {
 
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
@@ -172,7 +171,7 @@ class CommandParserTest {
     }
 
     @Test
-    void checkFail3_neg() {
+    void insufficientNumberOfCommands_neg() {
 
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
@@ -368,7 +367,6 @@ class CommandParserTest {
             fail(e);
         }
     }
-
 
     @Test
     void specificOptionOfCommandChain() {
