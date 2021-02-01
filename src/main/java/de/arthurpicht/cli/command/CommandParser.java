@@ -51,8 +51,6 @@ public class CommandParser extends Parser {
     @Override
     public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
-        // System.out.println("argumentIterator Index: " + argumentIterator.getIndex());
-
         CommandTreeIterator commandTreeIterator = new CommandTreeIterator(this.commands);
 
         Set<Command> commandCandidates = commandTreeIterator.getCommandCandidates();
@@ -61,11 +59,6 @@ public class CommandParser extends Parser {
         Command lastCommand = null;
 
         while (argumentIterator.hasNext()) {
-
-            if (commandCandidates.isEmpty()) {
-                setPropertiesFromFoundCommand(Objects.requireNonNull(lastCommand));
-                return;
-            }
 
             String curArgument = argumentIterator.getNext();
 
@@ -99,6 +92,12 @@ public class CommandParser extends Parser {
                     throw IllegalCommandException.createInstance(argumentIterator, commandCandidates);
                 }
             }
+
+            if (commandCandidates.isEmpty()) {
+                setPropertiesFromFoundCommand(Objects.requireNonNull(lastCommand));
+                return;
+            }
+
         }
 
         if (!commandCandidates.isEmpty()) {
@@ -108,7 +107,7 @@ public class CommandParser extends Parser {
             return;
         }
 
-        setPropertiesFromFoundCommand(lastCommand);
+        setPropertiesFromFoundCommand(Objects.requireNonNull(lastCommand));
     }
 
     private void setPropertiesFromFoundCommand(Command command) {
