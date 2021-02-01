@@ -561,4 +561,80 @@ class CommandParserTest {
         }
     }
 
+    @Test
+    void overlapShortSequence() throws CommandParserException {
+
+        Commands commands = new Commands();
+        Options optionsSpecificD = new Options()
+                .add(new OptionBuilder().withShortName('d').withLongName("doption").hasArgument().build("d"));
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C", "D").withSpecificOptions(optionsSpecificD).build());
+        Options optionsSpecificB = new Options()
+                .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A", "B"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+
+        commandParser.parse(argumentIterator);
+        List<String> commandStringList = commandParser.getCommandStringList();
+
+        assertEquals(2, commandStringList.size());
+        assertEquals("A", commandStringList.get(0));
+        assertEquals("B", commandStringList.get(1));
+        assertEquals(1, argumentIterator.getIndex());
+
+    }
+
+    @Test
+    void overlapShortSequenceWithSpecificOption() throws CommandParserException {
+
+        Commands commands = new Commands();
+        Options optionsSpecificD = new Options()
+                .add(new OptionBuilder().withShortName('d').withLongName("doption").hasArgument().build("d"));
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C", "D").withSpecificOptions(optionsSpecificD).build());
+        Options optionsSpecificB = new Options()
+                .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A", "B", "-b"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+
+        commandParser.parse(argumentIterator);
+        List<String> commandStringList = commandParser.getCommandStringList();
+
+        assertEquals(2, commandStringList.size());
+        assertEquals("A", commandStringList.get(0));
+        assertEquals("B", commandStringList.get(1));
+        assertEquals(1, argumentIterator.getIndex());
+    }
+
+    @Test
+    void overlapShortSequenceWithDoubleDash() throws CommandParserException {
+
+        Commands commands = new Commands();
+        Options optionsSpecificD = new Options()
+                .add(new OptionBuilder().withShortName('d').withLongName("doption").hasArgument().build("d"));
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C", "D").withSpecificOptions(optionsSpecificD).build());
+        Options optionsSpecificB = new Options()
+                .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
+        commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
+
+        CommandParser commandParser = new CommandParser(commands);
+
+        String[] args = {"A", "B", "--", "somethingElse"};
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+
+        commandParser.parse(argumentIterator);
+        List<String> commandStringList = commandParser.getCommandStringList();
+
+        assertEquals(2, commandStringList.size());
+        assertEquals("A", commandStringList.get(0));
+        assertEquals("B", commandStringList.get(1));
+        assertEquals(2, argumentIterator.getIndex());
+    }
+
 }

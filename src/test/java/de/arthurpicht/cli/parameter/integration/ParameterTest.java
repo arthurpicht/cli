@@ -1,4 +1,4 @@
-package de.arthurpicht.cli.integration;
+package de.arthurpicht.cli.parameter.integration;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;

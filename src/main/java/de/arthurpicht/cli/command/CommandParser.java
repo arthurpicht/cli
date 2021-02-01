@@ -13,6 +13,7 @@ import de.arthurpicht.cli.parameter.Parameters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class CommandParser extends Parser {
@@ -55,19 +56,34 @@ public class CommandParser extends Parser {
         CommandTreeIterator commandTreeIterator = new CommandTreeIterator(this.commands);
 
         Set<Command> commandCandidates = commandTreeIterator.getCommandCandidates();
+        if (commandCandidates.isEmpty()) throw new RuntimeException("CommandParser.parse must not be called with empty command tree.");
 
         Command lastCommand = null;
 
         while (argumentIterator.hasNext()) {
 
             if (commandCandidates.isEmpty()) {
-                this.specificOptions = lastCommand.getCommandTerminator().getSpecificOptions();
-                this.parameters = lastCommand.getCommandTerminator().getParameters();
-                this.commandExecutor = lastCommand.getCommandTerminator().getCommandExecutor();
+                setPropertiesFromFoundCommand(Objects.requireNonNull(lastCommand));
                 return;
             }
 
             String curArgument = argumentIterator.getNext();
+
+            if (curArgument.equals("--")) {
+                if (lastCommand != null && lastCommand.isTerminated()) {
+                    setPropertiesFromFoundCommand(lastCommand);
+                    return;
+                }
+                throw IllegalCommandException.createInstanceForDoubleDash(argumentIterator, commandCandidates);
+            }
+            if (curArgument.startsWith("-")) {
+                if (lastCommand != null && lastCommand.isTerminated()) {
+                    setPropertiesFromFoundCommand(lastCommand);
+                    argumentIterator.getPrevious();
+                    return;
+                }
+                throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+            }
 
             CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, curArgument, true);
             if (commandMatcher.hasMatchingCommand()) {
@@ -86,12 +102,19 @@ public class CommandParser extends Parser {
         }
 
         if (!commandCandidates.isEmpty()) {
-            throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+            if (lastCommand == null || !lastCommand.isTerminated())
+                throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+            setPropertiesFromFoundCommand(lastCommand);
+            return;
         }
 
-        this.specificOptions = lastCommand.getCommandTerminator().getSpecificOptions();
-        this.parameters = lastCommand.getCommandTerminator().getParameters();
-        this.commandExecutor = lastCommand.getCommandTerminator().getCommandExecutor();
+        setPropertiesFromFoundCommand(lastCommand);
+    }
+
+    private void setPropertiesFromFoundCommand(Command command) {
+        this.specificOptions = command.getCommandTerminator().getSpecificOptions();
+        this.parameters = command.getCommandTerminator().getParameters();
+        this.commandExecutor = command.getCommandTerminator().getCommandExecutor();
     }
 
 }

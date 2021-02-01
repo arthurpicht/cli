@@ -3,6 +3,7 @@ package de.arthurpicht.cli.integration;
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
+import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.command.tree.OneCommand;
@@ -37,6 +38,24 @@ public class EdgeCasesIntegrationTest {
             println(e.getArgumentPointerString());
             printStacktrace(e);
             fail(e);
+        }
+    }
+
+    @Test
+    void headingDoubleDash_NoGlobalOptions() throws UnrecognizedArgumentException {
+
+        Commands commands = new Commands();
+        commands.add(new CommandSequenceBuilder().addCommand("A").build());
+
+        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
+
+        String[] args = {"--", "A"};
+
+        try {
+            commandLineInterface.parse(args);
+            fail(IllegalCommandException.class.getSimpleName() + " expected.");
+        } catch (IllegalCommandException e) {
+            assertEquals("Double dash \"--\" not allowed here. Possible commands are: [ A ].", e.getMessage());
         }
     }
 
