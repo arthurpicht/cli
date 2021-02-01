@@ -59,4 +59,23 @@ public class EdgeCasesIntegrationTest {
         }
     }
 
+    @Test
+    void trailingDoubleDash_NoGlobalOptions() {
+
+        Commands commands = new Commands();
+        commands.add(new CommandSequenceBuilder().addCommand("A").build());
+
+        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
+
+        String[] args = {"A", "--"};
+
+        try {
+            commandLineInterface.parse(args);
+            fail(UnrecognizedArgumentException.class.getSimpleName() + " expected.");
+        } catch (UnrecognizedArgumentException e) {
+            assertEquals("Unrecognized argument: --", e.getMessage());
+        }
+    }
+
+
 }

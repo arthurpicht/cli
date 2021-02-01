@@ -32,21 +32,17 @@ public class CommandOverlap {
 
         Options optionsSpecificD = new Options()
                 .add(new OptionBuilder().withShortName('d').withLongName("doption").hasArgument().build("d"));
-        Parameters parametersD = new ParametersOne();
         CommandSequence commandSequenceD = new CommandSequenceBuilder()
                 .addCommands("A", "B", "C", "D")
                 .withSpecificOptions(optionsSpecificD)
-//                .withParameters(parametersD)
                 .build();
         commands.add(commandSequenceD);
 
         Options optionsSpecificB = new Options()
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("b"));
-        Parameters parametersB = new ParametersOne();
         CommandSequence commandSequenceB = new CommandSequenceBuilder()
                 .addCommands("A", "B")
                 .withSpecificOptions(optionsSpecificB)
-//                .withParameters(parametersB)
                 .build();
         commands.add(commandSequenceB);
 
