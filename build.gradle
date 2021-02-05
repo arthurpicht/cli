@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.arthurpicht'
-version '0.1-snapshot'
+version '0.1-alpha7'
 
 archivesBaseName = "ap-cli"
 
