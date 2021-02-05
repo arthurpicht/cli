@@ -20,6 +20,17 @@ public class InsufficientNrOfCommandsException extends CommandParserException {
                 message, validCommandSet);
     }
 
+    public static InsufficientNrOfCommandsException createInstanceWithNoCommandAsOption(ArgumentIterator argumentIterator, Set<Command> validCommandSet) {
+
+        String message = "Insufficient number of commands. Next command is one of: "
+                + CommandsHelper.toFormattedList(validCommandSet) + " or no command.";
+
+        return new InsufficientNrOfCommandsException(
+                argumentIterator.getArguments(),
+                argumentIterator.getIndex() + 1,
+                message, validCommandSet);
+    }
+
     private InsufficientNrOfCommandsException(Arguments arguments, int argumentIndex, String message, Set<Command> validCommandSet) {
         super(arguments, argumentIndex, message);
     }

@@ -76,7 +76,7 @@ public class CommandLineInterface {
         } else {
             if (Commands.hasDefaultCommand(this.commands)) {
                 DefaultCommand defaultCommand = this.commands.getDefaultCommand();
-                this.optionsSpecific = defaultCommand.getOptionsSpecific();
+                this.optionsSpecific = null;
                 this.parameters = defaultCommand.getParameters();
                 this.commandExecutor = defaultCommand.getCommandExecutor();
             }

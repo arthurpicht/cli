@@ -56,6 +56,11 @@ public class CommandParser extends Parser {
         Set<Command> commandCandidates = commandTreeIterator.getCommandCandidates();
         if (commandCandidates.isEmpty()) throw new RuntimeException("CommandParser.parse must not be called with empty command tree.");
 
+        if (!argumentIterator.hasNext() && this.commands.hasDefaultCommand()) {
+            setPropertiesFromDefaultCommand(this.commands.getDefaultCommand());
+            return;
+        }
+
         Command lastCommand = null;
 
         while (argumentIterator.hasNext()) {
@@ -75,6 +80,10 @@ public class CommandParser extends Parser {
                     argumentIterator.getPrevious();
                     return;
                 }
+                if (lastCommand != null)
+                    throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+                if (this.commands.hasDefaultCommand())
+                    throw InsufficientNrOfCommandsException.createInstanceWithNoCommandAsOption(argumentIterator, commandCandidates);
                 throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
             }
 
@@ -114,6 +123,12 @@ public class CommandParser extends Parser {
         this.specificOptions = command.getCommandTerminator().getSpecificOptions();
         this.parameters = command.getCommandTerminator().getParameters();
         this.commandExecutor = command.getCommandTerminator().getCommandExecutor();
+    }
+
+    private void setPropertiesFromDefaultCommand(DefaultCommand defaultCommand) {
+        this.specificOptions = null;
+        this.parameters = defaultCommand.getParameters();
+        this.commandExecutor = defaultCommand.getCommandExecutor();
     }
 
 }

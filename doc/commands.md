@@ -24,6 +24,10 @@ Moreover, it allows for defining command line interfaces with no commands.
 In that case, a default command must be specified whereas the definition of
 further *commands* can be omitted.
 
+In contrast to regular commands, a default command can not have specific options.
+This is because in that case, global an specific commands can not be distinguished
+syntactically.
+
 ## Command overlap
 
 Defining command sequences which overlap each other is possible. For example:
