@@ -110,7 +110,7 @@ public class CommandLineInterface {
      * @return parser result
      * @throws UnrecognizedArgumentException
      */
-    public ParserResult execute(String[] args) throws UnrecognizedArgumentException {
+    public ParserResult execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
         ParserResult parserResult = this.parse(args);
         CommandExecutor commandExecutor = parserResult.getCommandExecutor();
         if (commandExecutor != null) {

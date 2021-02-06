@@ -1,9 +1,6 @@
 package de.arthurpicht.cli.integration.demo;
 
-import de.arthurpicht.cli.CommandExecutor;
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -88,7 +85,7 @@ public class DemoCommandExecutor {
             CommandExecutor commandExecutor = parserResult.getCommandExecutor();
             assertTrue(commandExecutor instanceof AddExecutor);
 
-        } catch (UnrecognizedArgumentException e) {
+        } catch (UnrecognizedArgumentException | CommandExecutorException e) {
             e.printStackTrace();
         }
 

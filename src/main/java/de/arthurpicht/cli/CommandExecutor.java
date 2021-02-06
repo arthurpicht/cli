@@ -6,6 +6,11 @@ import java.util.List;
 
 public interface CommandExecutor {
 
-    public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList);
+    public void execute(
+            OptionParserResult optionParserResultGlobal,
+            List<String> commandList,
+            OptionParserResult optionParserResultSpecific,
+            List<String> parameterList
+    ) throws CommandExecutorException;
 
 }

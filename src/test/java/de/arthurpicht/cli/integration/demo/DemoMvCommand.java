@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.integration.demo;
 
+import de.arthurpicht.cli.CommandExecutorException;
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
 import de.arthurpicht.cli.ParserResult;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DemoMvCommand {
 
     @Test
-    public void mv() throws UnrecognizedArgumentException {
+    public void mv() throws UnrecognizedArgumentException, CommandExecutorException {
 
         DefaultCommand defaultCommand =
                 new DefaultCommandBuilder()
