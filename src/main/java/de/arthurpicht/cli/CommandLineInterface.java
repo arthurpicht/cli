@@ -7,6 +7,7 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.CLISpecificationException;
+import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParser;
 import de.arthurpicht.cli.option.OptionParserResult;
@@ -111,6 +112,9 @@ public class CommandLineInterface {
      * @throws UnrecognizedArgumentException
      */
     public ParserResult execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
+
+        if (args == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'args' is null.");
+
         ParserResult parserResult = this.parse(args);
         CommandExecutor commandExecutor = parserResult.getCommandExecutor();
         if (commandExecutor != null) {
@@ -122,6 +126,28 @@ public class CommandLineInterface {
             );
         }
         return parserResult;
+    }
+
+    /**
+     * Executes CommandExecutor for pre-parsed arguments. No action is performed if no CommandExecutor is bound
+     * to parserResult.
+     *
+     * @param parserResult
+     * @throws CommandExecutorException
+     */
+    public void execute(ParserResult parserResult) throws CommandExecutorException {
+
+        if (parserResult == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
+
+        CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+        if (commandExecutor != null) {
+            commandExecutor.execute(
+                    parserResult.getOptionParserResultGlobal(),
+                    parserResult.getCommandList(),
+                    parserResult.getOptionParserResultSpecific(),
+                    parserResult.getParameterList()
+            );
+        }
     }
 
     private void checkPreconditions() {

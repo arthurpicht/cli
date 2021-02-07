@@ -16,22 +16,38 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DemoCommandExecutor {
 
     private static class AddExecutor implements CommandExecutor {
+
+        private boolean isExecuted = false;
+
         @Override
         public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
             System.out.println("Adding the following items:");
             for (String item : parameterList) {
                 System.out.println(item);
             }
+            isExecuted = true;
+        }
+
+        public boolean isExecuted() {
+            return this.isExecuted;
         }
     }
 
     private static class DeleteExecutor implements CommandExecutor {
+
+        private boolean isExecuted = false;
+
         @Override
         public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
             System.out.println("Deleting the following items:");
             for (String item : parameterList) {
                 System.out.println(item);
             }
+            isExecuted = true;
+        }
+
+        public boolean isExecuted() {
+            return this.isExecuted;
         }
     }
 
@@ -61,7 +77,7 @@ public class DemoCommandExecutor {
     }
 
     @Test
-    public void test() {
+    public void execute() {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
 
@@ -84,11 +100,56 @@ public class DemoCommandExecutor {
 
             CommandExecutor commandExecutor = parserResult.getCommandExecutor();
             assertTrue(commandExecutor instanceof AddExecutor);
+            assertTrue(((AddExecutor) commandExecutor).isExecuted);
 
         } catch (UnrecognizedArgumentException | CommandExecutorException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    @Test
+    public void parseAndExecuteInSequence() {
+
+        CommandLineInterface commandLineInterface = getCommandLineInterface();
+
+        String[] args = {"add", "item1", "item2"};
+
+        ParserResult parserResult = null;
+
+        try {
+            parserResult = commandLineInterface.parse(args);
+
+            assertNotNull(parserResult.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = parserResult.getOptionParserResultGlobal();
+
+            assertEquals(0, optionParserResultGlobal.getSize());
+
+            List<String> commandList = parserResult.getCommandList();
+            assertEquals(1, commandList.size());
+            assertEquals("add", commandList.get(0));
+
+            OptionParserResult optionParserResultSpecific = parserResult.getOptionParserResultSpecific();
+            assertEquals(0, optionParserResultSpecific.getSize());
+
+            CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+            assertTrue(commandExecutor instanceof AddExecutor);
+            assertFalse(((AddExecutor) commandExecutor).isExecuted);
+
+        } catch (UnrecognizedArgumentException e) {
+            fail(e);
+        }
+
+        assertNotNull(parserResult);
+
+        try {
+            CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+
+            commandLineInterface.execute(parserResult);
+            assertTrue(((AddExecutor) commandExecutor).isExecuted);
+
+        } catch (CommandExecutorException e) {
+            fail(e);
+        }
+    }
+
 }
