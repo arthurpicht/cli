@@ -4,6 +4,7 @@ import de.arthurpicht.cli.command.tree.generic.UnsortedMultiBiTree;
 import de.arthurpicht.cli.command.tree.generic.UnsortedMultiBiTreeNode;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CommandTree extends UnsortedMultiBiTree<Command> {
@@ -18,6 +19,14 @@ public class CommandTree extends UnsortedMultiBiTree<Command> {
 
     public boolean isEmpty() {
         return !this.getRootNode().hasChildren();
+    }
+
+    public CommandTreeNode getNode(List<String> commandList) {
+        CommandTreeNode commandTreeNode = this.getRootNode();
+        for (String commandString : commandList) {
+            commandTreeNode = commandTreeNode.getChildByString(commandString);
+        }
+        return commandTreeNode;
     }
 
     public Set<CommandTreeNode> getTerminatedNodes() {

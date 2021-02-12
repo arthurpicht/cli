@@ -23,7 +23,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -49,7 +49,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -76,7 +76,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").addOpen().build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -105,7 +105,7 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C2").build());
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C3").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "something", "C2"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -126,7 +126,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -153,7 +153,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "D", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -176,7 +176,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -208,7 +208,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -234,7 +234,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"X"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -259,7 +259,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("E", "F").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -284,7 +284,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("E", "F").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"E", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -312,7 +312,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -345,7 +345,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "--test"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -377,7 +377,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -412,7 +412,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "--test"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -444,7 +444,7 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -474,7 +474,7 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("X", "B", "C").build());
         commands.add(new CommandSequenceBuilder().addCommands("Y", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -503,7 +503,7 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
         commands.add(new CommandSequenceBuilder().addCommands("X", "Z").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -533,7 +533,7 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("AX", "BB", "CC").build());
         commands.add(new CommandSequenceBuilder().addCommands("X", "Z").build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -572,7 +572,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -598,7 +598,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "-b"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -623,7 +623,7 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
 
-        CommandParser commandParser = new CommandParser(commands);
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
 
         String[] args = {"A", "B", "--", "somethingElse"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

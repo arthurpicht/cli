@@ -1,16 +1,20 @@
 package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.command.Commands;
+import de.arthurpicht.cli.command.DefaultCommand;
+import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.option.Options;
 
 public class CommandLineInterfaceBuilder {
 
     private Options optionsGlobal;
-    private Commands commands;
+    private CommandTree commandTree;
+    private DefaultCommand defaultCommand;
 
     public CommandLineInterfaceBuilder() {
         this.optionsGlobal = null;
-        this.commands = null;
+        this.commandTree = null;
+        this.defaultCommand = null;
     }
 
     public CommandLineInterfaceBuilder withGlobalOptions(Options options) {
@@ -19,12 +23,18 @@ public class CommandLineInterfaceBuilder {
     }
 
     public CommandLineInterfaceBuilder withCommands(Commands commands) {
-        this.commands = commands;
+        this.commandTree = commands.getCommandTree();
+        this.defaultCommand = commands.getDefaultCommand();
         return this;
     }
 
     public CommandLineInterface build() {
-        return new CommandLineInterface(this.optionsGlobal, this.commands);
+        CommandLineInterfaceDefinition commandLineInterfaceDefinition = new CommandLineInterfaceDefinition(
+                this.optionsGlobal,
+                this.commandTree,
+                this.defaultCommand
+        );
+        return new CommandLineInterface(commandLineInterfaceDefinition);
     }
 
 }

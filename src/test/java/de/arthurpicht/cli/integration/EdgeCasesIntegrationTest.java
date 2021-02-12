@@ -1,6 +1,8 @@
 package de.arthurpicht.cli.integration;
 
 import de.arthurpicht.cli.CommandLineInterface;
+import de.arthurpicht.cli.CommandLineInterfaceBuilder;
+import de.arthurpicht.cli.CommandLineInterfaceDefinition;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
@@ -26,7 +28,10 @@ public class EdgeCasesIntegrationTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
+        CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
+                .withCommands(commands);
+
+        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build();
 
         String[] args = {"A"};
 
@@ -47,7 +52,10 @@ public class EdgeCasesIntegrationTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
+        CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
+                .withCommands(commands);
+
+        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build();
 
         String[] args = {"--", "A"};
 
@@ -65,7 +73,10 @@ public class EdgeCasesIntegrationTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandLineInterface commandLineInterface = new CommandLineInterface(null, commands);
+        CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
+                .withCommands(commands);
+
+        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build();
 
         String[] args = {"A", "--"};
 

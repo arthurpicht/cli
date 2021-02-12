@@ -5,6 +5,7 @@ import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.command.tree.Command;
+import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeIterator;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Parser;
@@ -18,14 +19,18 @@ import java.util.Set;
 
 public class CommandParser extends Parser {
 
-    private final Commands commands;
+    private final CommandTree commandTree;
+    private final DefaultCommand defaultCommand;
+
     private final List<String> commandStringList;
     private Options specificOptions;
     private Parameters parameters;
     private CommandExecutor commandExecutor;
 
-    public CommandParser(Commands commands) {
-        this.commands = commands;
+    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand) {
+        this.commandTree = commandTree;
+        this.defaultCommand = defaultCommand;
+
         this.commandStringList = new ArrayList<>();
         this.specificOptions = null;
         this.parameters = null;
@@ -51,13 +56,13 @@ public class CommandParser extends Parser {
     @Override
     public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
-        CommandTreeIterator commandTreeIterator = new CommandTreeIterator(this.commands);
+        CommandTreeIterator commandTreeIterator = new CommandTreeIterator(this.commandTree);
 
         Set<Command> commandCandidates = commandTreeIterator.getCommandCandidates();
         if (commandCandidates.isEmpty()) throw new RuntimeException("CommandParser.parse must not be called with empty command tree.");
 
-        if (!argumentIterator.hasNext() && this.commands.hasDefaultCommand()) {
-            setPropertiesFromDefaultCommand(this.commands.getDefaultCommand());
+        if (!argumentIterator.hasNext() && this.defaultCommand != null) {
+            setPropertiesFromDefaultCommand(this.defaultCommand);
             return;
         }
 
@@ -82,7 +87,7 @@ public class CommandParser extends Parser {
                 }
                 if (lastCommand != null)
                     throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
-                if (this.commands.hasDefaultCommand())
+                if (this.defaultCommand != null)
                     throw InsufficientNrOfCommandsException.createInstanceWithNoCommandAsOption(argumentIterator, commandCandidates);
                 throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
             }

@@ -20,79 +20,62 @@ import java.util.List;
 
 public class CommandLineInterface {
 
-    private final Options optionsGlobal;
-    private final Commands commands;
-    private Options optionsSpecific;
-    private Parameters parameters;
+    private final CommandLineInterfaceDefinition commandLineInterfaceDefinition;
 
-    private OptionParserResult optionParserResultGlobal;
-    private List<String> commandList;
-    private OptionParserResult optionParserResultSpecific;
-    private List<String> parameterList;
-    private CommandExecutor commandExecutor;
+    public CommandLineInterface(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
 
-    /**
-     * Initialisierung der CLI-Spezifikation. Es bestehen folgende Einschränkungen:
-     * <ul>
-     *     <li>Wenn sowohl globale als auch spezifische Optionen spezifiziert sind müssen auch Commands definiert sein.</li>
-     *     <li>Wenn Parameter definiert sind, dann dürfen die Command-Spezifikationen nicht mit einem offenen Command enden.</li>
-     * </ul>
-     *
-     * @param optionsGlobal
-     * @param commands
-     */
-    public CommandLineInterface(Options optionsGlobal, Commands commands) {
+        if (commandLineInterfaceDefinition == null)
+            throw new IllegalArgumentException("Parameter 'CommandLineInterfaceDefinition' is null.");
 
-        if (commands == null) throw new CLISpecificationException("No commands specified. Specify default command at least.");
-
-        this.optionsGlobal = optionsGlobal;
-        this.commands = commands;
-
-        this.optionParserResultGlobal = null;
-        this.commandList = new ArrayList<>();
-        this.optionParserResultSpecific = null;
-        this.parameterList = new ArrayList<>();
-        this.commandExecutor = null;
-
-        checkPreconditions();
+        this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
     }
 
     public ParserResult parse(String[] args) throws UnrecognizedArgumentException {
 
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
-        if (Options.hasDefinitions(this.optionsGlobal)) {
-            OptionParser optionParserGlobal = new OptionParser(this.optionsGlobal);
+        OptionParserResult optionParserResultGlobal = null;
+        List<String> commandList = new ArrayList<>();
+        Options optionsSpecific = null;
+        OptionParserResult optionParserResultSpecific = null;
+        Parameters parameters = null;
+        List<String> parameterList = new ArrayList<>();
+        CommandExecutor commandExecutor = null;
+
+        if (this.commandLineInterfaceDefinition.hasDefinitionOfGlobalOptions()) {
+            OptionParser optionParserGlobal = new OptionParser(this.commandLineInterfaceDefinition.getGlobalOptions());
             optionParserGlobal.parse(argumentIterator);
-            this.optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
+            optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
         }
 
-        if (Commands.hasDefinitions(this.commands)) {
-            CommandParser commandParser = new CommandParser(this.commands);
+        if (this.commandLineInterfaceDefinition.hasDefinitionsOfCommands()) {
+            CommandParser commandParser = new CommandParser(
+                    this.commandLineInterfaceDefinition.getCommandTree(),
+                    this.commandLineInterfaceDefinition.getDefaultCommand());
             commandParser.parse(argumentIterator);
-            this.commandList = commandParser.getCommandStringList();
-            this.optionsSpecific = commandParser.getSpecificOptions();
-            this.parameters = commandParser.getParameters();
-            this.commandExecutor = commandParser.getCommandExecutor();
+            commandList = commandParser.getCommandStringList();
+            optionsSpecific = commandParser.getSpecificOptions();
+            parameters = commandParser.getParameters();
+            commandExecutor = commandParser.getCommandExecutor();
         } else {
-            if (Commands.hasDefaultCommand(this.commands)) {
-                DefaultCommand defaultCommand = this.commands.getDefaultCommand();
-                this.optionsSpecific = null;
-                this.parameters = defaultCommand.getParameters();
-                this.commandExecutor = defaultCommand.getCommandExecutor();
+            if (this.commandLineInterfaceDefinition.hasDefaultCommand()) {
+                DefaultCommand defaultCommand = this.commandLineInterfaceDefinition.getDefaultCommand();
+                optionsSpecific = null;
+                parameters = defaultCommand.getParameters();
+                commandExecutor = defaultCommand.getCommandExecutor();
             }
         }
 
-        if (Options.hasDefinitions(this.optionsSpecific)) {
-            OptionParser optionParserSpecific = new OptionParser(this.optionsSpecific);
+        if (Options.hasDefinitions(optionsSpecific)) {
+            OptionParser optionParserSpecific = new OptionParser(optionsSpecific);
             optionParserSpecific.parse(argumentIterator);
-            this.optionParserResultSpecific = optionParserSpecific.getOptionParserResult();
+            optionParserResultSpecific = optionParserSpecific.getOptionParserResult();
         }
 
-        if (this.parameters != null) {
-            ParameterParser parameterParser = this.parameters.getParameterParser();
+        if (parameters != null) {
+            ParameterParser parameterParser = parameters.getParameterParser();
             parameterParser.parse(argumentIterator);
-            this.parameterList = parameterParser.getParameterList();
+            parameterList = parameterParser.getParameterList();
         }
 
         if (argumentIterator.hasNext()) {
@@ -100,7 +83,7 @@ public class CommandLineInterface {
             throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
         }
 
-        return new ParserResult(args, this.optionParserResultGlobal, this.commandList, this.optionParserResultSpecific, this.parameterList, this.commandExecutor);
+        return new ParserResult(args, optionParserResultGlobal, commandList, optionParserResultSpecific, parameterList, commandExecutor);
 
     }
 
@@ -148,22 +131,6 @@ public class CommandLineInterface {
                     parserResult.getParameterList()
             );
         }
-    }
-
-    private void checkPreconditions() {
-
-        if (this.commands.isEmpty() && !this.commands.hasDefaultCommand())
-            throw new CLISpecificationException("Commands are specified as empty. Specify at least default command.");
-
-        if (this.optionsGlobal != null && !this.optionsGlobal.isEmpty() && this.optionsSpecific != null && !this.optionsSpecific.isEmpty()) {
-            if (this.commands.isEmpty()) {
-                throw new CLISpecificationException("Commands must be specified if both global options and specific options are specified.");
-            }
-        }
-
-//        if (this.parameters != null && commands != null && CommandsHelper.hasOpenLeaves(this.commands)) {
-//            throw new CLISpecificationException("Commands must not end open if parameters are defined.");
-//        }
     }
 
 }
