@@ -3,9 +3,7 @@ plugins {
 }
 
 group 'com.github.arthurpicht'
-version '0.1-alpha8'
-
-archivesBaseName = "ap-cli"
+version '0.1-alpha9-snapshot'
 
 repositories {
     mavenCentral()
