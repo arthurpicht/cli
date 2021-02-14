@@ -4,4 +4,6 @@ public abstract class Parser {
 
     public abstract void parse(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException;
 
+    public abstract ParserResult getParserResult();
+
 }

@@ -2,6 +2,7 @@ package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Arguments;
+import de.arthurpicht.cli.common.ParserResult;
 
 public class ParameterParserMany extends ParameterParser {
 

@@ -5,6 +5,7 @@ import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParserResult;
+import de.arthurpicht.cli.parameter.ParameterParserResult;
 import de.arthurpicht.cli.parameter.ParametersVar;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +21,9 @@ public class DemoCommandExecutor {
         private boolean isExecuted = false;
 
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
+        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
             System.out.println("Adding the following items:");
-            for (String item : parameterList) {
+            for (String item : parameterParserResult.getParameterList()) {
                 System.out.println(item);
             }
             isExecuted = true;
@@ -38,9 +39,9 @@ public class DemoCommandExecutor {
         private boolean isExecuted = false;
 
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
+        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
             System.out.println("Deleting the following items:");
-            for (String item : parameterList) {
+            for (String item : parameterParserResult.getParameterList()) {
                 System.out.println(item);
             }
             isExecuted = true;
@@ -64,16 +65,16 @@ public class DemoCommandExecutor {
                 new CommandSequenceBuilder()
                         .addCommands("delete")
                         .withParameters(new ParametersVar(1))
-                        .withCommandExecutor((optionParserResultGlobal, commandList, optionParserResultSpecific, parameterList) -> {
+                        .withCommandExecutor((optionParserResultGlobal, commandList, optionParserResultSpecific, parameterParserResult) -> {
                             System.out.println("Deleting the following items:");
-                            for (String item : parameterList) {
+                            for (String item : parameterParserResult.getParameterList()) {
                                 System.out.println(item);
                             }
                         })
                         .build()
         );
 
-        return new CommandLineInterfaceBuilder().withCommands(commands).build();
+        return new CommandLineInterfaceBuilder().withCommands(commands).build("test");
     }
 
     @Test
@@ -84,21 +85,22 @@ public class DemoCommandExecutor {
         String[] args = {"add", "item1", "item2"};
 
         try {
-            ParserResult parserResult = commandLineInterface.execute(args);
+            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.execute(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-            assertNotNull(parserResult.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = parserResult.getOptionParserResultGlobal();
+            assertNotNull(commandLineInterfaceResult.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = commandLineInterfaceResult.getOptionParserResultGlobal();
 
             assertEquals(0, optionParserResultGlobal.getSize());
 
-            List<String> commandList = parserResult.getCommandList();
+            List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
             assertEquals(1, commandList.size());
             assertEquals("add", commandList.get(0));
 
-            OptionParserResult optionParserResultSpecific = parserResult.getOptionParserResultSpecific();
+            OptionParserResult optionParserResultSpecific = commandLineInterfaceResult.getOptionParserResultSpecific();
             assertEquals(0, optionParserResultSpecific.getSize());
 
-            CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+            CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
             assertTrue(commandExecutor instanceof AddExecutor);
             assertTrue(((AddExecutor) commandExecutor).isExecuted);
 
@@ -114,24 +116,25 @@ public class DemoCommandExecutor {
 
         String[] args = {"add", "item1", "item2"};
 
-        ParserResult parserResult = null;
+        CommandLineInterfaceCall commandLineInterfaceCall = null;
 
         try {
-            parserResult = commandLineInterface.parse(args);
+            commandLineInterfaceCall = commandLineInterface.parse(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-            assertNotNull(parserResult.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = parserResult.getOptionParserResultGlobal();
+            assertNotNull(commandLineInterfaceResult.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = commandLineInterfaceResult.getOptionParserResultGlobal();
 
             assertEquals(0, optionParserResultGlobal.getSize());
 
-            List<String> commandList = parserResult.getCommandList();
+            List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
             assertEquals(1, commandList.size());
             assertEquals("add", commandList.get(0));
 
-            OptionParserResult optionParserResultSpecific = parserResult.getOptionParserResultSpecific();
+            OptionParserResult optionParserResultSpecific = commandLineInterfaceResult.getOptionParserResultSpecific();
             assertEquals(0, optionParserResultSpecific.getSize());
 
-            CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+            CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
             assertTrue(commandExecutor instanceof AddExecutor);
             assertFalse(((AddExecutor) commandExecutor).isExecuted);
 
@@ -139,12 +142,12 @@ public class DemoCommandExecutor {
             fail(e);
         }
 
-        assertNotNull(parserResult);
+        assertNotNull(commandLineInterfaceCall);
 
         try {
-            CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+            CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult().getCommandExecutor();
 
-            commandLineInterface.execute(parserResult);
+            commandLineInterface.execute(commandLineInterfaceCall);
             assertTrue(((AddExecutor) commandExecutor).isExecuted);
 
         } catch (CommandExecutorException e) {

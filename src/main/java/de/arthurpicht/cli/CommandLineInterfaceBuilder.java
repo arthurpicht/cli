@@ -28,8 +28,9 @@ public class CommandLineInterfaceBuilder {
         return this;
     }
 
-    public CommandLineInterface build() {
+    public CommandLineInterface build(String executableName) {
         CommandLineInterfaceDefinition commandLineInterfaceDefinition = new CommandLineInterfaceDefinition(
+                executableName,
                 this.optionsGlobal,
                 this.commandTree,
                 this.defaultCommand

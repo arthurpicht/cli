@@ -26,7 +26,7 @@ public class OptionParserBasicTest {
 
         assertEquals(0, argumentIterator.getIndex());
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -48,7 +48,7 @@ public class OptionParserBasicTest {
 
         assertEquals(0, argumentIterator.getIndex());
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -70,7 +70,7 @@ public class OptionParserBasicTest {
 
         assertEquals(0, argumentIterator.getIndex());
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -92,7 +92,7 @@ public class OptionParserBasicTest {
 
         assertEquals(0, argumentIterator.getIndex());
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -114,7 +114,7 @@ public class OptionParserBasicTest {
 
         assertEquals(0, argumentIterator.getIndex());
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -136,7 +136,7 @@ public class OptionParserBasicTest {
 
         assertEquals(0, argumentIterator.getIndex());
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 

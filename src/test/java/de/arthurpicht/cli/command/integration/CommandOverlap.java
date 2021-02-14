@@ -2,7 +2,8 @@ package de.arthurpicht.cli.command.integration;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.CommandLineInterfaceCall;
+import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.CommandSequence;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
@@ -11,8 +12,6 @@ import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.cli.parameter.ParametersOne;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -46,7 +45,7 @@ public class CommandOverlap {
                 .build();
         commands.add(commandSequenceB);
 
-        return new CommandLineInterfaceBuilder().withGlobalOptions(globalOptions).withCommands(commands).build();
+        return new CommandLineInterfaceBuilder().withGlobalOptions(globalOptions).withCommands(commands).build("test");
     }
 
     @Test
@@ -54,12 +53,13 @@ public class CommandOverlap {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
         String[] args = {"A", "B", "C", "D"};
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(Arrays.asList(args), parserResult.getCommandList());
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(parserResult.getParameterList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(Arrays.asList(args), commandLineInterfaceCall.getCommandList());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
     }
 
     @Test
@@ -67,12 +67,13 @@ public class CommandOverlap {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
         String[] args = {"A", "B"};
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(Arrays.asList(args), parserResult.getCommandList());
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(parserResult.getParameterList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(Arrays.asList(args), commandLineInterfaceCall.getCommandList());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
     }
 
     @Test
@@ -80,14 +81,15 @@ public class CommandOverlap {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
         String[] args = {"A", "B", "-b", "value"};
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(List.of("A", "B"), parserResult.getCommandList());
-        assertEquals(1, parserResult.getOptionParserResultSpecific().getSize());
-        assertTrue(parserResult.getOptionParserResultSpecific().hasOption("b"));
-        assertEquals("value", parserResult.getOptionParserResultSpecific().getValue("b"));
-        assertTrue(parserResult.getParameterList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(List.of("A", "B"), commandLineInterfaceCall.getCommandList());
+        assertEquals(1, commandLineInterfaceResult.getOptionParserResultSpecific().getSize());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().hasOption("b"));
+        assertEquals("value", commandLineInterfaceResult.getOptionParserResultSpecific().getValue("b"));
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
     }
 
     @Test
@@ -95,14 +97,15 @@ public class CommandOverlap {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
         String[] args = {"A", "B", "--", "-b", "value"};
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(List.of("A", "B"), parserResult.getCommandList());
-        assertEquals(1, parserResult.getOptionParserResultSpecific().getSize());
-        assertTrue(parserResult.getOptionParserResultSpecific().hasOption("b"));
-        assertEquals("value", parserResult.getOptionParserResultSpecific().getValue("b"));
-        assertTrue(parserResult.getParameterList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(List.of("A", "B"), commandLineInterfaceCall.getCommandList());
+        assertEquals(1, commandLineInterfaceResult.getOptionParserResultSpecific().getSize());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().hasOption("b"));
+        assertEquals("value", commandLineInterfaceResult.getOptionParserResultSpecific().getValue("b"));
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
     }
 
     @Test

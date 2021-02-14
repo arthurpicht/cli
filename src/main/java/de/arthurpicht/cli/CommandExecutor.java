@@ -1,6 +1,7 @@
 package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.option.OptionParserResult;
+import de.arthurpicht.cli.parameter.ParameterParserResult;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface CommandExecutor {
             OptionParserResult optionParserResultGlobal,
             List<String> commandList,
             OptionParserResult optionParserResultSpecific,
-            List<String> parameterList
+            ParameterParserResult parameterParserResult
     ) throws CommandExecutorException;
 
 }

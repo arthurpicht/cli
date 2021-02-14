@@ -2,7 +2,8 @@ package de.arthurpicht.cli.integration.demo;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.CommandLineInterfaceCall;
+import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -35,7 +36,7 @@ public class Demo01 {
                                                 .add(new OptionBuilder().withLongName("password").hasArgument().withDescription("password").build("password"))
                                 ).build()
                         )
-                ).build();
+                ).build("test");
     }
 
     @Test
@@ -46,10 +47,11 @@ public class Demo01 {
         String[] args = {"-v", "adduser", "--user", "Joe", "--password", "supersecret"};
 
         try {
-            ParserResult parserResult = commandLineInterface.parse(args);
+            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-            assertNotNull(parserResult.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = parserResult.getOptionParserResultGlobal();
+            assertNotNull(commandLineInterfaceResult.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = commandLineInterfaceResult.getOptionParserResultGlobal();
 
             assertEquals(1, optionParserResultGlobal.getSize());
 
@@ -57,11 +59,11 @@ public class Demo01 {
             assertFalse(optionParserResultGlobal.hasOption("vv"));
             assertFalse(optionParserResultGlobal.hasOption("vvv"));
 
-            List<String> commandList = parserResult.getCommandList();
+            List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
             assertEquals(1, commandList.size());
             assertEquals("adduser", commandList.get(0));
 
-            OptionParserResult optionParserResultSpecific = parserResult.getOptionParserResultSpecific();
+            OptionParserResult optionParserResultSpecific = commandLineInterfaceResult.getOptionParserResultSpecific();
             assertEquals(2, optionParserResultSpecific.getSize());
             assertTrue(optionParserResultSpecific.hasOption("user"));
             assertEquals("Joe", optionParserResultSpecific.getValue("user"));

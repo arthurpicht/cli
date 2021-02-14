@@ -2,7 +2,8 @@ package de.arthurpicht.cli.integration.demo;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.CommandLineInterfaceCall;
+import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -42,7 +43,7 @@ public class DemoSpecificOptions {
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .build();
+                .build("test");
     }
 
     @Test
@@ -52,15 +53,16 @@ public class DemoSpecificOptions {
 
         String[] args = {"addUser"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
         assertEquals(1, commandList.size());
         assertEquals("addUser", commandList.get(0));
 
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
     }
 
     @Test
@@ -70,18 +72,19 @@ public class DemoSpecificOptions {
 
         String[] args = {"-d", "addUser"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        OptionParserResult optionParserResult = parserResult.getOptionParserResultGlobal();
+        OptionParserResult optionParserResult = commandLineInterfaceResult.getOptionParserResultGlobal();
         assertFalse(optionParserResult.isEmpty());
         assertEquals(optionParserResult.getSize(), 1);
         assertTrue(optionParserResult.hasOption("DEBUG"));
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
         assertEquals(1, commandList.size());
         assertEquals("addUser", commandList.get(0));
 
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
     }
 
     @Test
@@ -91,18 +94,19 @@ public class DemoSpecificOptions {
 
         String[] args = {"-d", "addUser", "--username", "dummy", "--password", "topsecret"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        OptionParserResult optionParserResult = parserResult.getOptionParserResultGlobal();
+        OptionParserResult optionParserResult = commandLineInterfaceResult.getOptionParserResultGlobal();
         assertFalse(optionParserResult.isEmpty());
         assertEquals(optionParserResult.getSize(), 1);
         assertTrue(optionParserResult.hasOption("DEBUG"));
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
         assertEquals(1, commandList.size());
         assertEquals("addUser", commandList.get(0));
 
-        OptionParserResult optionParserResultSpecific = parserResult.getOptionParserResultSpecific();
+        OptionParserResult optionParserResultSpecific = commandLineInterfaceResult.getOptionParserResultSpecific();
         assertFalse(optionParserResultSpecific.isEmpty());
         assertEquals(2, optionParserResultSpecific.getSize());
         assertTrue(optionParserResultSpecific.hasOption("USERNAME"));
@@ -118,16 +122,17 @@ public class DemoSpecificOptions {
 
         String[] args = {"deleteUser", "--username", "dummy", "--doit"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        OptionParserResult optionParserResult = parserResult.getOptionParserResultGlobal();
+        OptionParserResult optionParserResult = commandLineInterfaceResult.getOptionParserResultGlobal();
         assertTrue(optionParserResult.isEmpty());
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
         assertEquals(1, commandList.size());
         assertEquals("deleteUser", commandList.get(0));
 
-        OptionParserResult optionParserResultSpecific = parserResult.getOptionParserResultSpecific();
+        OptionParserResult optionParserResultSpecific = commandLineInterfaceResult.getOptionParserResultSpecific();
         assertFalse(optionParserResultSpecific.isEmpty());
         assertEquals(2, optionParserResultSpecific.getSize());
         assertTrue(optionParserResultSpecific.hasOption("USERNAME"));

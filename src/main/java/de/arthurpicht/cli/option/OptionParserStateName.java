@@ -38,7 +38,7 @@ public class OptionParserStateName extends OptionParserState {
             return new OptionParserStateValue(this.options, this.optionParser, option);
         }
 
-        OptionParserResult optionParserResult = this.optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = this.optionParser.getParserResult();
         optionParserResult.addOption(option);
 
         return new OptionParserStateName(this.options, this.optionParser);

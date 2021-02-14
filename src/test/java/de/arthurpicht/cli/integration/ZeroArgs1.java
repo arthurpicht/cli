@@ -2,17 +2,16 @@ package de.arthurpicht.cli.integration;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.CommandLineInterfaceCall;
+import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.DefaultCommand;
-import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
 import org.junit.jupiter.api.Test;
 
-import static de.arthurpicht.cli.TestOut.printStacktrace;
 import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,17 +24,18 @@ public class ZeroArgs1 {
                 .withGlobalOptions(new Options()
                         .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v")))
                 .withCommands(new Commands().setDefaultCommand(new DefaultCommand(null, null)))
-                .build();
+                .build("test");
 
         String[] args = {};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertTrue(parserResult.getCommandList().isEmpty());
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(parserResult.getParameterList().isEmpty());
-        assertNull(parserResult.getCommandExecutor());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(commandLineInterfaceResult.getCommandParserResult().getCommandStringList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
+        assertNull(commandLineInterfaceResult.getCommandParserResult().getCommandExecutor());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ZeroArgs1 {
             new CommandLineInterfaceBuilder()
                     .withGlobalOptions(new Options()
                             .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v")))
-                    .build();
+                    .build("test");
 
             fail(CLISpecificationException.class.getSimpleName() + " expected");
 

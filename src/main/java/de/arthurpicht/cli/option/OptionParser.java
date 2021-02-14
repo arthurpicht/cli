@@ -14,9 +14,11 @@ public class OptionParser extends Parser {
         this.optionParserResult = new OptionParserResult();
     }
 
-    public OptionParserResult getOptionParserResult() {
+    @Override
+    public OptionParserResult getParserResult() {
         return this.optionParserResult;
     }
+
 
     @Override
     public void parse(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException {

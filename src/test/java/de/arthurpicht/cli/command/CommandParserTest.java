@@ -30,7 +30,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -56,7 +56,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -83,7 +83,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -133,9 +133,9 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
-            assertEquals(3, commandParser.getCommandStringList().size());
+            assertEquals(3, commandParser.getParserResult().getCommandStringList().size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
@@ -320,13 +320,13 @@ class CommandParserTest {
         try {
             commandParser.parse(argumentIterator);
 
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals(0, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
@@ -352,13 +352,13 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals(0, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
@@ -385,14 +385,14 @@ class CommandParserTest {
         try {
             commandParser.parse(argumentIterator);
 
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(2, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals(1, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
 
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
@@ -420,7 +420,7 @@ class CommandParserTest {
         try {
             commandParser.parse(argumentIterator);
 
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(2, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -428,7 +428,7 @@ class CommandParserTest {
 
             assertEquals(1, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getSpecificOptions();
+            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
@@ -451,7 +451,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
@@ -481,7 +481,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
@@ -510,7 +510,7 @@ class CommandParserTest {
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getCommandStringList();
+            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
@@ -578,7 +578,7 @@ class CommandParserTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         commandParser.parse(argumentIterator);
-        List<String> commandStringList = commandParser.getCommandStringList();
+        List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
         assertEquals(2, commandStringList.size());
         assertEquals("A", commandStringList.get(0));
@@ -604,7 +604,7 @@ class CommandParserTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         commandParser.parse(argumentIterator);
-        List<String> commandStringList = commandParser.getCommandStringList();
+        List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
         assertEquals(2, commandStringList.size());
         assertEquals("A", commandStringList.get(0));
@@ -629,7 +629,7 @@ class CommandParserTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         commandParser.parse(argumentIterator);
-        List<String> commandStringList = commandParser.getCommandStringList();
+        List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
         assertEquals(2, commandStringList.size());
         assertEquals("A", commandStringList.get(0));

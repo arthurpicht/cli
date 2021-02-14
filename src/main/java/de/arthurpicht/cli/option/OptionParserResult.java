@@ -1,10 +1,12 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.common.ParserResult;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class OptionParserResult {
+public class OptionParserResult implements ParserResult {
 
     private Map<String, OptionParserResultBean> optionParserResultBeanMap;
 

@@ -23,7 +23,7 @@ class OptionParserOptionsMixedOptionsTest {
         try {
             OptionParser optionParser = new OptionParser(getOptions());
             optionParser.parse(argumentIterator);
-            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+            OptionParserResult optionParserResult = optionParser.getParserResult();
 
             assertEquals(0, optionParserResult.getSize());
             assertEquals(-1, argumentIterator.getIndex());
@@ -43,7 +43,7 @@ class OptionParserOptionsMixedOptionsTest {
         try {
             OptionParser optionParser = new OptionParser(getOptions());
             optionParser.parse(argumentIterator);
-            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+            OptionParserResult optionParserResult = optionParser.getParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
@@ -68,7 +68,7 @@ class OptionParserOptionsMixedOptionsTest {
         try {
             OptionParser optionParser = new OptionParser(getOptions());
             optionParser.parse(argumentIterator);
-            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+            OptionParserResult optionParserResult = optionParser.getParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
@@ -93,7 +93,7 @@ class OptionParserOptionsMixedOptionsTest {
         try {
             OptionParser optionParser = new OptionParser(getOptions());
             optionParser.parse(argumentIterator);
-            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+            OptionParserResult optionParserResult = optionParser.getParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
@@ -118,7 +118,7 @@ class OptionParserOptionsMixedOptionsTest {
         try {
             OptionParser optionParser = new OptionParser(getOptions());
             optionParser.parse(argumentIterator);
-            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+            OptionParserResult optionParserResult = optionParser.getParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 
@@ -144,7 +144,7 @@ class OptionParserOptionsMixedOptionsTest {
 
             OptionParser optionParser = new OptionParser(getOptions());
             optionParser.parse(argumentIterator);
-            OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+            OptionParserResult optionParserResult = optionParser.getParserResult();
 
             assertEquals(2, optionParserResult.getSize());
 

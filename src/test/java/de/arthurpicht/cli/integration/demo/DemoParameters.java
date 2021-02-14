@@ -2,7 +2,8 @@ package de.arthurpicht.cli.integration.demo;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
+import de.arthurpicht.cli.CommandLineInterfaceCall;
+import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -46,7 +47,7 @@ public class DemoParameters {
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .build();
+                .build("test");
     }
 
     @Test
@@ -56,15 +57,16 @@ public class DemoParameters {
 
         String[] args = {"add"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("add", commandList.get(0));
 
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
     }
 
     @Test
@@ -90,18 +92,19 @@ public class DemoParameters {
 
         String[] args = {"show", "123"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("show", commandList.get(0));
 
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
 
-        assertEquals(1, parserResult.getParameterList().size());
-        assertEquals("123", parserResult.getParameterList().get(0));
+        assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+        assertEquals("123", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
@@ -111,20 +114,21 @@ public class DemoParameters {
 
         String[] args = {"-d", "show", "123"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertFalse(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertTrue(parserResult.getOptionParserResultGlobal().hasOption("DEBUG"));
-        assertEquals(1, parserResult.getOptionParserResultGlobal().getSize());
+        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("DEBUG"));
+        assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("show", commandList.get(0));
 
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
 
-        assertEquals(1, parserResult.getParameterList().size());
-        assertEquals("123", parserResult.getParameterList().get(0));
+        assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+        assertEquals("123", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
@@ -134,22 +138,23 @@ public class DemoParameters {
 
         String[] args = {"-d", "show", "-v", "123"};
 
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertFalse(parserResult.getOptionParserResultGlobal().isEmpty());
-        assertTrue(parserResult.getOptionParserResultGlobal().hasOption("DEBUG"));
-        assertEquals(1, parserResult.getOptionParserResultGlobal().getSize());
+        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("DEBUG"));
+        assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
 
-        List<String> commandList = parserResult.getCommandList();
+        List<String> commandList = commandLineInterfaceCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("show", commandList.get(0));
 
-        assertFalse(parserResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(parserResult.getOptionParserResultSpecific().hasOption("VERBOSE"));
-        assertEquals(1, parserResult.getOptionParserResultSpecific().getSize());
+        assertFalse(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().hasOption("VERBOSE"));
+        assertEquals(1, commandLineInterfaceResult.getOptionParserResultSpecific().getSize());
 
-        assertEquals(1, parserResult.getParameterList().size());
-        assertEquals("123", parserResult.getParameterList().get(0));
+        assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+        assertEquals("123", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test

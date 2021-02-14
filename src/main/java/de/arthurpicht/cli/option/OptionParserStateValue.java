@@ -20,7 +20,7 @@ public class OptionParserStateValue extends OptionParserState {
             throw ValueExpectedException.forPreviousArgument(argumentIterator);
         }
 
-        OptionParserResult optionParserResult = optionParser.getOptionParserResult();
+        OptionParserResult optionParserResult = optionParser.getParserResult();
         optionParserResult.addOption(this.option, arg);
 
         return new OptionParserStateName(this.options, this.optionParser);

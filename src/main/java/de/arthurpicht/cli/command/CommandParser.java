@@ -37,20 +37,30 @@ public class CommandParser extends Parser {
         this.commandExecutor = null;
     }
 
-    public List<String> getCommandStringList() {
-        return this.commandStringList;
-    }
+//    public List<String> getCommandStringList() {
+//        return this.commandStringList;
+//    }
+//
+//    public Options getSpecificOptions() {
+//        return this.specificOptions != null ? this.specificOptions : new Options();
+//    }
+//
+//    public Parameters getParameters() {
+//        return this.parameters;
+//    }
+//
+//    public CommandExecutor getCommandExecutor() {
+//        return this.commandExecutor;
+//    }
 
-    public Options getSpecificOptions() {
-        return this.specificOptions != null ? this.specificOptions : new Options();
-    }
-
-    public Parameters getParameters() {
-        return this.parameters;
-    }
-
-    public CommandExecutor getCommandExecutor() {
-        return this.commandExecutor;
+    @Override
+    public CommandParserResult getParserResult() {
+        return new CommandParserResult(
+                this.commandStringList,
+                this.specificOptions,
+                this.parameters,
+                this.commandExecutor
+        );
     }
 
     @Override

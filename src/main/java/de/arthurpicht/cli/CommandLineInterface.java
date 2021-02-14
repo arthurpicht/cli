@@ -1,18 +1,15 @@
 package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.command.CommandParser;
-import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.command.CommandsHelper;
+import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.command.DefaultCommand;
-import de.arthurpicht.cli.command.exceptions.CommandSpecException;
 import de.arthurpicht.cli.common.ArgumentIterator;
-import de.arthurpicht.cli.common.CLISpecificationException;
-import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParser;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParameterParser;
+import de.arthurpicht.cli.parameter.ParameterParserResult;
 import de.arthurpicht.cli.parameter.Parameters;
 
 import java.util.ArrayList;
@@ -30,52 +27,51 @@ public class CommandLineInterface {
         this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
     }
 
-    public ParserResult parse(String[] args) throws UnrecognizedArgumentException {
+    public CommandLineInterfaceCall parse(String[] args) throws UnrecognizedArgumentException {
 
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
-        OptionParserResult optionParserResultGlobal = null;
-        List<String> commandList = new ArrayList<>();
-        Options optionsSpecific = null;
-        OptionParserResult optionParserResultSpecific = null;
-        Parameters parameters = null;
-        List<String> parameterList = new ArrayList<>();
-        CommandExecutor commandExecutor = null;
+        OptionParserResult optionParserResultGlobal = new OptionParserResult();
+        CommandParserResult commandParserResult = new CommandParserResult();
+        OptionParserResult optionParserResultSpecific = new OptionParserResult();
+        ParameterParserResult parameterParserResult = new ParameterParserResult();
 
-        if (this.commandLineInterfaceDefinition.hasDefinitionOfGlobalOptions()) {
+        if (this.commandLineInterfaceDefinition.hasGlobalOptions()) {
             OptionParser optionParserGlobal = new OptionParser(this.commandLineInterfaceDefinition.getGlobalOptions());
             optionParserGlobal.parse(argumentIterator);
-            optionParserResultGlobal = optionParserGlobal.getOptionParserResult();
+            optionParserResultGlobal = optionParserGlobal.getParserResult();
         }
 
-        if (this.commandLineInterfaceDefinition.hasDefinitionsOfCommands()) {
+        if (this.commandLineInterfaceDefinition.hasCommands()) {
             CommandParser commandParser = new CommandParser(
                     this.commandLineInterfaceDefinition.getCommandTree(),
                     this.commandLineInterfaceDefinition.getDefaultCommand());
             commandParser.parse(argumentIterator);
-            commandList = commandParser.getCommandStringList();
-            optionsSpecific = commandParser.getSpecificOptions();
-            parameters = commandParser.getParameters();
-            commandExecutor = commandParser.getCommandExecutor();
+            commandParserResult = commandParser.getParserResult();
         } else {
             if (this.commandLineInterfaceDefinition.hasDefaultCommand()) {
                 DefaultCommand defaultCommand = this.commandLineInterfaceDefinition.getDefaultCommand();
-                optionsSpecific = null;
-                parameters = defaultCommand.getParameters();
-                commandExecutor = defaultCommand.getCommandExecutor();
+                commandParserResult = new CommandParserResult(
+                        new ArrayList<>(),
+                        null,
+                        defaultCommand.getParameters(),
+                        defaultCommand.getCommandExecutor()
+                );
             }
         }
 
-        if (Options.hasDefinitions(optionsSpecific)) {
+        if (commandParserResult.hasSpecificOptions()) {
+            Options optionsSpecific = commandParserResult.getSpecificOptions();
             OptionParser optionParserSpecific = new OptionParser(optionsSpecific);
             optionParserSpecific.parse(argumentIterator);
-            optionParserResultSpecific = optionParserSpecific.getOptionParserResult();
+            optionParserResultSpecific = optionParserSpecific.getParserResult();
         }
 
-        if (parameters != null) {
+        if (commandParserResult.hasParameters()) {
+            Parameters parameters = commandParserResult.getParameters();
             ParameterParser parameterParser = parameters.getParameterParser();
             parameterParser.parse(argumentIterator);
-            parameterList = parameterParser.getParameterList();
+            parameterParserResult = parameterParser.getParserResult();
         }
 
         if (argumentIterator.hasNext()) {
@@ -83,8 +79,19 @@ public class CommandLineInterface {
             throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
         }
 
-        return new ParserResult(args, optionParserResultGlobal, commandList, optionParserResultSpecific, parameterList, commandExecutor);
+        CommandLineInterfaceResult commandLineInterfaceResult = new CommandLineInterfaceResult(
+                optionParserResultGlobal,
+                commandParserResult,
+                optionParserResultSpecific,
+                parameterParserResult,
+                commandParserResult.getCommandExecutor()
+        );
 
+        return new CommandLineInterfaceCall(
+                args,
+                this.commandLineInterfaceDefinition,
+                commandLineInterfaceResult
+        );
     }
 
     /**
@@ -94,41 +101,44 @@ public class CommandLineInterface {
      * @return parser result
      * @throws UnrecognizedArgumentException
      */
-    public ParserResult execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
+    public CommandLineInterfaceCall execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
 
         if (args == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'args' is null.");
 
-        ParserResult parserResult = this.parse(args);
-        CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+        CommandLineInterfaceCall commandLineInterfaceCall = this.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
         if (commandExecutor != null) {
             commandExecutor.execute(
-                    parserResult.getOptionParserResultGlobal(),
-                    parserResult.getCommandList(),
-                    parserResult.getOptionParserResultSpecific(),
-                    parserResult.getParameterList()
+                    commandLineInterfaceResult.getOptionParserResultGlobal(),
+                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
+                    commandLineInterfaceResult.getOptionParserResultSpecific(),
+                    commandLineInterfaceResult.getParameterParserResult()
             );
         }
-        return parserResult;
+        return commandLineInterfaceCall;
     }
 
     /**
      * Executes CommandExecutor for pre-parsed arguments. No action is performed if no CommandExecutor is bound
      * to parserResult.
      *
-     * @param parserResult
+     * @param commandLineInterfaceCall
      * @throws CommandExecutorException
      */
-    public void execute(ParserResult parserResult) throws CommandExecutorException {
+    public void execute(CommandLineInterfaceCall commandLineInterfaceCall) throws CommandExecutorException {
 
-        if (parserResult == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
+        if (commandLineInterfaceCall == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
 
-        CommandExecutor commandExecutor = parserResult.getCommandExecutor();
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
+
         if (commandExecutor != null) {
             commandExecutor.execute(
-                    parserResult.getOptionParserResultGlobal(),
-                    parserResult.getCommandList(),
-                    parserResult.getOptionParserResultSpecific(),
-                    parserResult.getParameterList()
+                    commandLineInterfaceResult.getOptionParserResultGlobal(),
+                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
+                    commandLineInterfaceResult.getOptionParserResultSpecific(),
+                    commandLineInterfaceResult.getParameterParserResult()
             );
         }
     }

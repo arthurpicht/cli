@@ -31,7 +31,7 @@ public class EdgeCasesIntegrationTest {
         CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
                 .withCommands(commands);
 
-        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build();
+        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build("test");
 
         String[] args = {"A"};
 
@@ -55,7 +55,7 @@ public class EdgeCasesIntegrationTest {
         CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
                 .withCommands(commands);
 
-        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build();
+        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build("test");
 
         String[] args = {"--", "A"};
 
@@ -76,7 +76,7 @@ public class EdgeCasesIntegrationTest {
         CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
                 .withCommands(commands);
 
-        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build();
+        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build("test");
 
         String[] args = {"A", "--"};
 

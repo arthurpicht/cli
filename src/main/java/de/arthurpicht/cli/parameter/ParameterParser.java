@@ -14,6 +14,12 @@ public abstract class ParameterParser extends Parser {
         this.parameterList = new ArrayList<>();
     }
 
+    @Override
+    public ParameterParserResult getParserResult() {
+        return new ParameterParserResult(this.parameterList);
+    }
+
+    @Deprecated
     public List<String> getParameterList() {
         return this.parameterList;
     }

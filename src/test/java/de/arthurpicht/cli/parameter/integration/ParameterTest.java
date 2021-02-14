@@ -1,9 +1,6 @@
 package de.arthurpicht.cli.parameter.integration;
 
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
-import de.arthurpicht.cli.TestOut;
+import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -28,7 +25,7 @@ public class ParameterTest {
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .build();
+                .build("test");
     }
 
     @Test
@@ -38,14 +35,15 @@ public class ParameterTest {
         String[] args = {"myArg"};
 
         try {
-            ParserResult parserResult = commandLineInterface.parse(args);
+            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-            assertTrue(parserResult.getOptionParserResultGlobal().isEmpty());
-            assertTrue(parserResult.getCommandList().isEmpty());
-            assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+            assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
 
-            assertEquals(1, parserResult.getParameterList().size());
-            assertEquals("myArg", parserResult.getParameterList().get(0));
+            assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+            assertEquals("myArg", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
 
         } catch (UnrecognizedArgumentException e) {
             TestOut.printStacktrace(e);
@@ -63,16 +61,17 @@ public class ParameterTest {
         String[] args = {"-v", "myArg"};
 
         try {
-            ParserResult parserResult = commandLineInterface.parse(args);
+            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-            assertEquals(1, parserResult.getOptionParserResultGlobal().getSize());
-            assertTrue(parserResult.getOptionParserResultGlobal().hasOption("v"));
+            assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
 
-            assertTrue(parserResult.getCommandList().isEmpty());
-            assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+            assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
 
-            assertEquals(1, parserResult.getParameterList().size());
-            assertEquals("myArg", parserResult.getParameterList().get(0));
+            assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+            assertEquals("myArg", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
 
         } catch (UnrecognizedArgumentException e) {
             TestOut.printStacktrace(e);
@@ -90,19 +89,20 @@ public class ParameterTest {
         String[] args = {"-o", "myArg", "myPara"};
 
         try {
-            ParserResult parserResult = commandLineInterface.parse(args);
+            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-            assertEquals(1, parserResult.getOptionParserResultGlobal().getSize());
-            assertTrue(parserResult.getOptionParserResultGlobal().hasOption("option"));
-            assertEquals("myArg", parserResult.getOptionParserResultGlobal().getValue("option"));
+            assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("option"));
+            assertEquals("myArg", commandLineInterfaceResult.getOptionParserResultGlobal().getValue("option"));
 
-            assertTrue(parserResult.getCommandList().isEmpty());
-            assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
+            assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
 
-            assertEquals(1, parserResult.getParameterList().size());
-            assertEquals("myPara", parserResult.getParameterList().get(0));
+            assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+            assertEquals("myPara", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
 
-            parserResult.debugOut();
+//            commandLineInterfaceCall.debugOut();
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();

@@ -1,10 +1,6 @@
 package de.arthurpicht.cli.command.integration;
 
-import de.arthurpicht.cli.CommandExecutor;
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.ParserResult;
-import de.arthurpicht.cli.command.CommandSequenceBuilder;
+import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.DefaultCommandBuilder;
@@ -12,6 +8,7 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.parameter.ParameterParserResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,7 +19,7 @@ public class DefaultCommandTestWithGlobalOptionOnly {
 
     private static class DefaultCommandExecutor implements CommandExecutor {
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, List<String> parameterList) {
+        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
             // din
         }
     }
@@ -42,7 +39,7 @@ public class DefaultCommandTestWithGlobalOptionOnly {
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .build();
+                .build("test");
     }
 
     @Test
@@ -50,13 +47,14 @@ public class DefaultCommandTestWithGlobalOptionOnly {
 
         CommandLineInterface commandLineInterface = createCommandLineInterface();
         String[] args = {};
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertFalse(parserResult.getOptionParserResultGlobal().hasOption("v"));
-        assertTrue(parserResult.getCommandExecutor() instanceof DefaultCommandExecutor);
-        assertTrue(parserResult.getCommandList().isEmpty());
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(parserResult.getParameterList().isEmpty());
+        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
+        assertTrue(commandLineInterfaceCall.getCommandExecutor() instanceof DefaultCommandExecutor);
+        assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
     }
 
     @Test
@@ -64,13 +62,14 @@ public class DefaultCommandTestWithGlobalOptionOnly {
 
         CommandLineInterface commandLineInterface = createCommandLineInterface();
         String[] args = {"--version"};
-        ParserResult parserResult = commandLineInterface.parse(args);
+        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
 
-        assertTrue(parserResult.getOptionParserResultGlobal().hasOption("v"));
-        assertTrue(parserResult.getCommandExecutor() instanceof DefaultCommandExecutor);
-        assertTrue(parserResult.getCommandList().isEmpty());
-        assertTrue(parserResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(parserResult.getParameterList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
+        assertTrue(commandLineInterfaceCall.getCommandExecutor() instanceof DefaultCommandExecutor);
+        assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
+        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(commandLineInterfaceResult.getParameterParserResult().getParameterList().isEmpty());
     }
 
     @Test
