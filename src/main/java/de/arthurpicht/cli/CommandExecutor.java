@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface CommandExecutor {
 
-    public void execute(
-            OptionParserResult optionParserResultGlobal,
-            List<String> commandList,
-            OptionParserResult optionParserResultSpecific,
-            ParameterParserResult parameterParserResult
-    ) throws CommandExecutorException;
+//    public void execute(
+//            OptionParserResult optionParserResultGlobal,
+//            List<String> commandList,
+//            OptionParserResult optionParserResultSpecific,
+//            ParameterParserResult parameterParserResult
+//    ) throws CommandExecutorException;
+
+    public void execute(CommandLineInterfaceCall commandLineInterfaceCall) throws CommandExecutorException;
 
 }

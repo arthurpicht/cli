@@ -1,21 +1,14 @@
 package de.arthurpicht.cli.integration;
 
-import de.arthurpicht.cli.CommandExecutor;
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.CommandLineInterfaceDefinition;
+import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.help.HelpFormatter;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionBuilder;
-import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.ParameterParserResult;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.cli.parameter.ParametersVar;
-
-import java.util.List;
 
 public class HelpTextTest {
 
@@ -32,8 +25,8 @@ public class HelpTextTest {
         }
 
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
-            HelpFormatter.out(this.commandLineInterfaceDefinition, this.specificOptions, commandList, this.parameters);
+        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
+            HelpFormatter.out(commandLineInterfaceCall);
         }
 
     }
@@ -58,9 +51,9 @@ public class HelpTextTest {
                 new CommandSequenceBuilder()
                         .addCommands("delete")
                         .withParameters(new ParametersVar(1))
-                        .withCommandExecutor((optionParserResultGlobal, commandList, optionParserResultSpecific, parameterParserResult) -> {
+                        .withCommandExecutor((commandLineInterfaceCall) -> {
                             System.out.println("Deleting the following items:");
-                            for (String item : parameterParserResult.getParameterList()) {
+                            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
                                 System.out.println(item);
                             }
                         })

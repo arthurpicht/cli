@@ -1,6 +1,8 @@
 package de.arthurpicht.cli.help;
 
+import de.arthurpicht.cli.CommandLineInterfaceCall;
 import de.arthurpicht.cli.CommandLineInterfaceDefinition;
+import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
@@ -9,29 +11,35 @@ import java.util.List;
 
 public class HelpFormatter {
 
-    public static void out(CommandLineInterfaceDefinition cliDefinition, Options specificOptions, List<String> commandList, Parameters parameters) {
-        System.out.println("Usage: " + getUsage(cliDefinition, specificOptions, commandList, parameters));
-        System.out.println("Explanation of command ...");
-        printGlobalOptionsHelpString(cliDefinition);
-        printSpecificOptionsHelpString(specificOptions);
+    public static void test() {
 
     }
 
-    private static String getUsage(CommandLineInterfaceDefinition cliDefinition, Options specificOptions, List<String> commandList, Parameters parameters) {
+    public static void out(CommandLineInterfaceCall commandLineInterfaceCall) {
+        System.out.println("Usage: " + getUsage(commandLineInterfaceCall));
+        System.out.println("Explanation of command ...");
+        printGlobalOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
+//        printSpecificOptionsHelpString(commandLineInterfaceCall.getOptionParserResultSpecific());
 
-        String usage = "usage: " + cliDefinition.getExecutableName();
+    }
 
-        if (cliDefinition.hasGlobalOptions()) {
+    private static String getUsage(CommandLineInterfaceCall call) {
+
+        CommandLineInterfaceResult result = call.getCommandLineInterfaceResult();
+
+        String usage = "usage: " + call.getCommandLineInterfaceDefinition().getExecutableName();
+
+        if (result.hasGlobalOptions()) {
             usage += " [global options]";
         }
 
-        usage += " " + Strings.listing(commandList, " ");
+        usage += " " + Strings.listing(call.getCommandList(), " ");
 
-        if (specificOptions != null) {
+        if (result.hasSpecificOptions()) {
             usage += " [specific options]";
         }
 
-        if (parameters != null) {
+        if (result.hasParameters()) {
             usage += " <parametersTODO>";
         }
 

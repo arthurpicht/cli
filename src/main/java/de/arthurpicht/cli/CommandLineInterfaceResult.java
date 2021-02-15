@@ -27,6 +27,10 @@ public class CommandLineInterfaceResult {
         this.parameterParserResult = parameterParserResult;
     }
 
+    public boolean hasGlobalOptions() {
+        return this.optionParserResultGlobal.hasOptions();
+    }
+
     public OptionParserResult getOptionParserResultGlobal() {
         return this.optionParserResultGlobal;
     }
@@ -35,8 +39,16 @@ public class CommandLineInterfaceResult {
         return this.commandParserResult;
     }
 
+    public boolean hasSpecificOptions() {
+        return this.optionParserResultSpecific.hasOptions();
+    }
+
     public OptionParserResult getOptionParserResultSpecific() {
         return this.optionParserResultSpecific;
+    }
+
+    public boolean hasParameters() {
+        return !this.getParameterParserResult().isEmpty();
     }
 
     public ParameterParserResult getParameterParserResult() {

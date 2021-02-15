@@ -96,6 +96,16 @@ public class CommandLineInterfaceCall {
     }
 
     /**
+     * A convenience (shortcut) method that returns true if a {@link CommandExecutor} exists
+     * for command given by end user.
+     *
+     * @return true if exists a {@link CommandExecutor}
+     */
+    public boolean hasCommandExecutor() {
+        return this.commandLineInterfaceResult.getCommandParserResult().hasCommandExecutor();
+    }
+
+    /**
      * A convenience (shortcut) method that returns the command executor associated to
      * command given by end user. If no such {@link CommandExecutor} exists null is returned.
      *

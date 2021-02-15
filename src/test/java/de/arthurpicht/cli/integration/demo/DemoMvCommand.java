@@ -22,10 +22,10 @@ public class DemoMvCommand {
                 new DefaultCommandBuilder()
                         .withParameters(new ParametersVar(2))
                         .withCommandExecutor(
-                                (optionParserResultGlobal, commandList, optionParserResultSpecific, parameterParserResult)
+                                (commandLineInterfaceCall)
                                         -> System.out.println(
-                                                "Copy file from " + parameterParserResult.getParameterList().get(0) + " to "
-                                                        + parameterParserResult.getParameterList().get(1))
+                                                "Copy file from " + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(0) + " to "
+                                                        + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(1))
                         ).build();
 
         Commands commands = new Commands().setDefaultCommand(defaultCommand);

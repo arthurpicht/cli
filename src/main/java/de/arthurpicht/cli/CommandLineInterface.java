@@ -106,16 +106,20 @@ public class CommandLineInterface {
         if (args == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'args' is null.");
 
         CommandLineInterfaceCall commandLineInterfaceCall = this.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
-        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
-        if (commandExecutor != null) {
-            commandExecutor.execute(
-                    commandLineInterfaceResult.getOptionParserResultGlobal(),
-                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
-                    commandLineInterfaceResult.getOptionParserResultSpecific(),
-                    commandLineInterfaceResult.getParameterParserResult()
-            );
+        if (commandLineInterfaceCall.hasCommandExecutor()) {
+            CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
+            commandExecutor.execute(commandLineInterfaceCall);
         }
+//        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+//        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
+//        if (commandExecutor != null) {
+//            commandExecutor.execute(
+//                    commandLineInterfaceResult.getOptionParserResultGlobal(),
+//                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
+//                    commandLineInterfaceResult.getOptionParserResultSpecific(),
+//                    commandLineInterfaceResult.getParameterParserResult()
+//            );
+//        }
         return commandLineInterfaceCall;
     }
 
@@ -130,17 +134,23 @@ public class CommandLineInterface {
 
         if (commandLineInterfaceCall == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
 
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
-        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
-
-        if (commandExecutor != null) {
-            commandExecutor.execute(
-                    commandLineInterfaceResult.getOptionParserResultGlobal(),
-                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
-                    commandLineInterfaceResult.getOptionParserResultSpecific(),
-                    commandLineInterfaceResult.getParameterParserResult()
-            );
+        if (commandLineInterfaceCall.hasCommandExecutor()) {
+            CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
+            commandExecutor.execute(commandLineInterfaceCall);
         }
+//
+//
+//        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+//        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
+//
+//        if (commandExecutor != null) {
+//            commandExecutor.execute(
+//                    commandLineInterfaceResult.getOptionParserResultGlobal(),
+//                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
+//                    commandLineInterfaceResult.getOptionParserResultSpecific(),
+//                    commandLineInterfaceResult.getParameterParserResult()
+//            );
+//        }
     }
 
 }

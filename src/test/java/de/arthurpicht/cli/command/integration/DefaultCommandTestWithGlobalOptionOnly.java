@@ -19,7 +19,7 @@ public class DefaultCommandTestWithGlobalOptionOnly {
 
     private static class DefaultCommandExecutor implements CommandExecutor {
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
+        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
             // din
         }
     }

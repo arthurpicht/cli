@@ -21,9 +21,9 @@ public class DemoCommandExecutor {
         private boolean isExecuted = false;
 
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
+        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
             System.out.println("Adding the following items:");
-            for (String item : parameterParserResult.getParameterList()) {
+            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
                 System.out.println(item);
             }
             isExecuted = true;
@@ -39,9 +39,9 @@ public class DemoCommandExecutor {
         private boolean isExecuted = false;
 
         @Override
-        public void execute(OptionParserResult optionParserResultGlobal, List<String> commandList, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
+        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
             System.out.println("Deleting the following items:");
-            for (String item : parameterParserResult.getParameterList()) {
+            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
                 System.out.println(item);
             }
             isExecuted = true;
@@ -65,9 +65,9 @@ public class DemoCommandExecutor {
                 new CommandSequenceBuilder()
                         .addCommands("delete")
                         .withParameters(new ParametersVar(1))
-                        .withCommandExecutor((optionParserResultGlobal, commandList, optionParserResultSpecific, parameterParserResult) -> {
+                        .withCommandExecutor((commandLineInterfaceCall) -> {
                             System.out.println("Deleting the following items:");
-                            for (String item : parameterParserResult.getParameterList()) {
+                            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
                                 System.out.println(item);
                             }
                         })
