@@ -1,13 +1,15 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionParserResult;
-import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.utils.core.strings.Strings;
+import de.arthurpicht.cli.parameter.ParameterParserResult;
 
-import java.util.*;
+import java.util.List;
 
+/**
+ * Representation of a end-user call to command line interface. An instance is
+ * created by cli {@link CommandLineInterface} when given end user arguments
+ * could be recognized as syntactically correct and parsed successfully.
+ */
 public class CommandLineInterfaceCall {
 
     private final List<String> args;
@@ -19,107 +21,88 @@ public class CommandLineInterfaceCall {
             CommandLineInterfaceDefinition commandLineInterfaceDefinition,
             CommandLineInterfaceResult commandLineInterfaceResult
     ) {
+        if (args == null) throw new IllegalArgumentException("Method parameter is null.");
+        if (commandLineInterfaceDefinition == null) throw new IllegalArgumentException("Method parameter is null.");
+        if (commandLineInterfaceResult == null) throw new IllegalArgumentException("Method parameter is null.");
+
         this.args = List.of(args);
         this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
         this.commandLineInterfaceResult = commandLineInterfaceResult;
     }
 
+    /**
+     * Arguments to executable as called by end-user.
+     *
+     * @return arguments of executable
+     */
     public List<String> getArgs() {
         return args;
     }
 
+    /**
+     * Definition of command line interface.
+     *
+     * @return Definition of command line interface.
+     */
     public CommandLineInterfaceDefinition getCommandLineInterfaceDefinition() {
         return commandLineInterfaceDefinition;
     }
 
+    /**
+     * Aggregated parsed arguments from command line interface.
+     *
+     * @return aggregated parsed arguments as given by end user
+     */
     public CommandLineInterfaceResult getCommandLineInterfaceResult() {
         return commandLineInterfaceResult;
     }
 
-    //    public OptionParserResult getOptionParserResultGlobal() {
-//        return this.optionParserResultGlobal != null ? this.optionParserResultGlobal : new OptionParserResult();
-//    }
-//
-    public List<String> getCommandList() {
-        return this.commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
-//        return this.commandList != null ? this.commandList : new ArrayList<>();
+    /**
+     * A convenience (shortcut) method that returns parsed global options as given by end user.
+     *
+     * @return global options as given by end user
+     */
+    public OptionParserResult getOptionParserResultGlobal() {
+        return this.commandLineInterfaceResult.getOptionParserResultGlobal();
     }
 
-//    public boolean hasSpecificOptions() {
-//        return this.optionsSpecific != null && !this.optionsSpecific.isEmpty();
-//    }
-//
-//    public Options getSpecificOptions() {
-//        return this.optionsSpecific;
-//    }
-//
-//    public OptionParserResult getOptionParserResultSpecific() {
-//        return this.optionParserResultSpecific != null ? this.optionParserResultSpecific : new OptionParserResult();
-//    }
-//
-//    public boolean hasParameters() {
-//        return this.parameters != null;
-//    }
-//
-//    public Parameters getParameters() {
-//        return this.parameters;
-//    }
-//
-//    public List<String> getParameterList() {
-//        return this.parameterList != null ? this.parameterList : new ArrayList<>();
-//    }
-//
+    /**
+     * A convenience (shortcut) method that returns parsed commands as given by end user.
+     *
+     * @return commands as given by end user
+     */
+    public List<String> getCommandList() {
+        return this.commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
+    }
+
+    /**
+     * A convenience (shortcut) method that returns parsed specific options as given by end user.
+     * If no options are given by end user, {@link OptionParserResult} is empty.
+     *
+     * @return specific options as given by end user
+     */
+    public OptionParserResult getOptionParserResultSpecific() {
+        return this.commandLineInterfaceResult.getOptionParserResultSpecific();
+    }
+
+    /**
+     * A convenience (shortcut) method that returns parsed parameters as given by end user.
+     * If no options are given by end user, {@link ParameterParserResult} is empty.
+     *
+     * @return parameters as given by end user
+     */
+    public ParameterParserResult getParameterParserResult() {
+        return this.commandLineInterfaceResult.getParameterParserResult();
+    }
+
+    /**
+     * A convenience (shortcut) method that returns the command executor associated to
+     * command given by end user. If no such {@link CommandExecutor} exists null is returned.
+     *
+     * @return CommandExecutor as associated to command given by end user.
+     */
     public CommandExecutor getCommandExecutor() {
         return this.commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
     }
 
-//    public void debugOut() {
-//
-//        System.out.println("CLI ParserResult debug output:");
-//
-//        System.out.println("input args:");
-//        String argsString = Strings.listing(this.args, " ", "[", "]");
-//        System.out.println("    " + argsString);
-//
-//        System.out.println("global options:");
-//        this.debugOutOptions(this.getOptionParserResultGlobal());
-//
-//        System.out.println("commands:");
-//        String commands = Strings.listing(this.commandList, " ");
-//        if (commands.equals("")) {
-//            System.out.println("    none");
-//        } else {
-//            System.out.println("    " + commands);
-//        }
-//
-//        System.out.println("specific Options:");
-//        this.debugOutOptions(this.getOptionParserResultSpecific());
-//
-//        System.out.println("parameters:");
-//        String parameters = Strings.listing(this.parameterList, " ", "", "", "\"", "\"");
-//        System.out.println("    " + parameters);
-//
-//    }
-//
-//    private void debugOutOptions(OptionParserResult optionParserResult) {
-//
-//        Set<String> optionIdSet = optionParserResult.getIdSet();
-//
-//        if (optionIdSet.isEmpty()) {
-//            System.out.println("    none");
-//            return;
-//        }
-//
-//        for (String optionId : optionIdSet) {
-//            Option option = optionParserResult.getOption(optionId);
-//            String optionString = option.toString() + " Value=";
-//            if (option.hasArgument()) {
-//                optionString += "'" + optionParserResult.getValue(optionId) + "'";
-//            } else {
-//                optionString += " none";
-//            }
-//            System.out.println("    " + optionString);
-//        }
-//
-//    }
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class OptionParserResult implements ParserResult {
 
-    private Map<String, OptionParserResultBean> optionParserResultBeanMap;
+    private final Map<String, OptionParserResultBean> optionParserResultBeanMap;
 
     public OptionParserResult() {
         this.optionParserResultBeanMap = new HashMap<>();
@@ -57,6 +57,10 @@ public class OptionParserResult implements ParserResult {
 
     public boolean isEmpty() {
         return this.optionParserResultBeanMap.isEmpty();
+    }
+
+    public boolean hasOptions() {
+        return !isEmpty();
     }
 
 }

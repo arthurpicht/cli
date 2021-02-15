@@ -13,7 +13,6 @@ public class CommandLineInterfaceResult {
     private final CommandParserResult commandParserResult;
     private final OptionParserResult optionParserResultSpecific;
     private final ParameterParserResult parameterParserResult;
-//    private final List<String> parameterList;
 
     public CommandLineInterfaceResult(OptionParserResult optionParserResultGlobal, CommandParserResult commandParserResult, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult, CommandExecutor commandExecutor) {
 
@@ -43,9 +42,5 @@ public class CommandLineInterfaceResult {
     public ParameterParserResult getParameterParserResult() {
         return parameterParserResult;
     }
-
-//    public List<String> getParameterList() {
-//        return this.parameterList;
-//    }
 
 }

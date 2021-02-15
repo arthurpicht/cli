@@ -50,6 +50,10 @@ public class CommandParserResult implements ParserResult {
         return parameters;
     }
 
+    public boolean hasCommandExecutor() {
+        return this.commandExecutor != null;
+    }
+
     public CommandExecutor getCommandExecutor() {
         return commandExecutor;
     }
