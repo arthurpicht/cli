@@ -19,7 +19,7 @@ public class ParameterParserVar extends ParameterParser {
 
         if (arguments.size() < this.minimalNrOfArgument + beginIndex) {
             int nrFoundArgs = arguments.size() - beginIndex;
-            throw new ParameterParserException(arguments, beginIndex + nrFoundArgs, "Illegal number of arguments. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
+            throw new ParameterParserException(arguments, beginIndex + nrFoundArgs, "Wrong number of parameters. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
         }
 
         while (argumentIterator.hasNext()) {

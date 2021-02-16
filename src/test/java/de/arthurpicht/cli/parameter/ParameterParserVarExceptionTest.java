@@ -26,10 +26,8 @@ public class ParameterParserVarExceptionTest {
             println(e.getArgsAsString());
             println(e.getArgumentPointerString());
 
-            assertEquals("Illegal number of arguments. Minimal number expected: 1, found: 0.", e.getMessage());
+            assertEquals("Wrong number of parameters. Minimal number expected: 1, found: 0.", e.getMessage());
             assertEquals("^", e.getArgumentPointerString());
-
-
         }
     }
 
@@ -50,10 +48,9 @@ public class ParameterParserVarExceptionTest {
             println(e.getArgsAsString());
             println(e.getArgumentPointerString());
 
-            assertEquals("Illegal number of arguments. Minimal number expected: 5, found: 4.", e.getMessage());
+            assertEquals("Wrong number of parameters. Minimal number expected: 5, found: 4.", e.getMessage());
             assertEquals("        ^", e.getArgumentPointerString());
         }
     }
-
 
 }

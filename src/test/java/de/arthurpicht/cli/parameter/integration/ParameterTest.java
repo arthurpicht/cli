@@ -29,6 +29,33 @@ public class ParameterTest {
     }
 
     @Test
+    void noParameter() {
+        CommandLineInterface commandLineInterface = getCommandLineInterface();
+
+        String[] args = {"-v"};
+
+        try {
+            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+
+            assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
+
+            assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
+            assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+
+            assertEquals(0, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
+
+        } catch (UnrecognizedArgumentException e) {
+            TestOut.printStacktrace(e);
+            TestOut.println(e.getMessage());
+            TestOut.println(e.getArgumentIndex());
+            fail(e);
+        }
+    }
+
+
+    @Test
     void parameterOnly() {
         CommandLineInterface commandLineInterface = getCommandLineInterface();
 

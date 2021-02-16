@@ -32,6 +32,7 @@ public class OptionBuilder {
     }
 
     public OptionBuilder withArgumentName(String argumentName) {
+        this.hasArgument = true;
         this.argumentName = argumentName;
         return this;
     }

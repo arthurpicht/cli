@@ -3,64 +3,72 @@ package de.arthurpicht.cli.integration;
 import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
+import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.help.HelpFormatter;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.cli.parameter.ParametersVar;
+import org.junit.jupiter.api.Test;
 
 public class HelpTextTest {
 
     private static class HelpExecutor implements CommandExecutor {
 
-        private CommandLineInterfaceDefinition commandLineInterfaceDefinition;
-        private Options specificOptions;
-        private Parameters parameters;
-
-        public HelpExecutor(CommandLineInterfaceDefinition commandLineInterfaceDefinition, Options specificOptions, Parameters parameters) {
-            this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
-            this.specificOptions = specificOptions;
-            this.parameters = parameters;
-        }
-
         @Override
         public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
-            HelpFormatter.out(commandLineInterfaceCall);
+            if (commandLineInterfaceCall.getCommandLineInterfaceResult().getOptionParserResultSpecific().hasOption("HELP")) {
+                HelpFormatter.out(commandLineInterfaceCall);
+            }
         }
-
     }
 
-
     private CommandLineInterface getCommandLineInterface() {
+
+        Options globalOptions = new Options()
+                .add(new OptionBuilder().withShortName('v').withLongName("version").withDescription("Show version and exit.").build("VERSION"))
+                .add(new OptionBuilder().withLongName("stacktrace").withDescription("Show stacktrace on error occurence.").build("STACKTRACE"))
+                .add(new OptionBuilder().withLongName("loglevel").withArgumentName("loglevel").withDescription("Log level.").build("LOGLEVEL"));
+
         Commands commands = new Commands();
         commands.add(
                 new CommandSequenceBuilder()
-                        .addCommands("execute")
+                        .addCommands("COMMAND_A")
                         .withSpecificOptions(
                                 new Options()
-                                        .add(new OptionBuilder().withShortName('h').withLongName("help").withDescription("Show this help message and exit.").build("help"))
+                                        .add(new OptionBuilder().withShortName('h').withLongName("help").withDescription("Show this help message and exit.").build("HELP"))
                                         .add(new Option("A", 'A', "almost-all", false, "", "do not list implied . and .."))
                         )
-                        .withParameters(new ParametersVar(1))
-                        .withCommandExecutor(new HelpTextTest.HelpExecutor(null, null, null))
-                        // TODO null
+                        .withParameters(new ParametersVar(1, "file", "Files to be processed."))
+                        .withCommandExecutor(new HelpTextTest.HelpExecutor())
                         .build()
         );
-        commands.add(
-                new CommandSequenceBuilder()
-                        .addCommands("delete")
-                        .withParameters(new ParametersVar(1))
-                        .withCommandExecutor((commandLineInterfaceCall) -> {
-                            System.out.println("Deleting the following items:");
-                            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
-                                System.out.println(item);
-                            }
-                        })
-                        .build()
-        );
+//        commands.add(
+//                new CommandSequenceBuilder()
+//                        .addCommands("delete")
+//                        .withParameters(new ParametersVar(1))
+//                        .withCommandExecutor((commandLineInterfaceCall) -> {
+//                            System.out.println("Deleting the following items:");
+//                            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
+//                                System.out.println(item);
+//                            }
+//                        })
+//                        .build()
+//        );
 
-        return new CommandLineInterfaceBuilder().withCommands(commands).build("test");
+        return new CommandLineInterfaceBuilder()
+                .withGlobalOptions(globalOptions)
+                .withCommands(commands)
+                .build("test");
+    }
+
+    @Test
+    public void test() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        String[] args = {"COMMAND_A", "-h", "parameter"};
+        commandLineInterface.execute(args);
+
     }
 
 }

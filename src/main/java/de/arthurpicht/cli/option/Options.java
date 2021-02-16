@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.help.HelpFormatter;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.*;
@@ -108,6 +109,8 @@ public class Options {
 
         StringBuilder stringBuilder = new StringBuilder();
 
+        stringBuilder.append("  ");
+
         if (option.hasShortName()) {
             stringBuilder.append("-").append(option.getShortName());
         } else {
@@ -115,9 +118,9 @@ public class Options {
         }
 
         if (option.hasShortName() && option.hasLongName()) {
-            stringBuilder.append(",");
+            stringBuilder.append(", ");
         } else {
-            stringBuilder.append(" ");
+            stringBuilder.append("  ");
         }
 
         if (option.hasLongName()) {
@@ -132,8 +135,8 @@ public class Options {
         // TODO Blocksatz, Zeilenumbruch helptext s.a. https://commons.apache.org/proper/commons-cli/
 
         if (option.hasHelpText()) {
-            Strings.fillUpAfter(stringBuilder, ' ', 25);
-            stringBuilder.append(" ").append(option.getDescription());
+            Strings.fillUpAfter(stringBuilder, ' ', HelpFormatter.COL_WIDTH);
+            stringBuilder.append(option.getDescription());
         }
 
         return stringBuilder.toString();
