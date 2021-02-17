@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+
 public class ParametersOne extends Parameters {
 
     private final Parameter parameter;
@@ -17,8 +19,8 @@ public class ParametersOne extends Parameters {
     }
 
     @Override
-    public ParameterParser getParameterParser() {
-        return new ParameterParserOne();
+    public ParameterParser getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+        return new ParameterParserOne(commandLineInterfaceResultBuilder);
     }
 
     @Override

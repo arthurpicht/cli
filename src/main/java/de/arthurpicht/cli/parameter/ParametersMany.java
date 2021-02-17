@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.ArrayList;
@@ -45,8 +46,8 @@ public class ParametersMany extends Parameters {
     }
 
     @Override
-    public ParameterParser getParameterParser() {
-        return new ParameterParserMany(getNrOfParameters());
+    public ParameterParser getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+        return new ParameterParserMany(getNrOfParameters(), commandLineInterfaceResultBuilder);
     }
 
     @Override

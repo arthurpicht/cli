@@ -4,7 +4,7 @@ import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.Objects;
 
-public final class Option {
+public class Option {
 
     private final String id;
     private final Character shortName;
@@ -12,6 +12,7 @@ public final class Option {
     private final boolean hasArgument;
     private final String argumentName;
     private final String description;
+    private final boolean breaking;
 
     /**
      * Usage of Option constructor is discouraged as signature will change in further development.
@@ -42,6 +43,7 @@ public final class Option {
         this.hasArgument = hasArgument;
         this.argumentName = argumentName;
         this.description = description;
+        this.breaking = false;
 
     }
 
@@ -84,6 +86,10 @@ public final class Option {
 
     public String getDescription() {
         return description;
+    }
+
+    public boolean isBreaking() {
+        return this.breaking;
     }
 
     @Override

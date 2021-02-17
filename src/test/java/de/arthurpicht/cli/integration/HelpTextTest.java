@@ -5,6 +5,7 @@ import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.help.HelpFormatter;
+import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
@@ -36,7 +37,7 @@ public class HelpTextTest {
                         .addCommands("COMMAND_A")
                         .withSpecificOptions(
                                 new Options()
-                                        .add(new OptionBuilder().withShortName('h').withLongName("help").withDescription("Show this help message and exit.").build("HELP"))
+                                        .add(new HelpOption())
                                         .add(new Option("A", 'A', "almost-all", false, "", "do not list implied . and .."))
                         )
                         .withParameters(new ParametersVar(1, "file", "Files to be processed."))
@@ -66,7 +67,7 @@ public class HelpTextTest {
     public void test() throws CommandExecutorException, UnrecognizedArgumentException {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
-        String[] args = {"COMMAND_A", "-h", "parameter"};
+        String[] args = {"COMMAND_A", "-h"};
         commandLineInterface.execute(args);
 
     }

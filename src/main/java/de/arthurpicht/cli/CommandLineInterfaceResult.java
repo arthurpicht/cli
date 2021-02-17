@@ -9,22 +9,30 @@ import java.util.List;
 
 public class CommandLineInterfaceResult {
 
+    public enum Status {COMPLETE, BROKEN, TEST}
+
+    private final Status status;
     private final OptionParserResult optionParserResultGlobal;
     private final CommandParserResult commandParserResult;
     private final OptionParserResult optionParserResultSpecific;
     private final ParameterParserResult parameterParserResult;
 
-    public CommandLineInterfaceResult(OptionParserResult optionParserResultGlobal, CommandParserResult commandParserResult, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult, CommandExecutor commandExecutor) {
-
+    public CommandLineInterfaceResult(Status status, OptionParserResult optionParserResultGlobal, CommandParserResult commandParserResult, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
+        if (status == null) throw new IllegalArgumentException("Method parameter is null.");
         if (optionParserResultGlobal == null) throw new IllegalArgumentException("Method parameter is null.");
         if (commandParserResult == null) throw new IllegalArgumentException("Method parameter is null.");
         if (optionParserResultSpecific == null) throw new IllegalArgumentException("Method parameter is null.");
         if (parameterParserResult == null) throw new IllegalArgumentException("Method parameter is null.");
 
+        this.status = status;
         this.optionParserResultGlobal = optionParserResultGlobal;
         this.commandParserResult = commandParserResult;
         this.optionParserResultSpecific = optionParserResultSpecific;
         this.parameterParserResult = parameterParserResult;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public boolean hasGlobalOptions() {

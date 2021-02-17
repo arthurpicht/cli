@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.CommandExecutor;
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
@@ -27,7 +28,8 @@ public class CommandParser extends Parser {
     private Parameters parameters;
     private CommandExecutor commandExecutor;
 
-    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand) {
+    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+        super(commandLineInterfaceResultBuilder);
         this.commandTree = commandTree;
         this.defaultCommand = defaultCommand;
 
@@ -37,24 +39,7 @@ public class CommandParser extends Parser {
         this.commandExecutor = null;
     }
 
-//    public List<String> getCommandStringList() {
-//        return this.commandStringList;
-//    }
-//
-//    public Options getSpecificOptions() {
-//        return this.specificOptions != null ? this.specificOptions : new Options();
-//    }
-//
-//    public Parameters getParameters() {
-//        return this.parameters;
-//    }
-//
-//    public CommandExecutor getCommandExecutor() {
-//        return this.commandExecutor;
-//    }
-
-    @Override
-    public CommandParserResult getParserResult() {
+    private CommandParserResult getParserResult() {
         return new CommandParserResult(
                 this.commandStringList,
                 this.specificOptions,
@@ -65,6 +50,11 @@ public class CommandParser extends Parser {
 
     @Override
     public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
+        parseInner(argumentIterator);
+        this.commandLineInterfaceResultBuilder.withCommandParserResult(getParserResult());
+    }
+
+    private void parseInner(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
 
         CommandTreeIterator commandTreeIterator = new CommandTreeIterator(this.commandTree);
 

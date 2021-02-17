@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +11,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class ParameterParserVarExceptionTest {
 
     @Test
-    void emptyArgs() {
+    void emptyArgs_neg() {
 
-        ParameterParserVar argumentParserVar = new ParameterParserVar(1);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserVar parameterParserVar = new ParameterParserVar(1, commandLineInterfaceResultBuilder);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            argumentParserVar.parse(argumentIterator);
-            fail();
+            parameterParserVar.parse(argumentIterator);
+            fail(ParameterParserException.class.getSimpleName() + " expected.");
 
         } catch (ParameterParserException e) {
             println(e.getMessage());
@@ -32,16 +34,17 @@ public class ParameterParserVarExceptionTest {
     }
 
     @Test
-    void parseFirst() {
+    void parseFirst_neg() {
 
-        ParameterParserVar argumentParserVar = new ParameterParserVar(5);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserVar argumentParserVar = new ParameterParserVar(5, commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             argumentParserVar.parse(argumentIterator);
-            fail();
+            fail(ParameterParserException.class.getSimpleName() + " expected.");
 
         } catch (ParameterParserException e) {
             println(e.getMessage());

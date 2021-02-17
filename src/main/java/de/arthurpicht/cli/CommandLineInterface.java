@@ -3,21 +3,26 @@ package de.arthurpicht.cli;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.command.DefaultCommand;
+import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
+import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
+import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.ArgumentIterator;
+import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParser;
-import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParameterParser;
-import de.arthurpicht.cli.parameter.ParameterParserResult;
 import de.arthurpicht.cli.parameter.Parameters;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static de.arthurpicht.cli.CommandLineInterfaceResult.Status.COMPLETE;
 
 public class CommandLineInterface {
 
     private final CommandLineInterfaceDefinition commandLineInterfaceDefinition;
+    private final CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder;
+    private boolean calledBefore;
 
     public CommandLineInterface(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
 
@@ -25,67 +30,21 @@ public class CommandLineInterface {
             throw new IllegalArgumentException("Parameter 'CommandLineInterfaceDefinition' is null.");
 
         this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
+        this.commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        this.calledBefore = false;
     }
 
     public CommandLineInterfaceCall parse(String[] args) throws UnrecognizedArgumentException {
 
-        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+        assertNotCalledBefore();
 
-        OptionParserResult optionParserResultGlobal = new OptionParserResult();
-        CommandParserResult commandParserResult = new CommandParserResult();
-        OptionParserResult optionParserResultSpecific = new OptionParserResult();
-        ParameterParserResult parameterParserResult = new ParameterParserResult();
+        CommandLineInterfaceResult commandLineInterfaceResult;
 
-        if (this.commandLineInterfaceDefinition.hasGlobalOptions()) {
-            OptionParser optionParserGlobal = new OptionParser(this.commandLineInterfaceDefinition.getGlobalOptions());
-            optionParserGlobal.parse(argumentIterator);
-            optionParserResultGlobal = optionParserGlobal.getParserResult();
+        try {
+            commandLineInterfaceResult = parseCore(args);
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            commandLineInterfaceResult = parsingBrokenEvent.getCommandLineInterfaceResult();
         }
-
-        if (this.commandLineInterfaceDefinition.hasCommands()) {
-            CommandParser commandParser = new CommandParser(
-                    this.commandLineInterfaceDefinition.getCommandTree(),
-                    this.commandLineInterfaceDefinition.getDefaultCommand());
-            commandParser.parse(argumentIterator);
-            commandParserResult = commandParser.getParserResult();
-        } else {
-            if (this.commandLineInterfaceDefinition.hasDefaultCommand()) {
-                DefaultCommand defaultCommand = this.commandLineInterfaceDefinition.getDefaultCommand();
-                commandParserResult = new CommandParserResult(
-                        new ArrayList<>(),
-                        null,
-                        defaultCommand.getParameters(),
-                        defaultCommand.getCommandExecutor()
-                );
-            }
-        }
-
-        if (commandParserResult.hasSpecificOptions()) {
-            Options optionsSpecific = commandParserResult.getSpecificOptions();
-            OptionParser optionParserSpecific = new OptionParser(optionsSpecific);
-            optionParserSpecific.parse(argumentIterator);
-            optionParserResultSpecific = optionParserSpecific.getParserResult();
-        }
-
-        if (commandParserResult.hasParameters()) {
-            Parameters parameters = commandParserResult.getParameters();
-            ParameterParser parameterParser = parameters.getParameterParser();
-            parameterParser.parse(argumentIterator);
-            parameterParserResult = parameterParser.getParserResult();
-        }
-
-        if (argumentIterator.hasNext()) {
-            String arg = argumentIterator.getNext();
-            throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
-        }
-
-        CommandLineInterfaceResult commandLineInterfaceResult = new CommandLineInterfaceResult(
-                optionParserResultGlobal,
-                commandParserResult,
-                optionParserResultSpecific,
-                parameterParserResult,
-                commandParserResult.getCommandExecutor()
-        );
 
         return new CommandLineInterfaceCall(
                 args,
@@ -94,11 +53,86 @@ public class CommandLineInterface {
         );
     }
 
+    private CommandLineInterfaceResult parseCore(String[] args) throws UnrecognizedArgumentException, ParsingBrokenEvent {
+
+        ArgumentIterator argumentIterator = new ArgumentIterator(args);
+
+        parseGlobalOptions(argumentIterator);
+
+        parseCommands(argumentIterator);
+
+        parseSpecificOptions(argumentIterator);
+
+        parseParameters(argumentIterator);
+
+        handleSurplusArguments(argumentIterator);
+
+        return commandLineInterfaceResultBuilder.build(COMPLETE);
+    }
+
+    private void parseGlobalOptions(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
+        if (this.commandLineInterfaceDefinition.hasGlobalOptions()) {
+            OptionParser optionParserGlobal = new OptionParser(
+                    OptionParser.Target.GLOBAL,
+                    this.commandLineInterfaceDefinition.getGlobalOptions(),
+                    this.commandLineInterfaceResultBuilder);
+            optionParserGlobal.parse(argumentIterator);
+        }
+    }
+
+    private void parseCommands(ArgumentIterator argumentIterator) throws InsufficientNrOfCommandsException, IllegalCommandException, AmbiguousCommandException {
+
+        if (this.commandLineInterfaceDefinition.hasCommands()) {
+            CommandParser commandParser = new CommandParser(
+                    this.commandLineInterfaceDefinition.getCommandTree(),
+                    this.commandLineInterfaceDefinition.getDefaultCommand(),
+                    this.commandLineInterfaceResultBuilder);
+            commandParser.parse(argumentIterator);
+        } else {
+            if (this.commandLineInterfaceDefinition.hasDefaultCommand()) {
+                DefaultCommand defaultCommand = this.commandLineInterfaceDefinition.getDefaultCommand();
+                this.commandLineInterfaceResultBuilder.withCommandParserResult(
+                        new CommandParserResult(
+                                new ArrayList<>(),
+                                null,
+                                defaultCommand.getParameters(),
+                                defaultCommand.getCommandExecutor()
+                        ));
+            }
+        }
+    }
+
+    private void parseSpecificOptions(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
+        if (this.commandLineInterfaceResultBuilder.hasSpecificOptions()) {
+            Options optionsSpecific = this.commandLineInterfaceResultBuilder.getSpecificOptions();
+            OptionParser optionParserSpecific = new OptionParser(
+                    OptionParser.Target.SPECIFIC,
+                    optionsSpecific,
+                    this.commandLineInterfaceResultBuilder);
+            optionParserSpecific.parse(argumentIterator);
+        }
+    }
+
+    private void parseParameters(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
+        if (this.commandLineInterfaceResultBuilder.hasParameters()) {
+            Parameters parameters = this.commandLineInterfaceResultBuilder.getParameters();
+            ParameterParser parameterParser = parameters.getParameterParser(this.commandLineInterfaceResultBuilder);
+            parameterParser.parse(argumentIterator);
+        }
+    }
+
+    private void handleSurplusArguments(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException {
+        if (argumentIterator.hasNext()) {
+            String arg = argumentIterator.getNext();
+            throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
+        }
+    }
+
     /**
      * Parses specified arguments against cli specification and executes CommandExecutor, if found.
      *
      * @param args cli arguments
-     * @return parser result
+     * @return CommandLineInterfaceCall
      * @throws UnrecognizedArgumentException
      */
     public CommandLineInterfaceCall execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
@@ -110,16 +144,6 @@ public class CommandLineInterface {
             CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
             commandExecutor.execute(commandLineInterfaceCall);
         }
-//        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
-//        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
-//        if (commandExecutor != null) {
-//            commandExecutor.execute(
-//                    commandLineInterfaceResult.getOptionParserResultGlobal(),
-//                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
-//                    commandLineInterfaceResult.getOptionParserResultSpecific(),
-//                    commandLineInterfaceResult.getParameterParserResult()
-//            );
-//        }
         return commandLineInterfaceCall;
     }
 
@@ -138,19 +162,11 @@ public class CommandLineInterface {
             CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
             commandExecutor.execute(commandLineInterfaceCall);
         }
-//
-//
-//        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
-//        CommandExecutor commandExecutor = commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
-//
-//        if (commandExecutor != null) {
-//            commandExecutor.execute(
-//                    commandLineInterfaceResult.getOptionParserResultGlobal(),
-//                    commandLineInterfaceResult.getCommandParserResult().getCommandStringList(),
-//                    commandLineInterfaceResult.getOptionParserResultSpecific(),
-//                    commandLineInterfaceResult.getParameterParserResult()
-//            );
-//        }
+    }
+
+    private void assertNotCalledBefore() {
+        if (this.calledBefore) throw new IllegalStateException(CommandLineInterface.class.getSimpleName() + ".parse called more than once.");
+        calledBefore = true;
     }
 
 }

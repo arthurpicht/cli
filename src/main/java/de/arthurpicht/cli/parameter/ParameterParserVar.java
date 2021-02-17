@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Arguments;
 
@@ -7,7 +8,8 @@ public class ParameterParserVar extends ParameterParser {
 
     private final int minimalNrOfArgument;
 
-    public ParameterParserVar(int minimalNrOfArguments) {
+    public ParameterParserVar(int minimalNrOfArguments, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+        super(commandLineInterfaceResultBuilder);
         this.minimalNrOfArgument = minimalNrOfArguments;
     }
 
@@ -26,6 +28,8 @@ public class ParameterParserVar extends ParameterParser {
             String argument = argumentIterator.getNext();
             this.parameterList.add(argument);
         }
+
+        this.commandLineInterfaceResultBuilder.withParameterParserResult(getParserResult());
     }
 
 }

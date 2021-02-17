@@ -1,9 +1,12 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
+import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
+import static de.arthurpicht.cli.option.OptionParser.Target.GLOBAL;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OptionParserBasicTest {
@@ -16,17 +19,9 @@ public class OptionParserBasicTest {
         String[] args = {"command", "parameter"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
-        OptionParser optionParser = new OptionParser(options);
-        try {
-            optionParser.parse(argumentIterator);
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            fail(e);
-        }
+        OptionParserResult optionParserResult = execute(argumentIterator, options);
 
         assertEquals(0, argumentIterator.getIndex());
-
-        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -38,17 +33,9 @@ public class OptionParserBasicTest {
         String[] args = {"command"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
-        OptionParser optionParser = new OptionParser(options);
-        try {
-            optionParser.parse(argumentIterator);
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            fail(e);
-        }
+        OptionParserResult optionParserResult = execute(argumentIterator, options);
 
         assertEquals(0, argumentIterator.getIndex());
-
-        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -60,17 +47,9 @@ public class OptionParserBasicTest {
         String[] args = {"command", "parameter"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
-        OptionParser optionParser = new OptionParser(options);
-        try {
-            optionParser.parse(argumentIterator);
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            fail(e);
-        }
+        OptionParserResult optionParserResult = execute(argumentIterator, options);
 
         assertEquals(0, argumentIterator.getIndex());
-
-        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -82,17 +61,9 @@ public class OptionParserBasicTest {
         String[] args = {"command"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
-        OptionParser optionParser = new OptionParser(options);
-        try {
-            optionParser.parse(argumentIterator);
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            fail(e);
-        }
+        OptionParserResult optionParserResult = execute(argumentIterator, options);
 
         assertEquals(0, argumentIterator.getIndex());
-
-        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -104,17 +75,9 @@ public class OptionParserBasicTest {
         String[] args = {"command", "parameter"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
-        OptionParser optionParser = new OptionParser(options);
-        try {
-            optionParser.parse(argumentIterator);
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            fail(e);
-        }
+        OptionParserResult optionParserResult = execute(argumentIterator, options);
 
         assertEquals(0, argumentIterator.getIndex());
-
-        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -126,17 +89,9 @@ public class OptionParserBasicTest {
         String[] args = {"command"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
-        OptionParser optionParser = new OptionParser(options);
-        try {
-            optionParser.parse(argumentIterator);
-        } catch (UnrecognizedArgumentException e) {
-            e.printStackTrace();
-            fail(e);
-        }
+        OptionParserResult optionParserResult = execute(argumentIterator, options);
 
         assertEquals(0, argumentIterator.getIndex());
-
-        OptionParserResult optionParserResult = optionParser.getParserResult();
         assertTrue(optionParserResult.isEmpty());
     }
 
@@ -148,13 +103,24 @@ public class OptionParserBasicTest {
         String[] args = {"command"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
-        OptionParser optionParser = new OptionParser(options);
+        execute(argumentIterator, options);
+    }
+
+    private OptionParserResult execute(ArgumentIterator argumentIterator, Options options) {
+
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        OptionParser optionParser = new OptionParser(GLOBAL, options, commandLineInterfaceResultBuilder);
+
         try {
             optionParser.parse(argumentIterator);
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail(e);
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
+
+        return optionParser.getParserResult();
     }
 
 }

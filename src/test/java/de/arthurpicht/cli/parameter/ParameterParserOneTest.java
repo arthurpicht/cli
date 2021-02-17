@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +15,11 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
-        ParameterParserOne argumentParserOne = new ParameterParserOne();
-        argumentParserOne.parse(argumentIterator);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserOne parameterParserOne = new ParameterParserOne(commandLineInterfaceResultBuilder);
+        parameterParserOne.parse(argumentIterator);
 
-        assertEquals("A", argumentParserOne.getParameterList().get(0));
+        assertEquals("A", parameterParserOne.getParserResult().getParameterList().get(0));
         assertEquals(0, argumentIterator.getIndex());
     }
 
@@ -27,10 +29,11 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 2);
 
-        ParameterParserOne argumentParserOne = new ParameterParserOne();
-        argumentParserOne.parse(argumentIterator);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserOne parameterParserOne = new ParameterParserOne(commandLineInterfaceResultBuilder);
+        parameterParserOne.parse(argumentIterator);
 
-        assertEquals("D", argumentParserOne.getParameterList().get(0));
+        assertEquals("D", parameterParserOne.getParameterList().get(0));
         assertEquals(3, argumentIterator.getIndex());
     }
 
@@ -40,10 +43,11 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 3);
 
-        ParameterParserOne argumentParserOne = new ParameterParserOne();
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserOne argumentParserOne = new ParameterParserOne(commandLineInterfaceResultBuilder);
         try {
             argumentParserOne.parse(argumentIterator);
-            fail("Exception expected.");
+            fail(ParameterParserException.class.getSimpleName() + " expected.");
         } catch (ParameterParserException e) {
             // din
         }

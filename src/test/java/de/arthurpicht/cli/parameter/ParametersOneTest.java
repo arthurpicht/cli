@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +11,7 @@ class ParametersOneTest {
     public void initByDefaultConstructor() {
         ParametersOne parametersOne = new ParametersOne();
 
-        assertTrue(parametersOne.getParameterParser() instanceof ParameterParserOne);
+        assertTrue(parametersOne.getParameterParser(new CommandLineInterfaceResultBuilder()) instanceof ParameterParserOne);
         assertEquals("<parameter>", parametersOne.getHelpUsageSubString());
         assertEquals("<parameter>", parametersOne.getHelpString());
     }

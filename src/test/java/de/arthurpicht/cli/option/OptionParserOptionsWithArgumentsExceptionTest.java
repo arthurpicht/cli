@@ -1,11 +1,14 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
+import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import org.junit.jupiter.api.Test;
 
 import static de.arthurpicht.cli.TestOut.printStacktrace;
 import static de.arthurpicht.cli.TestOut.println;
+import static de.arthurpicht.cli.option.OptionParser.Target.GLOBAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -25,7 +28,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -39,6 +43,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             println(e.getMessage());
             fail(e);
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -50,7 +56,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -64,6 +71,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail("Wrong exception.");
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -75,7 +84,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -89,6 +99,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             println(e.getMessage());
             fail("Wrong exception.");
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -100,7 +112,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -114,6 +127,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail("Wrong exception.");
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -125,7 +140,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception exception.");
 
@@ -139,6 +155,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             println(e.getMessage());
             fail("Wrong exception");
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -150,7 +168,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -164,6 +183,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             println(e.getMessage());
             fail("Wrong exception.");
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -175,7 +196,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -191,6 +213,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
             fail();
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -202,7 +226,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -217,6 +242,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             printStacktrace(e);
             fail("Wrong exception thrown: " + e.getClass().getSimpleName());
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 
@@ -228,7 +255,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            OptionParser optionParser = new OptionParser(getOptions());
+            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -243,6 +271,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         } catch (UnrecognizedArgumentException e) {
             printStacktrace(e);
             fail("Wrong exception: " + e.getClass().getSimpleName());
+        } catch (ParsingBrokenEvent parsingBrokenEvent) {
+            fail(parsingBrokenEvent);
         }
     }
 

@@ -1,5 +1,7 @@
 package de.arthurpicht.cli.command;
 
+import de.arthurpicht.cli.CommandLineInterfaceResult;
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.CommandParserException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
@@ -7,10 +9,12 @@ import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static de.arthurpicht.cli.CommandLineInterfaceResult.Status.TEST;
 import static de.arthurpicht.cli.TestOut.printStacktrace;
 import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,14 +27,21 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(
+                commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -49,14 +60,21 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(
+                commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -76,14 +94,21 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").addOpen().build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(
+                commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
@@ -105,7 +130,12 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C2").build());
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C3").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(
+                commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "something", "C2"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -126,16 +156,23 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(
+                commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
 
-            assertEquals(3, commandParser.getParserResult().getCommandStringList().size());
+            CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
+
+            assertEquals(3, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals("C", commandStringList.get(2));
@@ -153,7 +190,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "D", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -176,7 +217,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -208,7 +253,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -234,7 +283,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"X"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -259,7 +312,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("E", "F").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -284,7 +341,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("E", "F").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"E", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -312,7 +373,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -320,13 +385,14 @@ class CommandParserTest {
         try {
             commandParser.parse(argumentIterator);
 
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals(0, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
+            Options optionsSpecificBack = cliResult.getCommandParserResult().getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
@@ -345,20 +411,26 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "--test"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
 
             assertEquals(1, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals(0, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
+            Options optionsSpecificBack = cliResult.getCommandParserResult().getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
@@ -377,7 +449,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -385,14 +461,15 @@ class CommandParserTest {
         try {
             commandParser.parse(argumentIterator);
 
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
 
             assertEquals(2, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
             assertEquals(1, argumentIterator.getIndex());
 
-            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
+            Options optionsSpecificBack = cliResult.getCommandParserResult().getSpecificOptions();
 
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
@@ -412,7 +489,11 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecific).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "--test"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -420,15 +501,14 @@ class CommandParserTest {
         try {
             commandParser.parse(argumentIterator);
 
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
+            Options optionsSpecificBack = cliResult.getCommandParserResult().getSpecificOptions();
 
             assertEquals(2, commandStringList.size());
             assertEquals("A", commandStringList.get(0));
             assertEquals("B", commandStringList.get(1));
-
             assertEquals(1, argumentIterator.getIndex());
-
-            Options optionsSpecificBack = commandParser.getParserResult().getSpecificOptions();
             assertFalse(optionsSpecificBack.isEmpty());
             assertTrue(optionsSpecificBack.hasOptionWithId("x"));
 
@@ -444,14 +524,20 @@ class CommandParserTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
@@ -474,14 +560,20 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("X", "B", "C").build());
         commands.add(new CommandSequenceBuilder().addCommands("Y", "B", "C").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
@@ -503,14 +595,20 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("ABC", "B", "C").build());
         commands.add(new CommandSequenceBuilder().addCommands("X", "Z").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
             commandParser.parse(argumentIterator);
-            List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+
+            CommandLineInterfaceResult cliResult = commandLineInterfaceResultBuilder.build(TEST);
+            List<String> commandStringList = cliResult.getCommandParserResult().getCommandStringList();
 
             assertEquals(3, commandStringList.size());
             assertEquals("ABC", commandStringList.get(0));
@@ -533,7 +631,11 @@ class CommandParserTest {
         commands.add(new CommandSequenceBuilder().addCommands("AX", "BB", "CC").build());
         commands.add(new CommandSequenceBuilder().addCommands("X", "Z").build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -572,13 +674,18 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         commandParser.parse(argumentIterator);
-        List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+        CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+        List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
 
         assertEquals(2, commandStringList.size());
         assertEquals("A", commandStringList.get(0));
@@ -598,13 +705,18 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "-b"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         commandParser.parse(argumentIterator);
-        List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+        CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+        List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
 
         assertEquals(2, commandStringList.size());
         assertEquals("A", commandStringList.get(0));
@@ -623,13 +735,18 @@ class CommandParserTest {
                 .add(new OptionBuilder().withShortName('b').withLongName("boption").hasArgument().build("d"));
         commands.add(new CommandSequenceBuilder().addCommands("A", "B").withSpecificOptions(optionsSpecificB).build());
 
-        CommandParser commandParser = new CommandParser(commands.getCommandTree(), null);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+
+        CommandParser commandParser = new CommandParser(commands.getCommandTree(),
+                null,
+                commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "--", "somethingElse"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         commandParser.parse(argumentIterator);
-        List<String> commandStringList = commandParser.getParserResult().getCommandStringList();
+        CommandLineInterfaceResult result = commandLineInterfaceResultBuilder.build(TEST);
+        List<String> commandStringList = result.getCommandParserResult().getCommandStringList();
 
         assertEquals(2, commandStringList.size());
         assertEquals("A", commandStringList.get(0));

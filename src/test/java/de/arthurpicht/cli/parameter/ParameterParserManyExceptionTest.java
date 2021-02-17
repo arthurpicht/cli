@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +11,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class ParameterParserManyExceptionTest {
 
     @Test
-    void parseInsufficientNumber() {
+    void parseInsufficientNumber_neg() {
 
-        ParameterParserMany parameterParserMany = new ParameterParserMany(3);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserMany parameterParserMany = new ParameterParserMany(3, commandLineInterfaceResultBuilder);
 
         String[] args = {"somethingElse", "A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
             parameterParserMany.parse(argumentIterator);
-            fail();
+            fail(IllegalNumberOfParametersException.class.getSimpleName() + " expected.");
 
         } catch (IllegalNumberOfParametersException e) {
 
@@ -34,16 +36,17 @@ public class ParameterParserManyExceptionTest {
     }
 
     @Test
-    void oneParameterSurplus() {
+    void oneParameterSurplus_neg() {
 
-        ParameterParserMany parameterParserMany = new ParameterParserMany(3);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserMany parameterParserMany = new ParameterParserMany(3, commandLineInterfaceResultBuilder);
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
             parameterParserMany.parse(argumentIterator);
-            fail();
+            fail(IllegalNumberOfParametersException.class.getSimpleName() + " exptected.");
 
         } catch (IllegalNumberOfParametersException e) {
 
@@ -63,14 +66,15 @@ public class ParameterParserManyExceptionTest {
     @Test
     void twoParametersSurplus() {
 
-        ParameterParserMany parameterParserMany = new ParameterParserMany(2);
+        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        ParameterParserMany parameterParserMany = new ParameterParserMany(2, commandLineInterfaceResultBuilder);
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
             parameterParserMany.parse(argumentIterator);
-            fail();
+            fail(IllegalNumberOfParametersException.class.getSimpleName() + " expected.");
 
         } catch (IllegalNumberOfParametersException e) {
 

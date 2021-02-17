@@ -1,9 +1,15 @@
 package de.arthurpicht.cli.common;
 
+import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+
 public abstract class Parser {
 
-    public abstract void parse(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException;
+    protected CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder;
 
-    public abstract ParserResult getParserResult();
+    public Parser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+        this.commandLineInterfaceResultBuilder = commandLineInterfaceResultBuilder;
+    }
+
+    public abstract void parse(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException, ParsingBrokenEvent;
 
 }
