@@ -7,13 +7,13 @@ import de.arthurpicht.cli.option.Options;
 
 public class CommandLineInterfaceDefinition {
 
-    private final String executableName;
+    private final CommandLineInterfaceDescription commandLineInterfaceDescription;
     private final Options globalOptions;
     private final CommandTree commandTree;
     private final DefaultCommand defaultCommand;
 
-    public CommandLineInterfaceDefinition(String executableName, Options globalOptions, CommandTree commandTree, DefaultCommand defaultCommand) {
-        this.executableName = executableName;
+    public CommandLineInterfaceDefinition(CommandLineInterfaceDescription commandLineInterfaceDescription, Options globalOptions, CommandTree commandTree, DefaultCommand defaultCommand) {
+        this.commandLineInterfaceDescription = commandLineInterfaceDescription;
         this.globalOptions = globalOptions;
         this.commandTree = commandTree;
         this.defaultCommand = defaultCommand;
@@ -22,8 +22,8 @@ public class CommandLineInterfaceDefinition {
             throw new CLISpecificationException("Specification of at least commands or default command is expected.");
     }
 
-    public String getExecutableName() {
-        return this.executableName;
+    public CommandLineInterfaceDescription getCommandLineInterfaceDescription() {
+        return commandLineInterfaceDescription;
     }
 
     public boolean hasGlobalOptions() {

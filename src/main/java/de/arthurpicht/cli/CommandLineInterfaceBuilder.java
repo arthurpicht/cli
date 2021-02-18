@@ -29,13 +29,22 @@ public class CommandLineInterfaceBuilder {
     }
 
     public CommandLineInterface build(String executableName) {
+        CommandLineInterfaceDescription commandLineInterfaceDescription
+                = new CommandLineInterfaceDescription(executableName);
+        return createCommandLineInterface(commandLineInterfaceDescription);
+    }
+
+    public CommandLineInterface build(CommandLineInterfaceDescription commandLineInterfaceDescription) {
+        return createCommandLineInterface(commandLineInterfaceDescription);
+    }
+
+    private CommandLineInterface createCommandLineInterface(CommandLineInterfaceDescription commandLineInterfaceDescription) {
         CommandLineInterfaceDefinition commandLineInterfaceDefinition = new CommandLineInterfaceDefinition(
-                executableName,
+                commandLineInterfaceDescription,
                 this.optionsGlobal,
                 this.commandTree,
                 this.defaultCommand
         );
         return new CommandLineInterface(commandLineInterfaceDefinition);
     }
-
 }

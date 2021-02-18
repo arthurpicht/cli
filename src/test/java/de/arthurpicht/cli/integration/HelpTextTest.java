@@ -58,10 +58,17 @@ public class HelpTextTest {
 //                        .build()
 //        );
 
+        CommandLineInterfaceDescription commandLineInterfaceDescription
+                = new CommandLineInterfaceDescriptionBuilder("test")
+                .withDescription("A description for test.")
+                .withVersion("v1.0.0")
+                .withDate("18.02.2021")
+                .build();
+
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .build("test");
+                .build(commandLineInterfaceDescription);
     }
 
     @Test

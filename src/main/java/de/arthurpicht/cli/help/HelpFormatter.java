@@ -2,6 +2,7 @@ package de.arthurpicht.cli.help;
 
 import de.arthurpicht.cli.CommandLineInterfaceCall;
 import de.arthurpicht.cli.CommandLineInterfaceDefinition;
+import de.arthurpicht.cli.CommandLineInterfaceDescription;
 import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.option.OptionParserResult;
@@ -16,19 +17,20 @@ public class HelpFormatter {
     public static final int COL_WIDTH = 30;
 
     public static void out(CommandLineInterfaceCall commandLineInterfaceCall) {
-        System.out.println(getUsage(commandLineInterfaceCall));
-        System.out.println("Explanation of command ...");
+        printUsage(commandLineInterfaceCall);
+        printDescription(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
         printGlobalOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
         printSpecificOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
         printParametersHelpString(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
+//        printVersionAndDate(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
     }
 
-    private static String getUsage(CommandLineInterfaceCall call) {
+    private static void printUsage(CommandLineInterfaceCall call) {
 
         CommandLineInterfaceDefinition definition = call.getCommandLineInterfaceDefinition();
         CommandParserResult commandParserResult = call.getCommandLineInterfaceResult().getCommandParserResult();
 
-        String usage = "Usage: " + call.getCommandLineInterfaceDefinition().getExecutableName();
+        String usage = "Usage: " + call.getCommandLineInterfaceDefinition().getCommandLineInterfaceDescription().getExecutableName();
 
         if (definition.hasGlobalOptions()) {
             usage += " [global options]";
@@ -44,7 +46,35 @@ public class HelpFormatter {
             usage += " " + commandParserResult.getParameters().getHelpUsageSubString();
         }
 
-        return usage;
+        System.out.println(usage);
+    }
+
+    private static void printDescription(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+        System.out.println(commandLineInterfaceDefinition.getCommandLineInterfaceDescription().getDescription());
+    }
+
+    private static void printVersionAndDate(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+        String versionAndDate = getVersionAndDateString(commandLineInterfaceDefinition);
+        if (Strings.isSpecified(versionAndDate))
+            System.out.println(versionAndDate);
+    }
+
+    public static String getVersionAndDateString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+        CommandLineInterfaceDescription commandLineInterfaceDescription
+                = commandLineInterfaceDefinition.getCommandLineInterfaceDescription();
+
+        String versionAndDate = "";
+
+        if (commandLineInterfaceDescription.hasVersion()) {
+            versionAndDate += "Version: " + commandLineInterfaceDescription.getVersion();
+        }
+
+        if (commandLineInterfaceDescription.hasDate()) {
+            if (Strings.isSpecified(versionAndDate)) versionAndDate += " ";
+            versionAndDate += "from: " + commandLineInterfaceDescription.getDate();
+        }
+
+        return versionAndDate;
     }
 
     private static void printGlobalOptionsHelpString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
