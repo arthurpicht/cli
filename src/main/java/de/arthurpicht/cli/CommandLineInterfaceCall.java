@@ -1,14 +1,17 @@
 package de.arthurpicht.cli;
 
+import de.arthurpicht.cli.CommandLineInterfaceResult.Status;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.parameter.ParameterParserResult;
 
 import java.util.List;
 
 /**
- * Representation of a end-user call to command line interface. An instance is
+ * Representation of an end user call to command line interface. An instance is
  * created by cli {@link CommandLineInterface} when given end user arguments
  * could be recognized as syntactically correct and parsed successfully.
+ * Contains specified arguments, {@link CommandLineInterfaceDefinition} and
+ * {@link CommandLineInterfaceResult}.
  */
 public class CommandLineInterfaceCall {
 
@@ -113,6 +116,15 @@ public class CommandLineInterfaceCall {
      */
     public CommandExecutor getCommandExecutor() {
         return this.commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
+    }
+
+    /**
+     * A convenience (shortcut) method that return the status of the parsing result.
+     *
+     * @return status of parsing result
+     */
+    public Status getStatus() {
+        return this.commandLineInterfaceResult.getStatus();
     }
 
 }

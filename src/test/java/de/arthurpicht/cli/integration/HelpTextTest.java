@@ -10,19 +10,20 @@ import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParametersVar;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class HelpTextTest {
 
-    private static class HelpExecutor implements CommandExecutor {
-
-        @Override
-        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
-            if (commandLineInterfaceCall.getCommandLineInterfaceResult().getOptionParserResultSpecific().hasOption("HELP")) {
-                HelpFormatter.out(commandLineInterfaceCall);
-            }
-        }
-    }
+//    private static class HelpExecutor implements CommandExecutor {
+//
+//        @Override
+//        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
+//            if (commandLineInterfaceCall.getCommandLineInterfaceResult().getOptionParserResultSpecific().hasOption("HELP")) {
+//                HelpFormatter.out(commandLineInterfaceCall);
+//            }
+//        }
+//    }
 
     private CommandLineInterface getCommandLineInterface() {
 
@@ -41,7 +42,7 @@ public class HelpTextTest {
                                         .add(new Option("A", 'A', "almost-all", false, "", "do not list implied . and .."))
                         )
                         .withParameters(new ParametersVar(1, "file", "Files to be processed."))
-                        .withCommandExecutor(new HelpTextTest.HelpExecutor())
+//                        .withCommandExecutor(new HelpTextTest.HelpExecutor())
                         .build()
         );
 //        commands.add(

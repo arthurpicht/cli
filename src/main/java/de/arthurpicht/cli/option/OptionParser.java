@@ -32,14 +32,14 @@ public class OptionParser extends Parser {
 
         parseInner(argumentIterator);
 
-        if (this.optionParserResult.hasBreakingOption())
-            throw new ParsingBrokenEvent(commandLineInterfaceResultBuilder.build(BROKEN));
-
         if (this.target == Target.GLOBAL) {
             commandLineInterfaceResultBuilder.withOptionParserResultGlobal(this.optionParserResult);
         } else {
             commandLineInterfaceResultBuilder.withOptionParserResultSpecific(this.optionParserResult);
         }
+
+        if (this.optionParserResult.hasBreakingOption())
+            throw new ParsingBrokenEvent(commandLineInterfaceResultBuilder.build(BROKEN));
     }
 
     public void parseInner(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException {

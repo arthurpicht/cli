@@ -1,5 +1,6 @@
 package de.arthurpicht.cli;
 
+import de.arthurpicht.cli.CommandLineInterfaceResult.Status;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.command.DefaultCommand;
@@ -7,6 +8,7 @@ import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.ArgumentIterator;
+import de.arthurpicht.cli.common.GenericCommandExecutor;
 import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParser;
@@ -24,6 +26,12 @@ public class CommandLineInterface {
     private final CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder;
     private boolean calledBefore;
 
+    /**
+     * Initializes CommandLIneInterface. Usage for end user is discouraged. Use {@link CommandLineInterfaceBuilder}
+     * instead.
+     *
+     * @param commandLineInterfaceDefinition
+     */
     public CommandLineInterface(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
 
         if (commandLineInterfaceDefinition == null)
@@ -34,6 +42,14 @@ public class CommandLineInterface {
         this.calledBefore = false;
     }
 
+    /**
+     * Parses arguments without executing command specific {@link CommandExecutor}.
+     *
+     * @param args arguments as given by end user on cli.
+     * @return
+     * @throws UnrecognizedArgumentException
+     * @throws IllegalStateException if called more than once
+     */
     public CommandLineInterfaceCall parse(String[] args) throws UnrecognizedArgumentException {
 
         assertNotCalledBefore();
@@ -133,14 +149,16 @@ public class CommandLineInterface {
      *
      * @param args cli arguments
      * @return CommandLineInterfaceCall
-     * @throws UnrecognizedArgumentException
+     * @throws UnrecognizedArgumentException if an argument can not be recognized as an syntactical element of the cli
      */
     public CommandLineInterfaceCall execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
 
         if (args == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'args' is null.");
 
         CommandLineInterfaceCall commandLineInterfaceCall = this.parse(args);
-        if (commandLineInterfaceCall.hasCommandExecutor()) {
+        if (commandLineInterfaceCall.getStatus() == Status.BROKEN) {
+            GenericCommandExecutor.apply(commandLineInterfaceCall);
+        } else if (commandLineInterfaceCall.hasCommandExecutor()) {
             CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
             commandExecutor.execute(commandLineInterfaceCall);
         }
@@ -151,8 +169,8 @@ public class CommandLineInterface {
      * Executes CommandExecutor for pre-parsed arguments. No action is performed if no CommandExecutor is bound
      * to parserResult.
      *
-     * @param commandLineInterfaceCall
-     * @throws CommandExecutorException
+     * @param commandLineInterfaceCall aggregation of an end user call including cli definition and parser result
+     * @throws CommandExecutorException if an error occurs while executing CommandExecutor
      */
     public void execute(CommandLineInterfaceCall commandLineInterfaceCall) throws CommandExecutorException {
 
