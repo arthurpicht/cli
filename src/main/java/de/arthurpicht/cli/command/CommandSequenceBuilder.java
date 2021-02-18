@@ -19,6 +19,7 @@ public class CommandSequenceBuilder {
     private Options specificOptions = null;
     private Parameters parameters = null;
     private CommandExecutor commandExecutor = null;
+    private String description = null;
 
     public CommandSequenceBuilder() {
         this.commandList = new ArrayList<>();
@@ -67,10 +68,16 @@ public class CommandSequenceBuilder {
         return this;
     }
 
+    public CommandSequenceBuilder withDescription(String description) {
+        AssertMethodPrecondition.methodParamNotNullAndNotEmpty("description", description);
+        this.description = description;
+        return this;
+    }
+
     public CommandSequence build() {
         assertNotEmpty();
         assertNoOpenCommandInCombinationWithParameters();
-        return new CommandSequence(this.commandList, this.specificOptions, this.parameters, this.commandExecutor);
+        return new CommandSequence(this.commandList, this.specificOptions, this.parameters, this.commandExecutor, this.description);
     }
 
     private void assertNotRestrictedByOpenCommand() {

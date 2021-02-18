@@ -27,6 +27,7 @@ public class CommandParser extends Parser {
     private Options specificOptions;
     private Parameters parameters;
     private CommandExecutor commandExecutor;
+    private String description;
 
     public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
         super(commandLineInterfaceResultBuilder);
@@ -37,6 +38,7 @@ public class CommandParser extends Parser {
         this.specificOptions = null;
         this.parameters = null;
         this.commandExecutor = null;
+        this.description = null;
     }
 
     private CommandParserResult getParserResult() {
@@ -44,7 +46,8 @@ public class CommandParser extends Parser {
                 this.commandStringList,
                 this.specificOptions,
                 this.parameters,
-                this.commandExecutor
+                this.commandExecutor,
+                this.description
         );
     }
 
@@ -128,12 +131,14 @@ public class CommandParser extends Parser {
         this.specificOptions = command.getCommandTerminator().getSpecificOptions();
         this.parameters = command.getCommandTerminator().getParameters();
         this.commandExecutor = command.getCommandTerminator().getCommandExecutor();
+        this.description = command.getCommandTerminator().getDescription();
     }
 
     private void setPropertiesFromDefaultCommand(DefaultCommand defaultCommand) {
         this.specificOptions = null;
         this.parameters = defaultCommand.getParameters();
         this.commandExecutor = defaultCommand.getCommandExecutor();
+        this.description = defaultCommand.getDescription();
     }
 
 }

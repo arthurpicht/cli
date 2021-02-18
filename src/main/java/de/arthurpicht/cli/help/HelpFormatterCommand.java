@@ -12,13 +12,13 @@ import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.List;
 
-public class HelpFormatter {
+public class HelpFormatterCommand {
 
     public static final int COL_WIDTH = 30;
 
     public static void out(CommandLineInterfaceCall commandLineInterfaceCall) {
         printUsage(commandLineInterfaceCall);
-        printDescription(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
+        printDescription(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
         printGlobalOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
         printSpecificOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
         printParametersHelpString(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
@@ -49,8 +49,14 @@ public class HelpFormatter {
         System.out.println(usage);
     }
 
-    private static void printDescription(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
-        System.out.println(commandLineInterfaceDefinition.getCommandLineInterfaceDescription().getDescription());
+//    private static void printDescription(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+//        System.out.println(commandLineInterfaceDefinition.getCommandLineInterfaceDescription().getDescription());
+//    }
+
+    private static void printDescription(CommandParserResult commandParserResult) {
+        if (commandParserResult.hasDescription()) {
+            System.out.println(commandParserResult.getDescription());
+        }
     }
 
     private static void printVersionAndDate(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {

@@ -4,31 +4,18 @@ import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
-import de.arthurpicht.cli.help.HelpFormatter;
-import de.arthurpicht.cli.option.HelpOption;
-import de.arthurpicht.cli.option.Option;
-import de.arthurpicht.cli.option.OptionBuilder;
-import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.option.*;
+import de.arthurpicht.cli.parameter.ParametersOne;
 import de.arthurpicht.cli.parameter.ParametersVar;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class HelpTextTest {
 
-//    private static class HelpExecutor implements CommandExecutor {
-//
-//        @Override
-//        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
-//            if (commandLineInterfaceCall.getCommandLineInterfaceResult().getOptionParserResultSpecific().hasOption("HELP")) {
-//                HelpFormatter.out(commandLineInterfaceCall);
-//            }
-//        }
-//    }
-
     private CommandLineInterface getCommandLineInterface() {
 
         Options globalOptions = new Options()
-                .add(new OptionBuilder().withShortName('v').withLongName("version").withDescription("Show version and exit.").build("VERSION"))
+                .add(new VersionOption())
+                .add(new HelpOption())
                 .add(new OptionBuilder().withLongName("stacktrace").withDescription("Show stacktrace on error occurence.").build("STACKTRACE"))
                 .add(new OptionBuilder().withLongName("loglevel").withArgumentName("loglevel").withDescription("Log level.").build("LOGLEVEL"));
 
@@ -42,21 +29,21 @@ public class HelpTextTest {
                                         .add(new Option("A", 'A', "almost-all", false, "", "do not list implied . and .."))
                         )
                         .withParameters(new ParametersVar(1, "file", "Files to be processed."))
-//                        .withCommandExecutor(new HelpTextTest.HelpExecutor())
+                        .withDescription("This is a description for command_A.")
                         .build()
         );
-//        commands.add(
-//                new CommandSequenceBuilder()
-//                        .addCommands("delete")
-//                        .withParameters(new ParametersVar(1))
-//                        .withCommandExecutor((commandLineInterfaceCall) -> {
-//                            System.out.println("Deleting the following items:");
-//                            for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {
-//                                System.out.println(item);
-//                            }
-//                        })
-//                        .build()
-//        );
+        commands.add(
+                new CommandSequenceBuilder()
+                        .addCommands("COMMAND_B")
+                        .withSpecificOptions(
+                                new Options()
+                                .add(new HelpOption())
+                                .add(new Option("B", 'b', "brrr", false, "", "The brrr option"))
+                                .add(new Option("C", 'c', "cool", true, "what", "The cool option."))
+                        )
+                        .withParameters(new ParametersOne())
+                        .build()
+        );
 
         CommandLineInterfaceDescription commandLineInterfaceDescription
                 = new CommandLineInterfaceDescriptionBuilder("test")
@@ -72,10 +59,19 @@ public class HelpTextTest {
     }
 
     @Test
-    public void test() throws CommandExecutorException, UnrecognizedArgumentException {
+    public void specificHelp() throws CommandExecutorException, UnrecognizedArgumentException {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
         String[] args = {"COMMAND_A", "-h"};
+        commandLineInterface.execute(args);
+
+    }
+
+    @Test
+    public void globalHelp() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        String[] args = {"-h"};
         commandLineInterface.execute(args);
 
     }

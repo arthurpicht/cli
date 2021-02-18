@@ -47,6 +47,7 @@ public class OneCommand extends Command {
         return this.commandString;
     }
 
+    @Override
     public String toString() {
         return this.commandString;
     }

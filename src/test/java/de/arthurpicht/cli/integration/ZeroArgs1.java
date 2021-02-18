@@ -23,7 +23,7 @@ public class ZeroArgs1 {
         CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
                 .withGlobalOptions(new Options()
                         .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v")))
-                .withCommands(new Commands().setDefaultCommand(new DefaultCommand(null, null)))
+                .withCommands(new Commands().setDefaultCommand(new DefaultCommand(null, null, null)))
                 .build("test");
 
         String[] args = {};

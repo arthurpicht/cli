@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.help.HelpFormatter;
+import de.arthurpicht.cli.help.HelpFormatterCommand;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.*;
@@ -135,7 +135,7 @@ public class Options {
         // TODO Blocksatz, Zeilenumbruch helptext s.a. https://commons.apache.org/proper/commons-cli/
 
         if (option.hasHelpText()) {
-            Strings.fillUpAfter(stringBuilder, ' ', HelpFormatter.COL_WIDTH);
+            Strings.fillUpAfter(stringBuilder, ' ', HelpFormatterCommand.COL_WIDTH);
             stringBuilder.append(option.getDescription());
         }
 

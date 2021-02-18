@@ -14,11 +14,11 @@ public class CommandSequence {
 
     private final List<Command> commandList;
 
-    public CommandSequence(List<Command> commandList, Options specificOptions, Parameters parameters, CommandExecutor commandExecutor) {
+    public CommandSequence(List<Command> commandList, Options specificOptions, Parameters parameters, CommandExecutor commandExecutor, String description) {
         if (commandList.isEmpty()) throw new RuntimeException("Specified command list must not be empty.");
         this.commandList = commandList;
         Command lastCommand = commandList.get(commandList.size() - 1);
-        CommandTerminator commandTerminator = new CommandTerminator(specificOptions, parameters, commandExecutor);
+        CommandTerminator commandTerminator = new CommandTerminator(specificOptions, parameters, commandExecutor, description);
         lastCommand.terminate(commandTerminator);
     }
 

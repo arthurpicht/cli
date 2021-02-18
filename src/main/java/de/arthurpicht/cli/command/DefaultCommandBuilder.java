@@ -7,6 +7,7 @@ public class DefaultCommandBuilder {
 
     private Parameters parameters;
     private CommandExecutor commandExecutor;
+    private String description;
 
     public DefaultCommandBuilder() {
         this.parameters = null;
@@ -23,8 +24,13 @@ public class DefaultCommandBuilder {
         return this;
     }
 
+    public DefaultCommandBuilder withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
     public DefaultCommand build() {
-        return new DefaultCommand(this.parameters, this.commandExecutor);
+        return new DefaultCommand(this.parameters, this.commandExecutor, this.description);
     }
 
 }

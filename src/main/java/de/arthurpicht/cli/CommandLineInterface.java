@@ -112,7 +112,8 @@ public class CommandLineInterface {
                                 new ArrayList<>(),
                                 null,
                                 defaultCommand.getParameters(),
-                                defaultCommand.getCommandExecutor()
+                                defaultCommand.getCommandExecutor(),
+                                defaultCommand.getDescription()
                         ));
             }
         }
