@@ -1,9 +1,9 @@
 package de.arthurpicht.cli.command.tree;
 
 import de.arthurpicht.cli.command.tree.generic.UnsortedMultiBiTreeNode;
+import de.arthurpicht.utils.core.strings.Strings;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CommandTreeNode extends UnsortedMultiBiTreeNode<Command> {
 
@@ -100,5 +100,19 @@ public class CommandTreeNode extends UnsortedMultiBiTreeNode<Command> {
         parent.addChild(child);
         child.attachToParent(parent);
     }
+
+    public String getCommandsString() {
+        List<String> commandChainList = new ArrayList<>();
+        commandChainList.add(getCommand().toString());
+        CommandTreeNode node = this;
+        while(!node.getParent().isRoot()) {
+            node = node.getParent();
+            commandChainList.add(node.getElement().toString());
+        }
+
+        Collections.reverse(commandChainList);
+        return Strings.listing(commandChainList, " ");
+    }
+
 
 }

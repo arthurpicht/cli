@@ -21,6 +21,10 @@ public class CommandTree extends UnsortedMultiBiTree<Command> {
         return !this.getRootNode().hasChildren();
     }
 
+    public boolean hasCommands() {
+        return !isEmpty();
+    }
+
     public CommandTreeNode getNode(List<String> commandList) {
         CommandTreeNode commandTreeNode = this.getRootNode();
         for (String commandString : commandList) {

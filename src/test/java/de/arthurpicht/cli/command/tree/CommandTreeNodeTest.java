@@ -58,4 +58,24 @@ class CommandTreeNodeTest {
         assertNotEquals(commandTreeNodeFake, commandTreeNode);
     }
 
+    @Test
+    public void getCommandsString() {
+
+        Command command = new OneCommand("root");
+        CommandTreeNode rootNode = new CommandTreeNode(command);
+
+        Command commandA = new OneCommand("A");
+        CommandTreeNode nodeA = new CommandTreeNode(commandA);
+        rootNode.addChild(nodeA);
+        nodeA.attachToParent(rootNode);
+
+        Command commandB = new OneCommand("B");
+        CommandTreeNode nodeB = new CommandTreeNode(commandB);
+        nodeA.addChild(nodeB);
+        nodeB.attachToParent(nodeA);
+
+        String commandsString = nodeB.getCommandsString();
+        assertEquals("A B", commandsString);
+    }
+
 }

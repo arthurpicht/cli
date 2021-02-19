@@ -15,6 +15,10 @@ public class DefaultCommand {
         this.description = description;
     }
 
+    public boolean hasParameters() {
+        return this.parameters != null;
+    }
+
     public Parameters getParameters() {
         return parameters;
     }
