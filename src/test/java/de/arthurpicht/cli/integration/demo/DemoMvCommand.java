@@ -78,6 +78,7 @@ public class DemoMvCommand {
 
         CommandLineInterfaceCall call = commandLineInterface.execute(args);
 
+        // TODO assert out
 
     }
 

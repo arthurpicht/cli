@@ -10,6 +10,8 @@ import de.arthurpicht.cli.parameter.Parameters;
 
 import java.util.Set;
 
+import static de.arthurpicht.cli.help.HelpFormatter.INDENT;
+
 public class HelpFormatterGlobal {
 
     public static void out(CommandLineInterfaceCall commandLineInterfaceCall) {
@@ -19,27 +21,38 @@ public class HelpFormatterGlobal {
         CommandTree commandTree = commandLineInterfaceCall.getCommandLineInterfaceDefinition().getCommandTree();
         Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
 
+        if (commandLineInterfaceDefinition.hasDefaultCommand() && !commandLineInterfaceCall.getCommandLineInterfaceDefinition().hasCommands()) {
+            HelpFormatterCommand.out(commandLineInterfaceCall);
+            return;
+        }
+
         System.out.println(getHeaderString(commandLineInterfaceDefinition));
 
         if (commandLineInterfaceDescription.hasDescription()) {
-            System.out.println(commandLineInterfaceDescription.getDescription());
+            String description = commandLineInterfaceDescription.getDescription();
+            System.out.println(HelpFormatter.formatString(description));
         }
 
         System.out.println("Usage:");
 
         if (commandLineInterfaceDefinition.hasDefaultCommand()) {
-            System.out.println("  " + getDefaultUsage(commandLineInterfaceDefinition));
+            System.out.println(INDENT + getDefaultUsage(commandLineInterfaceDefinition));
         }
 
         if (commandTree.hasCommands()) {
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
                 String usageString = getSpecificUsage(commandTreeNode, commandLineInterfaceDefinition);
-                System.out.println("  " + usageString);
+                System.out.println(INDENT + usageString);
             }
         }
 
         HelpFormatter.printGlobalOptionsHelpString(commandLineInterfaceDefinition);
 
+    }
+
+    private static boolean isOnlyDefaultCommand(CommandLineInterfaceCall commandLineInterfaceCall) {
+        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
+        return (commandLineInterfaceDefinition.hasDefaultCommand() && !commandLineInterfaceDefinition.hasCommands());
     }
 
     private static String getHeaderString(CommandLineInterfaceDefinition cliDefinition) {

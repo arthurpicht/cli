@@ -18,7 +18,7 @@ public class HelpFormatter {
     }
 
     public static String formatString(String string) {
-        return string.replace("\n", "\n" + INDENT);
+        return INDENT + string.replace("\n", "\n" + INDENT);
     }
 
 
