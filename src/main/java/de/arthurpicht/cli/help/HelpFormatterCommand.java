@@ -3,23 +3,23 @@ package de.arthurpicht.cli.help;
 import de.arthurpicht.cli.CommandLineInterfaceCall;
 import de.arthurpicht.cli.CommandLineInterfaceDefinition;
 import de.arthurpicht.cli.CommandLineInterfaceDescription;
-import de.arthurpicht.cli.CommandLineInterfaceResult;
 import de.arthurpicht.cli.command.CommandParserResult;
-import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
-
-import java.util.List;
 
 public class HelpFormatterCommand {
 
     public static final int COL_WIDTH = 30;
 
+
     public static void out(CommandLineInterfaceCall commandLineInterfaceCall) {
+
+        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
+
         printUsage(commandLineInterfaceCall);
-        printDescription(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
-        printGlobalOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
+        printCommandDescription(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
+        HelpFormatter.printGlobalOptionsHelpString(commandLineInterfaceDefinition);
         printSpecificOptionsHelpString(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
         printParametersHelpString(commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult());
 //        printVersionAndDate(commandLineInterfaceCall.getCommandLineInterfaceDefinition());
@@ -53,9 +53,10 @@ public class HelpFormatterCommand {
 //        System.out.println(commandLineInterfaceDefinition.getCommandLineInterfaceDescription().getDescription());
 //    }
 
-    private static void printDescription(CommandParserResult commandParserResult) {
+    private static void printCommandDescription(CommandParserResult commandParserResult) {
         if (commandParserResult.hasDescription()) {
-            System.out.println(commandParserResult.getDescription());
+            String description = HelpFormatter.formatString(commandParserResult.getDescription());
+            System.out.println(description);
         }
     }
 
@@ -83,15 +84,15 @@ public class HelpFormatterCommand {
         return versionAndDate;
     }
 
-    private static void printGlobalOptionsHelpString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
-
-        if (!commandLineInterfaceDefinition.hasGlobalOptions()) return;
-
-        System.out.println("Global options:");
-
-        Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
-        System.out.println(globalOptions.getHelpString());
-    }
+//    private static void printGlobalOptionsHelpString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+//
+//        if (!commandLineInterfaceDefinition.hasGlobalOptions()) return;
+//
+//        System.out.println("Global options:");
+//
+//        Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
+//        System.out.println(globalOptions.getHelpString());
+//    }
 
     private static void printSpecificOptionsHelpString(CommandParserResult commandParserResult) {
 

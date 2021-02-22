@@ -28,7 +28,7 @@ public class HelpFormatterGlobal {
         System.out.println("Usage:");
 
         if (commandLineInterfaceDefinition.hasDefaultCommand()) {
-            System.out.println(getDefaultUsage(commandLineInterfaceDefinition));
+            System.out.println("  " + getDefaultUsage(commandLineInterfaceDefinition));
         }
 
         if (commandTree.hasCommands()) {
@@ -37,6 +37,8 @@ public class HelpFormatterGlobal {
                 System.out.println("  " + usageString);
             }
         }
+
+        HelpFormatter.printGlobalOptionsHelpString(commandLineInterfaceDefinition);
 
     }
 
@@ -91,6 +93,10 @@ public class HelpFormatterGlobal {
     }
 
     private static void printDescription(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+
+        if (commandLineInterfaceDefinition.getCommandLineInterfaceDescription().hasDescription()) {
+
+        }
         System.out.println(commandLineInterfaceDefinition.getCommandLineInterfaceDescription().getDescription());
     }
 

@@ -3,6 +3,8 @@ package de.arthurpicht.cli.integration;
 import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
+import de.arthurpicht.cli.command.DefaultCommand;
+import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.*;
 import de.arthurpicht.cli.parameter.ParametersOne;
@@ -19,7 +21,13 @@ public class HelpTextTest {
                 .add(new OptionBuilder().withLongName("stacktrace").withDescription("Show stacktrace on error occurence.").build("STACKTRACE"))
                 .add(new OptionBuilder().withLongName("loglevel").withArgumentName("loglevel").withDescription("Log level.").build("LOGLEVEL"));
 
+        DefaultCommand defaultCommand = new DefaultCommandBuilder()
+                .withParameters(new ParametersOne())
+                .withDescription("The default command")
+                .build();
+
         Commands commands = new Commands();
+        commands.setDefaultCommand(defaultCommand);
         commands.add(
                 new CommandSequenceBuilder()
                         .addCommands("COMMAND_A")

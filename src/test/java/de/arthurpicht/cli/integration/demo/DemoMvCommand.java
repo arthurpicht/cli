@@ -5,6 +5,10 @@ import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
+import de.arthurpicht.cli.option.HelpOption;
+import de.arthurpicht.cli.option.OptionBuilder;
+import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.parameter.ParametersManyBuilder;
 import de.arthurpicht.cli.parameter.ParametersVar;
 import org.junit.jupiter.api.Test;
 
@@ -15,21 +19,43 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DemoMvCommand {
 
-    @Test
-    public void mv() throws UnrecognizedArgumentException, CommandExecutorException {
+    private CommandLineInterface createCommandLineInterface() {
+
+        Options globalOptions = new Options().add(new HelpOption());
 
         DefaultCommand defaultCommand =
                 new DefaultCommandBuilder()
-                        .withParameters(new ParametersVar(2))
+                        .withParameters(
+                                new ParametersManyBuilder()
+                                        .addParameter("source", "file to be moved")
+                                        .addParameter("destination", "destination file to be moved to")
+                                        .build())
                         .withCommandExecutor(
                                 (commandLineInterfaceCall)
                                         -> System.out.println(
-                                                "Copy file from " + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(0) + " to "
-                                                        + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(1))
+                                        "Copy file from " + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(0) + " to "
+                                                + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(1))
                         ).build();
 
         Commands commands = new Commands().setDefaultCommand(defaultCommand);
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder().withCommands(commands).build("test");
+
+        CommandLineInterfaceDescription commandLineInterfaceDescription =
+                new CommandLineInterfaceDescriptionBuilder("mv")
+                .withDescription("(Demo) Move file from source to destination.")
+                .withDate("22.02.2021")
+                .withVersion("1.0")
+                .build();
+
+        return new CommandLineInterfaceBuilder()
+                .withGlobalOptions(globalOptions)
+                .withCommands(commands)
+                .build(commandLineInterfaceDescription);
+    }
+
+    @Test
+    public void regularCall() throws UnrecognizedArgumentException, CommandExecutorException {
+
+        CommandLineInterface commandLineInterface = createCommandLineInterface();
 
         String[] args = {"source", "destination"};
 
@@ -42,6 +68,17 @@ public class DemoMvCommand {
         assertEquals(2, result.getParameterParserResult().getNrOfParameters());
         assertTrue(result.getParameterParserResult().getParameterList().contains("source"));
         assertTrue(result.getParameterParserResult().getParameterList().contains("destination"));
+    }
+
+    @Test
+    public void help() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        String[] args = {"-h"};
+
+        CommandLineInterfaceCall call = commandLineInterface.execute(args);
+
+
     }
 
 }
