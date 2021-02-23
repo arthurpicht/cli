@@ -1,7 +1,7 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
-import de.arthurpicht.cli.help.HelpFormatter;
+import de.arthurpicht.cli.help.HelpFormatterCommons;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class ParametersMin extends Parameters {
@@ -51,7 +51,7 @@ public class ParametersMin extends Parameters {
 
     @Override
     public String getHelpString() {
-        return HelpFormatter.formatStringsToCols(
+        return HelpFormatterCommons.formatStringsToCols(
                 getHelpUsageSubString(),
                 this.description);
     }

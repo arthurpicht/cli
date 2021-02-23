@@ -4,6 +4,8 @@ import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.Objects;
 
+import static de.arthurpicht.cli.help.HelpFormatterCommons.COL_WIDTH;
+
 public class Option {
 
     private final String id;
@@ -90,6 +92,41 @@ public class Option {
 
     public boolean isBreaking() {
         return this.breaking;
+    }
+
+    public String getHelpString() {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (hasShortName()) {
+            stringBuilder.append("-").append(this.shortName);
+        } else {
+            stringBuilder.append("  ");
+        }
+
+        if (hasShortName() && hasLongName()) {
+            stringBuilder.append(", ");
+        } else {
+            stringBuilder.append("  ");
+        }
+
+        if (hasLongName()) {
+            stringBuilder.append("--").append(getLongName());
+        }
+
+        if (hasArgument()) {
+            String argumentName = hasArgumentName() ? this.argumentName : "arg";
+            stringBuilder.append(" <").append(argumentName).append(">");
+        }
+
+        // TODO Blocksatz, Zeilenumbruch helptext s.a. https://commons.apache.org/proper/commons-cli/
+
+        if (hasHelpText()) {
+            Strings.fillUpAfter(stringBuilder, ' ', COL_WIDTH);
+            stringBuilder.append(getDescription());
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override

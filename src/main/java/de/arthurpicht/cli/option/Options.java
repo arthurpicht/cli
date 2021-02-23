@@ -1,8 +1,5 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.help.HelpFormatterCommand;
-import de.arthurpicht.utils.core.strings.Strings;
-
 import java.util.*;
 
 public class Options {
@@ -97,50 +94,11 @@ public class Options {
                 stringBuilder.append("\n");
             }
 
-            String helpString = getHelpString(option);
-            stringBuilder.append(helpString);
+            stringBuilder.append(option.getHelpString());
 
         }
 
         return stringBuilder.toString();
-    }
-
-    private String getHelpString(Option option) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("  ");
-
-        if (option.hasShortName()) {
-            stringBuilder.append("-").append(option.getShortName());
-        } else {
-            stringBuilder.append("  ");
-        }
-
-        if (option.hasShortName() && option.hasLongName()) {
-            stringBuilder.append(", ");
-        } else {
-            stringBuilder.append("  ");
-        }
-
-        if (option.hasLongName()) {
-            stringBuilder.append("--").append(option.getLongName());
-        }
-
-        if (option.hasArgument()) {
-            String argumentName = option.hasArgumentName() ? option.getArgumentName() : "arg";
-            stringBuilder.append(" <").append(argumentName).append(">");
-        }
-
-        // TODO Blocksatz, Zeilenumbruch helptext s.a. https://commons.apache.org/proper/commons-cli/
-
-        if (option.hasHelpText()) {
-            Strings.fillUpAfter(stringBuilder, ' ', HelpFormatterCommand.COL_WIDTH);
-            stringBuilder.append(option.getDescription());
-        }
-
-        return stringBuilder.toString();
-
     }
 
     public static boolean hasDefinitions(Options options) {

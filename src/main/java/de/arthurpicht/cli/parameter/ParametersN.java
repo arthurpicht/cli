@@ -1,7 +1,7 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
-import de.arthurpicht.cli.help.HelpFormatter;
+import de.arthurpicht.cli.help.HelpFormatterCommons;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class ParametersN extends Parameters {
         StringBuilder stringBuilder = new StringBuilder();
         for (Parameter parameter : this.parameterList) {
             if (stringBuilder.length() != 0) stringBuilder.append("\n");
-            String helpString = HelpFormatter.formatStringsToCols(
+            String helpString = HelpFormatterCommons.formatStringsToCols(
                     parameter.getUsageString(),
                     parameter.getDescription()
             );

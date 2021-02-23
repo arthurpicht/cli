@@ -4,9 +4,10 @@ import de.arthurpicht.cli.CommandLineInterfaceCall;
 import de.arthurpicht.cli.CommandLineInterfaceDefinition;
 import de.arthurpicht.cli.CommandLineInterfaceDescription;
 import de.arthurpicht.cli.command.DefaultCommand;
+import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
 
-import static de.arthurpicht.cli.help.HelpFormatter.INDENT;
+import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
 
 public class HelpFormatterDefaultOnly {
 
@@ -16,37 +17,28 @@ public class HelpFormatterDefaultOnly {
         CommandLineInterfaceDescription commandLineInterfaceDescription = commandLineInterfaceDefinition.getCommandLineInterfaceDescription();
         DefaultCommand defaultCommand = commandLineInterfaceDefinition.getDefaultCommand();
 
+        HelpFormatterCommons.printHeaderString(commandLineInterfaceDefinition);
 
-        System.out.println(HelpFormatter.getHeaderString(commandLineInterfaceDefinition));
-
-        if (commandLineInterfaceDescription.hasDescription()) {
-            String description = commandLineInterfaceDescription.getDescription();
-            System.out.println(HelpFormatter.indentString(description));
-        }
+        HelpFormatterCommons.printExecutableDescription(commandLineInterfaceDescription);
 
         System.out.println("Usage:");
-
-        System.out.println(INDENT + HelpFormatter.getUsageOfDefaultCommand(commandLineInterfaceDefinition));
+        System.out.println(INDENT + HelpFormatterCommons.getUsageOfDefaultCommand(commandLineInterfaceDefinition, true));
 
         if (defaultCommand.hasDescription()) {
-            System.out.println(HelpFormatter.indentString(defaultCommand.getDescription()));
+            System.out.println(HelpFormatterCommons.indentString(defaultCommand.getDescription()));
         }
 
-        HelpFormatter.printGlobalOptionsHelpString(commandLineInterfaceDefinition);
+        if (commandLineInterfaceDefinition.hasGlobalOptions()) {
+            System.out.println("Options:");
+            Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
+            System.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
+        }
 
         if (defaultCommand.hasParameters()) {
             System.out.println("Parameters:");
-
             Parameters parameters = defaultCommand.getParameters();
-            System.out.println(HelpFormatter.indentString(parameters.getHelpString()));
-
+            System.out.println(HelpFormatterCommons.indentString(parameters.getHelpString()));
         }
-
-
-
-        // commandParserResult.getParameters().getHelpUsageSubString();
-
-
-
     }
+
 }
