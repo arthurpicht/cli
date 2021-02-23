@@ -6,13 +6,9 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.HelpOption;
-import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.ParametersManyBuilder;
-import de.arthurpicht.cli.parameter.ParametersVar;
+import de.arthurpicht.cli.parameter.ParametersNBuilder;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,7 +22,7 @@ public class DemoMvCommand {
         DefaultCommand defaultCommand =
                 new DefaultCommandBuilder()
                         .withParameters(
-                                new ParametersManyBuilder()
+                                new ParametersNBuilder()
                                         .addParameter("source", "file to be moved")
                                         .addParameter("destination", "destination file to be moved to")
                                         .build())

@@ -11,6 +11,7 @@ import de.arthurpicht.cli.parameter.Parameters;
 import java.util.Set;
 
 import static de.arthurpicht.cli.help.HelpFormatter.INDENT;
+import static de.arthurpicht.cli.help.HelpFormatter.getUsageOfDefaultCommand;
 
 public class HelpFormatterGlobal {
 
@@ -26,17 +27,17 @@ public class HelpFormatterGlobal {
             return;
         }
 
-        System.out.println(getHeaderString(commandLineInterfaceDefinition));
+        System.out.println(HelpFormatter.getHeaderString(commandLineInterfaceDefinition));
 
         if (commandLineInterfaceDescription.hasDescription()) {
             String description = commandLineInterfaceDescription.getDescription();
-            System.out.println(HelpFormatter.formatString(description));
+            System.out.println(HelpFormatter.indentString(description));
         }
 
         System.out.println("Usage:");
 
         if (commandLineInterfaceDefinition.hasDefaultCommand()) {
-            System.out.println(INDENT + getDefaultUsage(commandLineInterfaceDefinition));
+            System.out.println(INDENT + getUsageOfDefaultCommand(commandLineInterfaceDefinition));
         }
 
         if (commandTree.hasCommands()) {
@@ -50,10 +51,6 @@ public class HelpFormatterGlobal {
 
     }
 
-    private static boolean isOnlyDefaultCommand(CommandLineInterfaceCall commandLineInterfaceCall) {
-        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
-        return (commandLineInterfaceDefinition.hasDefaultCommand() && !commandLineInterfaceDefinition.hasCommands());
-    }
 
     private static String getHeaderString(CommandLineInterfaceDefinition cliDefinition) {
 

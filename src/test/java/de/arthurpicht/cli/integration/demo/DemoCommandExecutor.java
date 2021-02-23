@@ -5,8 +5,7 @@ import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionParserResult;
-import de.arthurpicht.cli.parameter.ParameterParserResult;
-import de.arthurpicht.cli.parameter.ParametersVar;
+import de.arthurpicht.cli.parameter.ParametersMin;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -57,14 +56,14 @@ public class DemoCommandExecutor {
         commands.add(
                 new CommandSequenceBuilder()
                         .addCommands("add")
-                        .withParameters(new ParametersVar(1))
+                        .withParameters(new ParametersMin(1))
                         .withCommandExecutor(new AddExecutor())
                         .build()
         );
         commands.add(
                 new CommandSequenceBuilder()
                         .addCommands("delete")
-                        .withParameters(new ParametersVar(1))
+                        .withParameters(new ParametersMin(1))
                         .withCommandExecutor((commandLineInterfaceCall) -> {
                             System.out.println("Deleting the following items:");
                             for (String item : commandLineInterfaceCall.getParameterParserResult().getParameterList()) {

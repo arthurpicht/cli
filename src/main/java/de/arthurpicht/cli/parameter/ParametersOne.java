@@ -19,7 +19,7 @@ public class ParametersOne extends Parameters {
     }
 
     @Override
-    public ParameterParser getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+    public ParameterParserOne getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
         return new ParameterParserOne(commandLineInterfaceResultBuilder);
     }
 

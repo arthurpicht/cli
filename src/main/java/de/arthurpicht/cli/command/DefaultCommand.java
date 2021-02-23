@@ -23,8 +23,16 @@ public class DefaultCommand {
         return parameters;
     }
 
+    public boolean hasCommandExecutor() {
+        return this.commandExecutor != null;
+    }
+
     public CommandExecutor getCommandExecutor() {
         return commandExecutor;
+    }
+
+    public boolean hasDescription() {
+        return this.description != null;
     }
 
     public String getDescription() {

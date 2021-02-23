@@ -5,38 +5,38 @@ import de.arthurpicht.utils.core.strings.Strings;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParametersManyBuilder {
+public class ParametersNBuilder {
 
     private String genericName;
     private final List<String> nameList;
     private final List<String> descriptionList;
 
-    public ParametersManyBuilder() {
+    public ParametersNBuilder() {
         this.genericName = "";
         this.nameList = new ArrayList<>();
         this.descriptionList = new ArrayList<>();
     }
 
-    public ParametersManyBuilder withGenericName(String genericName) {
+    public ParametersNBuilder withGenericName(String genericName) {
         if (Strings.isUnspecified(genericName)) throw new IllegalArgumentException("Parameter is unspecified.");
         this.genericName = genericName;
         return this;
     }
 
-    public ParametersManyBuilder addParameter() {
+    public ParametersNBuilder addParameter() {
         this.nameList.add("");
         this.descriptionList.add("");
         return this;
     }
 
-    public ParametersManyBuilder addParameter(String name) {
+    public ParametersNBuilder addParameter(String name) {
         if (Strings.isUnspecified(name)) throw new IllegalArgumentException("Parameter is unspecified.");
         this.nameList.add(name);
         this.descriptionList.add("");
         return this;
     }
 
-    public ParametersManyBuilder addParameter(String name, String description) {
+    public ParametersNBuilder addParameter(String name, String description) {
         if (Strings.isUnspecified(name)) throw new IllegalArgumentException("Parameter is unspecified.");
         if (Strings.isUnspecified(description)) throw new IllegalArgumentException("Parameter is unspecified.");
         this.nameList.add(name);
@@ -44,14 +44,15 @@ public class ParametersManyBuilder {
         return this;
     }
 
-    public ParametersManyBuilder addParameterByDescriptionOnly(String description) {
+    public ParametersNBuilder addParameterByDescriptionOnly(String description) {
         if (Strings.isUnspecified(description)) throw new IllegalArgumentException("Parameter is unspecified.");
         this.nameList.add("");
         this.descriptionList.add(description);
         return this;
     }
 
-    public ParametersMany build() {
+    public ParametersN build() {
+        if (Strings.isUnspecified(this.genericName)) this.genericName = Parameter.DEFAULT_NAME;
         List<Parameter> parameterList = new ArrayList<>();
         for (int i = 0; i < this.nameList.size(); i++) {
             String name = this.nameList.get(i);
@@ -60,7 +61,7 @@ public class ParametersManyBuilder {
             parameterList.add(new Parameter(name, description));
         }
 
-        return new ParametersMany(parameterList);
+        return new ParametersN(parameterList);
     }
 
 }

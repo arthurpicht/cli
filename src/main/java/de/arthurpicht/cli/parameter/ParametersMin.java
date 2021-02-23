@@ -1,16 +1,16 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
-import de.arthurpicht.cli.help.HelpFormatterCommand;
+import de.arthurpicht.cli.help.HelpFormatter;
 import de.arthurpicht.utils.core.strings.Strings;
 
-public class ParametersVar extends Parameters {
+public class ParametersMin extends Parameters {
 
     private final int minimalNrOfParameters;
     private final String name;
     private final String description;
 
-    public ParametersVar(int minimalNrOfParameters) {
+    public ParametersMin(int minimalNrOfParameters) {
         if (minimalNrOfParameters < 0)
             throw new IllegalArgumentException("Minimal number of arguments: " + minimalNrOfParameters + ". Expected as >= 0");
 
@@ -19,7 +19,7 @@ public class ParametersVar extends Parameters {
         this.description = "";
     }
 
-    public ParametersVar(int minimalNrOfParameters, String name, String description) {
+    public ParametersMin(int minimalNrOfParameters, String name, String description) {
 
         if (minimalNrOfParameters < 0)
             throw new IllegalArgumentException("Minimal number of arguments: " + minimalNrOfParameters + ". Expected as >= 0");
@@ -41,23 +41,18 @@ public class ParametersVar extends Parameters {
 
     @Override
     public ParameterParser getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        return new ParameterParserVar(this.minimalNrOfParameters, commandLineInterfaceResultBuilder);
+        return new ParameterParserMin(this.minimalNrOfParameters, commandLineInterfaceResultBuilder);
     }
 
     @Override
     public String getHelpUsageSubString() {
-        return this.minimalNrOfParameters + "...n*<" + this.name + "> ";
+        return this.minimalNrOfParameters + "...n*<" + this.name + ">";
     }
 
     @Override
     public String getHelpString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("  ");
-        stringBuilder.append(getHelpUsageSubString());
-        if (Strings.isSpecified(this.description)) {
-            Strings.fillUpAfter(stringBuilder, ' ', HelpFormatterCommand.COL_WIDTH);
-            stringBuilder.append(this.description);
-        }
-        return stringBuilder.toString();
+        return HelpFormatter.formatStringsToCols(
+                getHelpUsageSubString(),
+                this.description);
     }
 }

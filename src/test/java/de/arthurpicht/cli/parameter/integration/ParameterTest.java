@@ -6,7 +6,7 @@ import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.ParametersVar;
+import de.arthurpicht.cli.parameter.ParametersMin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ public class ParameterTest {
                 .add(new OptionBuilder().withShortName('o').withLongName("option").hasArgument().build("option"));
 
         Commands commands = new Commands().setDefaultCommand(
-                new DefaultCommandBuilder().withParameters(new ParametersVar(0)).build()
+                new DefaultCommandBuilder().withParameters(new ParametersMin(0)).build()
         );
 
         return new CommandLineInterfaceBuilder()

@@ -55,7 +55,7 @@ public class HelpFormatterCommand {
 
     private static void printCommandDescription(CommandParserResult commandParserResult) {
         if (commandParserResult.hasDescription()) {
-            String description = HelpFormatter.formatString(commandParserResult.getDescription());
+            String description = HelpFormatter.indentString(commandParserResult.getDescription());
             System.out.println(description);
         }
     }
@@ -106,7 +106,7 @@ public class HelpFormatterCommand {
 
     private static void printParametersHelpString(CommandParserResult commandParserResult) {
 
-        if (!commandParserResult.hasSpecificOptions()) return;
+        if (!commandParserResult.hasParameters()) return;
 
         System.out.println("Parameters:");
 

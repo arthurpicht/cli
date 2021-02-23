@@ -9,11 +9,9 @@ import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionBuilder;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.ParametersVar;
-import org.junit.jupiter.api.Assertions;
+import de.arthurpicht.cli.parameter.ParametersMin;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +35,7 @@ public class ParsingBrokenTest {
                                         .add(new HelpOption())
                                         .add(new Option("A", 'A', "almost-all", false, "", "do not list implied . and .."))
                         )
-                        .withParameters(new ParametersVar(1, "file", "Files to be processed."))
+                        .withParameters(new ParametersMin(1, "file", "Files to be processed."))
                         .build()
         );
 

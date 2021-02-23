@@ -12,6 +12,7 @@ public class DefaultCommandBuilder {
     public DefaultCommandBuilder() {
         this.parameters = null;
         this.commandExecutor = null;
+        this.description = null;
     }
 
     public DefaultCommandBuilder withParameters(Parameters parameters) {

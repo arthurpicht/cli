@@ -8,19 +8,19 @@ import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class ParameterParserVarExceptionTest {
+public class ParameterParserMinExceptionTest {
 
     @Test
     void emptyArgs_neg() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar parameterParserVar = new ParameterParserVar(1, commandLineInterfaceResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(1, commandLineInterfaceResultBuilder);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            parameterParserVar.parse(argumentIterator);
+            parameterParserMin.parse(argumentIterator);
             fail(ParameterParserException.class.getSimpleName() + " expected.");
 
         } catch (ParameterParserException e) {
@@ -37,7 +37,7 @@ public class ParameterParserVarExceptionTest {
     void parseFirst_neg() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar argumentParserVar = new ParameterParserVar(5, commandLineInterfaceResultBuilder);
+        ParameterParserMin argumentParserVar = new ParameterParserMin(5, commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

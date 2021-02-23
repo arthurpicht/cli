@@ -8,25 +8,25 @@ import static de.arthurpicht.cli.TestOut.printStacktrace;
 import static de.arthurpicht.cli.TestOut.println;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ParameterParserVarTest {
+class ParameterParserMinTest {
 
     @Test
     void parseFirst() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar parameterParserVar = new ParameterParserVar(0, commandLineInterfaceResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(0, commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            parameterParserVar.parse(argumentIterator);
+            parameterParserMin.parse(argumentIterator);
 
-            assertEquals(4, parameterParserVar.getParserResult().getParameterList().size());
-            assertEquals("A", parameterParserVar.getParserResult().getParameterList().get(0));
-            assertEquals("B", parameterParserVar.getParserResult().getParameterList().get(1));
-            assertEquals("C", parameterParserVar.getParserResult().getParameterList().get(2));
-            assertEquals("D", parameterParserVar.getParserResult().getParameterList().get(3));
+            assertEquals(4, parameterParserMin.getParserResult().getParameterList().size());
+            assertEquals("A", parameterParserMin.getParserResult().getParameterList().get(0));
+            assertEquals("B", parameterParserMin.getParserResult().getParameterList().get(1));
+            assertEquals("C", parameterParserMin.getParserResult().getParameterList().get(2));
+            assertEquals("D", parameterParserMin.getParserResult().getParameterList().get(3));
 
             assertEquals(3, argumentIterator.getIndex());
 
@@ -40,16 +40,16 @@ class ParameterParserVarTest {
     void parseLast() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar parameterParserVar = new ParameterParserVar(0, commandLineInterfaceResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(0, commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 2);
 
         try {
-            parameterParserVar.parse(argumentIterator);
+            parameterParserMin.parse(argumentIterator);
 
-            assertEquals(1, parameterParserVar.getParserResult().getParameterList().size());
-            assertEquals("D", parameterParserVar.getParserResult().getParameterList().get(0));
+            assertEquals(1, parameterParserMin.getParserResult().getParameterList().size());
+            assertEquals("D", parameterParserMin.getParserResult().getParameterList().get(0));
 
             assertEquals(3, argumentIterator.getIndex());
 
@@ -63,17 +63,17 @@ class ParameterParserVarTest {
     void parseMidMin2() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar parameterParserVar = new ParameterParserVar(2, commandLineInterfaceResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(2, commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 1);
 
         try {
-            parameterParserVar.parse(argumentIterator);
+            parameterParserMin.parse(argumentIterator);
 
-            assertEquals(2, parameterParserVar.getParserResult().getParameterList().size());
-            assertEquals("C", parameterParserVar.getParserResult().getParameterList().get(0));
-            assertEquals("D", parameterParserVar.getParserResult().getParameterList().get(1));
+            assertEquals(2, parameterParserMin.getParserResult().getParameterList().size());
+            assertEquals("C", parameterParserMin.getParserResult().getParameterList().get(0));
+            assertEquals("D", parameterParserMin.getParserResult().getParameterList().get(1));
             assertEquals(3, argumentIterator.getIndex());
 
         } catch (ParameterParserException e) {
@@ -86,13 +86,13 @@ class ParameterParserVarTest {
     void parseMidMin3Fail() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar parameterParserVar = new ParameterParserVar(3, commandLineInterfaceResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(3, commandLineInterfaceResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 1);
 
         try {
-            parameterParserVar.parse(argumentIterator);
+            parameterParserMin.parse(argumentIterator);
             fail();
 
         } catch (ParameterParserException e) {
@@ -104,7 +104,7 @@ class ParameterParserVarTest {
     void parseZero() {
 
         CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserVar argumentParserVar = new ParameterParserVar(0, commandLineInterfaceResultBuilder);
+        ParameterParserMin argumentParserVar = new ParameterParserMin(0, commandLineInterfaceResultBuilder);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
+import de.arthurpicht.cli.help.HelpFormatter;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class Parameter {
@@ -27,12 +28,13 @@ public class Parameter {
     }
 
     public String getHelpString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getUsageString());
-        if (Strings.isSpecified(this.description)) {
-            Strings.fillUpAfter(stringBuilder, ' ', 25);
-            stringBuilder.append(this.description);
-        }
-        return stringBuilder.toString();
+        return HelpFormatter.formatStringsToCols(getUsageString(), this.getDescription());
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append(getUsageString());
+//        if (Strings.isSpecified(this.description)) {
+//            Strings.fillUpAfter(stringBuilder, ' ', 25);
+//            stringBuilder.append(this.description);
+//        }
+//        return stringBuilder.toString();
     }
 }

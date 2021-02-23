@@ -4,11 +4,11 @@ import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Arguments;
 
-public class ParameterParserVar extends ParameterParser {
+public class ParameterParserMin extends ParameterParser {
 
     private final int minimalNrOfArgument;
 
-    public ParameterParserVar(int minimalNrOfArguments, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+    public ParameterParserMin(int minimalNrOfArguments, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
         super(commandLineInterfaceResultBuilder);
         this.minimalNrOfArgument = minimalNrOfArguments;
     }

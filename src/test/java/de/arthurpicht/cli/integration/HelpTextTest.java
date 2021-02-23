@@ -8,7 +8,7 @@ import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.*;
 import de.arthurpicht.cli.parameter.ParametersOne;
-import de.arthurpicht.cli.parameter.ParametersVar;
+import de.arthurpicht.cli.parameter.ParametersMin;
 import org.junit.jupiter.api.Test;
 
 public class HelpTextTest {
@@ -36,7 +36,7 @@ public class HelpTextTest {
                                         .add(new HelpOption())
                                         .add(new Option("A", 'A', "almost-all", false, "", "do not list implied . and .."))
                         )
-                        .withParameters(new ParametersVar(1, "file", "Files to be processed."))
+                        .withParameters(new ParametersMin(1, "file", "Files to be processed."))
                         .withDescription("This is a description for command_A.")
                         .build()
         );

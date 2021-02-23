@@ -5,11 +5,11 @@ import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Arguments;
 import de.arthurpicht.cli.common.ParserResult;
 
-public class ParameterParserMany extends ParameterParser {
+public class ParameterParserN extends ParameterParser {
 
     private final int nrOfArguments;
 
-    public ParameterParserMany(int nrOfArguments, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
+    public ParameterParserN(int nrOfArguments, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
         super(commandLineInterfaceResultBuilder);
         this.nrOfArguments = nrOfArguments;
     }

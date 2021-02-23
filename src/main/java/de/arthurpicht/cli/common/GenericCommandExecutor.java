@@ -2,6 +2,7 @@ package de.arthurpicht.cli.common;
 
 import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.help.HelpFormatterCommand;
+import de.arthurpicht.cli.help.HelpFormatterDefaultOnly;
 import de.arthurpicht.cli.help.HelpFormatterGlobal;
 import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.OptionParserResult;
@@ -22,8 +23,13 @@ public class GenericCommandExecutor implements CommandExecutor {
         OptionParserResult optionParserResultGlobal = cliResult.getOptionParserResultGlobal();
 
         if (optionParserResultGlobal.hasOption(HelpOption.ID)) {
-            HelpFormatterGlobal.out(commandLineInterfaceCall);
-            return;
+            if (isOnlyDefaultCommand(commandLineInterfaceCall)) {
+                new HelpFormatterDefaultOnly().out(commandLineInterfaceCall);
+                return;
+            } else {
+                HelpFormatterGlobal.out(commandLineInterfaceCall);
+                return;
+            }
         } else if (optionParserResultGlobal.hasOption(VersionOption.ID)) {
             String versionString = HelpFormatterCommand.getVersionAndDateString(cliDefinition);
             System.out.println(versionString);
@@ -39,5 +45,11 @@ public class GenericCommandExecutor implements CommandExecutor {
         }
 
     }
+
+    private static boolean isOnlyDefaultCommand(CommandLineInterfaceCall commandLineInterfaceCall) {
+        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
+        return (commandLineInterfaceDefinition.hasDefaultCommand() && !commandLineInterfaceDefinition.hasCommands());
+    }
+
 
 }
