@@ -4,8 +4,11 @@ import de.arthurpicht.cli.CommandLineInterfaceDefinition;
 import de.arthurpicht.cli.CommandLineInterfaceDescription;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
+import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
+
+import java.io.PrintStream;
 
 public class HelpFormatterCommons {
 
@@ -29,13 +32,14 @@ public class HelpFormatterCommons {
     }
 
     public static void printHeaderString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
-        System.out.println(HelpFormatterCommons.getHeaderString(commandLineInterfaceDefinition));
+        CLIContext.out.println(HelpFormatterCommons.getHeaderString(commandLineInterfaceDefinition));
     }
 
     public static void printExecutableDescription(CommandLineInterfaceDescription commandLineInterfaceDescription) {
+
         if (commandLineInterfaceDescription.hasDescription()) {
             String description = commandLineInterfaceDescription.getDescription();
-            System.out.println(HelpFormatterCommons.indentString(description));
+            CLIContext.out.println(HelpFormatterCommons.indentString(description));
         }
     }
 

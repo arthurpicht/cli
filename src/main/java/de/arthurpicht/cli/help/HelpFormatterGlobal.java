@@ -5,8 +5,11 @@ import de.arthurpicht.cli.CommandLineInterfaceDefinition;
 import de.arthurpicht.cli.CommandLineInterfaceDescription;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
+import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
@@ -19,7 +22,6 @@ public class HelpFormatterGlobal {
         CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
         CommandLineInterfaceDescription commandLineInterfaceDescription = commandLineInterfaceDefinition.getCommandLineInterfaceDescription();
         CommandTree commandTree = commandLineInterfaceCall.getCommandLineInterfaceDefinition().getCommandTree();
-        Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
 
         HelpFormatterCommons.printHeaderString(commandLineInterfaceDefinition);
 
@@ -28,24 +30,29 @@ public class HelpFormatterGlobal {
         printUsage(commandLineInterfaceDefinition, commandTree);
 
         if (commandLineInterfaceDefinition.hasGlobalOptions()) {
-            System.out.println("Global Options:");
+            CLIContext.out.println("Global Options:");
             Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
-            System.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
+            CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
         }
     }
 
     private void printUsage(CommandLineInterfaceDefinition commandLineInterfaceDefinition, CommandTree commandTree) {
-        System.out.println("Usage:");
+        CLIContext.out.println("Usage:");
 
         if (commandLineInterfaceDefinition.hasDefaultCommand()) {
-            System.out.println(INDENT + getUsageOfDefaultCommand(commandLineInterfaceDefinition, false));
+            CLIContext.out.println(INDENT + getUsageOfDefaultCommand(commandLineInterfaceDefinition, false));
         }
 
         if (commandTree.hasCommands()) {
             Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
+            List<String> usageStringList = new ArrayList<>();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
                 String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, commandLineInterfaceDefinition);
-                System.out.println(INDENT + usageString);
+                usageStringList.add(usageString);
+            }
+            usageStringList.sort(new UsageStringComparator());
+            for (String usageString : usageStringList) {
+                CLIContext.out.println(INDENT + usageString);
             }
         }
     }

@@ -10,12 +10,18 @@ import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParametersNBuilder;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DemoMvCommand {
 
-    private CommandLineInterface createCommandLineInterface() {
+    private CommandLineInterface createCommandLineInterface(PrintStream out) {
 
         Options globalOptions = new Options().add(new HelpOption());
 
@@ -45,13 +51,14 @@ public class DemoMvCommand {
         return new CommandLineInterfaceBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
+                .withOut(out)
                 .build(commandLineInterfaceDescription);
     }
 
     @Test
     public void regularCall() throws UnrecognizedArgumentException, CommandExecutorException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        CommandLineInterface commandLineInterface = createCommandLineInterface(System.out);
 
         String[] args = {"source", "destination"};
 
@@ -69,13 +76,27 @@ public class DemoMvCommand {
     @Test
     public void help() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outBAOS);
+
+        CommandLineInterface commandLineInterface = createCommandLineInterface(out);
         String[] args = {"-h"};
 
         CommandLineInterfaceCall call = commandLineInterface.execute(args);
 
-        // TODO assert out
+        String output = outBAOS.toString();
+        String expectedOutput =
+                "mv 1.0 from 22.02.2021\n" +
+                "  (Demo) Move file from source to destination.\n" +
+                "Usage:\n" +
+                "  mv [options] <source> <destination>\n" +
+                "Options:\n" +
+                "  -h, --help                    Show help message and exit.\n" +
+                "Parameters:\n" +
+                "  <source>                      file to be moved\n" +
+                "  <destination>                 destination file to be moved to\n";
 
+        assertEquals(expectedOutput, output);
     }
 
 }
