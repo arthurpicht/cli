@@ -44,6 +44,7 @@ public class Demo01 {
 
         CommandLineInterface commandLineInterface = getCommandLineInterface();
 
+        @SuppressWarnings("SpellCheckingInspection")
         String[] args = {"-v", "adduser", "--user", "Joe", "--password", "supersecret"};
 
         try {
@@ -68,6 +69,7 @@ public class Demo01 {
             assertTrue(optionParserResultSpecific.hasOption("user"));
             assertEquals("Joe", optionParserResultSpecific.getValue("user"));
             assertTrue(optionParserResultSpecific.hasOption("password"));
+            //noinspection SpellCheckingInspection
             assertEquals("supersecret", optionParserResultSpecific.getValue("password"));
 
         } catch (UnrecognizedArgumentException e) {

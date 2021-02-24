@@ -27,6 +27,7 @@ public class Option {
      * @param argumentName
      * @param description
      */
+    @SuppressWarnings("JavaDoc")
     public Option(String id, Character shortName, String longName, boolean hasArgument, String argumentName, String description) {
 
         if (id == null || id.equals("")) throw new IllegalArgumentException("Null or empty id.");

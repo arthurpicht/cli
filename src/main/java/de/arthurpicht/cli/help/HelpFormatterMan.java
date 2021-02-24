@@ -7,14 +7,11 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTerminator;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.command.tree.CommandTreeNodeComparator;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
 import static de.arthurpicht.cli.help.HelpFormatterCommons.getUsageOfDefaultCommand;

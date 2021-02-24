@@ -8,9 +8,7 @@ import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
 import static de.arthurpicht.cli.help.HelpFormatterCommons.getUsageOfDefaultCommand;

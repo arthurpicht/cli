@@ -2,23 +2,16 @@ package de.arthurpicht.cli.integration;
 
 import de.arthurpicht.cli.CommandLineInterface;
 import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.CommandLineInterfaceDefinition;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
-import de.arthurpicht.cli.command.tree.CommandTree;
-import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.command.tree.OneCommand;
-import de.arthurpicht.cli.command.tree.RootTreeNode;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
-import de.arthurpicht.utils.core.collection.Sets;
 import org.junit.jupiter.api.Test;
-
-import java.util.Set;
 
 import static de.arthurpicht.cli.TestOut.printStacktrace;
 import static de.arthurpicht.cli.TestOut.println;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class EdgeCasesIntegrationTest {
 

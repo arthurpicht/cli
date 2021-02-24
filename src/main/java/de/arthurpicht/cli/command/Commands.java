@@ -21,8 +21,6 @@ import java.util.Set;
  */
 public class Commands {
 
-    // TODO Take measures for sub-sequences ("--")
-
     private final CommandTree commandTree;
     private DefaultCommand defaultCommand;
 

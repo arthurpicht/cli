@@ -46,6 +46,7 @@ public class HelpTextTest {
                         .withDescription("This is a description for command_A.")
                         .build()
         );
+        //noinspection SpellCheckingInspection
         commands.add(
                 new CommandSequenceBuilder()
                         .addCommands("COMMAND_B")
@@ -147,6 +148,7 @@ public class HelpTextTest {
 
         System.out.println(output);
 
+        @SuppressWarnings("SpellCheckingInspection")
         String expectedOutput =
                 "test v1.0.0 from 18.02.2021\n" +
                         "  A description for test.\n" +
