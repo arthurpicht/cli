@@ -32,8 +32,8 @@ public class DemoMvCommand {
                         .withCommandExecutor(
                                 (cliCall)
                                         -> TestOut.println(
-                                        "Copy file from " + cliCall.getParameterParserResult().getParameterList().get(0) + " to "
-                                                + cliCall.getParameterParserResult().getParameterList().get(1))
+                                        "Copy file from " + cliCall.getParameterList().get(0) + " to "
+                                                + cliCall.getParameterList().get(1))
                         ).build();
 
         Commands commands = new Commands().setDefaultCommand(defaultCommand);

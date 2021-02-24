@@ -89,13 +89,12 @@ public class CliCall {
     }
 
     /**
-     * A convenience (shortcut) method that returns parsed parameters as given by end user.
-     * If no options are given by end user, {@link ParameterParserResult} is empty.
+     * A convenience (shortcut) method that returns the list of parsed parameters.
      *
      * @return parameters as given by end user
      */
-    public ParameterParserResult getParameterParserResult() {
-        return this.cliResult.getParameterParserResult();
+    public List<String> getParameterList() {
+        return this.cliResult.getParameterParserResult().getParameterList();
     }
 
     /**
