@@ -20,6 +20,7 @@ public class CommandSequenceBuilder {
     private Parameters parameters = null;
     private CommandExecutor commandExecutor = null;
     private String description = null;
+    private int helpPriority = Integer.MAX_VALUE;
 
     public CommandSequenceBuilder() {
         this.commandList = new ArrayList<>();
@@ -74,10 +75,15 @@ public class CommandSequenceBuilder {
         return this;
     }
 
+    public CommandSequenceBuilder withHelpPriority(int helpPriority) {
+        this.helpPriority = helpPriority;
+        return this;
+    }
+
     public CommandSequence build() {
         assertNotEmpty();
         assertNoOpenCommandInCombinationWithParameters();
-        return new CommandSequence(this.commandList, this.specificOptions, this.parameters, this.commandExecutor, this.description);
+        return new CommandSequence(this.commandList, this.specificOptions, this.parameters, this.commandExecutor, this.description, this.helpPriority);
     }
 
     private void assertNotRestrictedByOpenCommand() {

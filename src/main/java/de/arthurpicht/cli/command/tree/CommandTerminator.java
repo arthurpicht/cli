@@ -11,12 +11,14 @@ public class CommandTerminator {
     private final Parameters parameters;
     private final CommandExecutor commandExecutor;
     private final String description;
+    private final int helpPriority;
 
-    public CommandTerminator(Options specificOptions, Parameters parameters, CommandExecutor commandExecutor, String description) {
+    public CommandTerminator(Options specificOptions, Parameters parameters, CommandExecutor commandExecutor, String description, int helpPriority) {
         this.specificOptions = specificOptions;
         this.parameters = parameters;
         this.commandExecutor = commandExecutor;
         this.description = description;
+        this.helpPriority = helpPriority;
     }
 
     public boolean hasSpecificOptions() {
@@ -49,5 +51,9 @@ public class CommandTerminator {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getHelpPriority() {
+        return helpPriority;
     }
 }

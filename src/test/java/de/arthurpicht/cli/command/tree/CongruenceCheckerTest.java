@@ -16,12 +16,12 @@ class CongruenceCheckerTest {
         CommandTreeNode.attach(rootNode, nodeA);
 
         Command commandB = new OneCommand("B");
-        commandB.terminate(new CommandTerminator(null, null, null, null));
+        commandB.terminate(new CommandTerminator(null, null, null, null, 0));
         CommandTreeNode nodeB = new CommandTreeNode(commandB);
         CommandTreeNode.attach(nodeA, nodeB);
 
         Command commandC = new OneCommand("C");
-        commandC.terminate(new CommandTerminator(null, null, null, null));
+        commandC.terminate(new CommandTerminator(null, null, null, null, 0));
         CommandTreeNode nodeC = new CommandTreeNode(commandC);
         CommandTreeNode.attach(nodeB, nodeC);
 

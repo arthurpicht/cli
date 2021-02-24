@@ -7,6 +7,7 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTerminator;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
+import de.arthurpicht.cli.command.tree.CommandTreeNodeComparator;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
@@ -78,7 +79,9 @@ public class HelpFormatterMan {
 
         if (commandTree.hasCommands()) {
             Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
-            for (CommandTreeNode commandTreeNode : terminatedNodes) {
+            List<CommandTreeNode> terminatedNodesList = new ArrayList<>(terminatedNodes);
+            terminatedNodesList.sort(new CommandTreeNodeComparator());
+            for (CommandTreeNode commandTreeNode : terminatedNodesList) {
                 printCommandBlock(commandTreeNode, commandLineInterfaceDefinition);
             }
         }

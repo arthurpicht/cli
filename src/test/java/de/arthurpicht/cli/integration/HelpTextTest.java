@@ -148,23 +148,40 @@ public class HelpTextTest {
         System.out.println(output);
 
         String expectedOutput =
-                "";
+                "test v1.0.0 from 18.02.2021\n" +
+                        "  A description for test.\n" +
+                        "Usage:\n" +
+                        "  test [global options] <parameter>\n" +
+                        "  test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+                        "  test [global options] COMMAND_B [specific options] <parameter>\n" +
+                        "Global Options:\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "      --loglevel <loglevel>     Log level.\n" +
+                        "  -m, --man                     Show manual and exit.\n" +
+                        "      --stacktrace              Show stacktrace on error occurrence.\n" +
+                        "  -v, --version                 Show version message and exit.\n" +
+                        "\n" +
+                        "Usage: test [global options] <parameter>\n" +
+                        "Parameters:\n" +
+                        "  <parameter>\n" +
+                        "\n" +
+                        "Usage: test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+                        "  This is a description for command_A.\n" +
+                        "Specific options:\n" +
+                        "  -A, --almost-all              do not list implied . and ..\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "Parameters:\n" +
+                        "  1...n*<file>                  Files to be processed.\n" +
+                        "\n" +
+                        "Usage: test [global options] COMMAND_B [specific options] <parameter>\n" +
+                        "Specific options:\n" +
+                        "  -b, --brrr                    The brrr option\n" +
+                        "  -c, --cool <what>             The cool option.\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "Parameters:\n" +
+                        "  <parameter>\n";
 
-
-//        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
-//                "  A description for test.\n" +
-//                "Usage:\n" +
-//                "  test [global options] <parameter>\n" +
-//                "  test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
-//                "  test [global options] COMMAND_B [specific options] <parameter>\n" +
-//                "Global Options:\n" +
-//                "  -h, --help                    Show help message and exit.\n" +
-//                "      --loglevel <loglevel>     Log level.\n" +
-//                "      --stacktrace              Show stacktrace on error occurrence.\n" +
-//                "  -v, --version                 Show version message and exit.\n";
-//
-//        assertEquals(expectedOutput, output);
+        assertEquals(expectedOutput, output);
     }
-
 
 }
