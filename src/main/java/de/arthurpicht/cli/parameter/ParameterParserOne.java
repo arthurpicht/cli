@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Arguments;
 
@@ -9,8 +9,8 @@ import de.arthurpicht.cli.common.Arguments;
  */
 public class ParameterParserOne extends ParameterParser {
 
-    public ParameterParserOne(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        super(commandLineInterfaceResultBuilder);
+    public ParameterParserOne(CliResultBuilder cliResultBuilder) {
+        super(cliResultBuilder);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ParameterParserOne extends ParameterParser {
             throw new ParameterParserException(arguments, argumentIterator.getIndex() + 1, "One parameter expected.");
         }
 
-        this.commandLineInterfaceResultBuilder.withParameterParserResult(getParserResult());
+        this.cliResultBuilder.withParameterParserResult(getParserResult());
     }
 
 }

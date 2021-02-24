@@ -1,10 +1,10 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 
 public abstract class Parameters {
 
-    public abstract ParameterParser getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder);
+    public abstract ParameterParser getParameterParser(CliResultBuilder cliResultBuilder);
 
     public abstract String getHelpUsageSubString();
 

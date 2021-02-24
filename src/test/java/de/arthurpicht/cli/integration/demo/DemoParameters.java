@@ -1,9 +1,9 @@
 package de.arthurpicht.cli.integration.demo;
 
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.CommandLineInterfaceCall;
-import de.arthurpicht.cli.CommandLineInterfaceResult;
+import de.arthurpicht.cli.Cli;
+import de.arthurpicht.cli.CliBuilder;
+import de.arthurpicht.cli.CliCall;
+import de.arthurpicht.cli.CliResult;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -22,7 +22,7 @@ public class DemoParameters {
     private static final boolean OUT = false;
 
     @SuppressWarnings("SpellCheckingInspection")
-    private CommandLineInterface getCommandLineInterface() {
+    private Cli createCli() {
 
         Options globalOptions = new Options()
                 .add(new OptionBuilder().withShortName('d').withLongName("debug").withDescription("debug").build("DEBUG"))
@@ -44,7 +44,7 @@ public class DemoParameters {
                 .add(new CommandSequenceBuilder().addCommand("delete").withSpecificOptions(specificOptionsDeleteUser).build())
                 .add(new CommandSequenceBuilder().addCommand("show").withSpecificOptions(specificOptionsShow).withParameters(new ParametersOne()).build());
 
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
                 .build("test");
@@ -53,31 +53,31 @@ public class DemoParameters {
     @Test
     void mostSimpleCommandWithNoParameter() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {"add"};
 
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
 
-        List<String> commandList = commandLineInterfaceCall.getCommandList();
+        List<String> commandList = cliCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("add", commandList.get(0));
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
     }
 
     @Test
     void mostSimpleCommandWithParameter_neg() {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {"show"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail("Parameter is missing. Exception expected.");
         } catch (UnrecognizedArgumentException e) {
             // din
@@ -88,84 +88,84 @@ public class DemoParameters {
     @Test
     void mostSimpleCommandWithParameter() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {"show", "123"};
 
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
 
-        List<String> commandList = commandLineInterfaceCall.getCommandList();
+        List<String> commandList = cliCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("show", commandList.get(0));
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
 
-        assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
-        assertEquals("123", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertEquals(1, cliResult.getParameterParserResult().getNrOfParameters());
+        assertEquals("123", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     void globalOptionAndParameter() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {"-d", "show", "123"};
 
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("DEBUG"));
-        assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
+        assertFalse(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(cliResult.getOptionParserResultGlobal().hasOption("DEBUG"));
+        assertEquals(1, cliResult.getOptionParserResultGlobal().getSize());
 
-        List<String> commandList = commandLineInterfaceCall.getCommandList();
+        List<String> commandList = cliCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("show", commandList.get(0));
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
 
-        assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
-        assertEquals("123", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertEquals(1, cliResult.getParameterParserResult().getNrOfParameters());
+        assertEquals("123", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     void globalOptionAndSpecificOptionAndParameter() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {"-d", "show", "-v", "123"};
 
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("DEBUG"));
-        assertEquals(1, commandLineInterfaceResult.getOptionParserResultGlobal().getSize());
+        assertFalse(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(cliResult.getOptionParserResultGlobal().hasOption("DEBUG"));
+        assertEquals(1, cliResult.getOptionParserResultGlobal().getSize());
 
-        List<String> commandList = commandLineInterfaceCall.getCommandList();
+        List<String> commandList = cliCall.getCommandList();
         assertEquals(1, commandList.size());
         assertEquals("show", commandList.get(0));
 
-        assertFalse(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().hasOption("VERBOSE"));
-        assertEquals(1, commandLineInterfaceResult.getOptionParserResultSpecific().getSize());
+        assertFalse(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().hasOption("VERBOSE"));
+        assertEquals(1, cliResult.getOptionParserResultSpecific().getSize());
 
-        assertEquals(1, commandLineInterfaceResult.getParameterParserResult().getNrOfParameters());
-        assertEquals("123", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertEquals(1, cliResult.getParameterParserResult().getNrOfParameters());
+        assertEquals("123", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     void globalOptionAndSpecificOptionAndParameter_neg() {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {"-d", "show", "-v"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail("Parameter is missing. Exception expected.");
         } catch (UnrecognizedArgumentException e) {
             // din

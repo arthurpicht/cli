@@ -1,8 +1,8 @@
 package de.arthurpicht.cli.integration;
 
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.CommandLineInterfaceCall;
+import de.arthurpicht.cli.Cli;
+import de.arthurpicht.cli.CliBuilder;
+import de.arthurpicht.cli.CliCall;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.DefaultCommand;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CommandLineInterfaceTest {
+class CliTest {
 
     @Test
     void globalOptionsDefaultCommandWithParameter() throws UnrecognizedArgumentException {
@@ -31,17 +31,17 @@ class CommandLineInterfaceTest {
         Parameters parameters = new ParametersMin(0);
         commands.setDefaultCommand(new DefaultCommand(parameters, null, "Test command."));
 
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+        Cli cli = new CliBuilder()
                 .withGlobalOptions(optionsGlobal)
                 .withCommands(commands)
                 .build("test");
 
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "arg1"};
 
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+        CliCall cliCall = cli.parse(args);
 
-        assertNotNull(commandLineInterfaceCall.getOptionParserResultGlobal());
-        OptionParserResult optionParserResultGlobal = commandLineInterfaceCall.getOptionParserResultGlobal();
+        assertNotNull(cliCall.getOptionParserResultGlobal());
+        OptionParserResult optionParserResultGlobal = cliCall.getOptionParserResultGlobal();
 
         assertEquals(2, optionParserResultGlobal.getSize());
 
@@ -50,7 +50,7 @@ class CommandLineInterfaceTest {
         assertTrue(optionParserResultGlobal.hasOption("idB"));
         assertEquals("valueOfB", optionParserResultGlobal.getValue("idB"));
 
-        List<String> argumentList = commandLineInterfaceCall.getCommandLineInterfaceResult().getParameterParserResult().getParameterList();
+        List<String> argumentList = cliCall.getCliResult().getParameterParserResult().getParameterList();
         assertEquals(1, argumentList.size());
         assertEquals("arg1", argumentList.get(0));
     }
@@ -66,7 +66,7 @@ class CommandLineInterfaceTest {
         Parameters parameters = new ParametersMin(0);
         commands.setDefaultCommand(new DefaultCommand(parameters, null, "Test command."));
 
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+        Cli cli = new CliBuilder()
                 .withGlobalOptions(optionsGlobal)
                 .withCommands(commands)
                 .build("test");
@@ -74,14 +74,14 @@ class CommandLineInterfaceTest {
         String[] args = {"arg1"};
 
         try {
-            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CliCall cliCall = cli.parse(args);
 
-            assertNotNull(commandLineInterfaceCall.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = commandLineInterfaceCall.getOptionParserResultGlobal();
+            assertNotNull(cliCall.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = cliCall.getOptionParserResultGlobal();
 
             assertEquals(0, optionParserResultGlobal.getSize());
 
-            List<String> argumentList = commandLineInterfaceCall.getCommandLineInterfaceResult().getParameterParserResult().getParameterList();
+            List<String> argumentList = cliCall.getCliResult().getParameterParserResult().getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
@@ -108,7 +108,7 @@ class CommandLineInterfaceTest {
                         .build()
         );
 
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+        Cli cli = new CliBuilder()
                 .withGlobalOptions(optionsGlobal)
                 .withCommands(commands)
                 .build("test");
@@ -116,10 +116,10 @@ class CommandLineInterfaceTest {
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "commandA", "commandB", "arg1"};
 
         try {
-            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CliCall cliCall = cli.parse(args);
 
-            assertNotNull(commandLineInterfaceCall.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = commandLineInterfaceCall.getOptionParserResultGlobal();
+            assertNotNull(cliCall.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = cliCall.getOptionParserResultGlobal();
 
             assertEquals(2, optionParserResultGlobal.getSize());
 
@@ -128,12 +128,12 @@ class CommandLineInterfaceTest {
             assertTrue(optionParserResultGlobal.hasOption("idB"));
             assertEquals("valueOfB", optionParserResultGlobal.getValue("idB"));
 
-            List<String> commandList = commandLineInterfaceCall.getCommandList();
+            List<String> commandList = cliCall.getCommandList();
             assertEquals(2, commandList.size(), "number of commands");
             assertEquals("commandA", commandList.get(0));
             assertEquals("commandB", commandList.get(1));
 
-            List<String> argumentList = commandLineInterfaceCall.getCommandLineInterfaceResult().getParameterParserResult().getParameterList();
+            List<String> argumentList = cliCall.getCliResult().getParameterParserResult().getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 
@@ -166,7 +166,7 @@ class CommandLineInterfaceTest {
                 .build()
         );
 
-        CommandLineInterface commandLineInterface = new CommandLineInterfaceBuilder()
+        Cli cli = new CliBuilder()
                 .withGlobalOptions(optionsGlobal)
                 .withCommands(commands)
                 .build("test");
@@ -174,12 +174,12 @@ class CommandLineInterfaceTest {
         String[] args = {"-a", "valueOfA", "-b", "valueOfB", "commandA", "commandB", "--ccc", "valueOfC", "arg1"};
 
         try {
-            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
+            CliCall cliCall = cli.parse(args);
 
             // global options
 
-            assertNotNull(commandLineInterfaceCall.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = commandLineInterfaceCall.getOptionParserResultGlobal();
+            assertNotNull(cliCall.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = cliCall.getOptionParserResultGlobal();
 
             assertEquals(2, optionParserResultGlobal.getSize());
 
@@ -190,15 +190,15 @@ class CommandLineInterfaceTest {
 
             // commands
 
-            List<String> commandList = commandLineInterfaceCall.getCommandList();
+            List<String> commandList = cliCall.getCommandList();
             assertEquals(2, commandList.size(), "number of commands");
             assertEquals("commandA", commandList.get(0));
             assertEquals("commandB", commandList.get(1));
 
             // specific options
 
-            assertNotNull(commandLineInterfaceCall.getOptionParserResultSpecific());
-            OptionParserResult optionParserResultSpecific = commandLineInterfaceCall.getOptionParserResultSpecific();
+            assertNotNull(cliCall.getOptionParserResultSpecific());
+            OptionParserResult optionParserResultSpecific = cliCall.getOptionParserResultSpecific();
 
             assertEquals(1, optionParserResultSpecific.getSize());
 
@@ -207,7 +207,7 @@ class CommandLineInterfaceTest {
 
             // arguments
 
-            List<String> argumentList = commandLineInterfaceCall.getCommandLineInterfaceResult().getParameterParserResult().getParameterList();
+            List<String> argumentList = cliCall.getCliResult().getParameterParserResult().getParameterList();
             assertEquals(1, argumentList.size());
             assertEquals("arg1", argumentList.get(0));
 

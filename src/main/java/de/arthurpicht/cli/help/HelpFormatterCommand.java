@@ -1,39 +1,37 @@
 package de.arthurpicht.cli.help;
 
-import de.arthurpicht.cli.CommandLineInterfaceCall;
-import de.arthurpicht.cli.CommandLineInterfaceDefinition;
+import de.arthurpicht.cli.CliCall;
+import de.arthurpicht.cli.CliDefinition;
 import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
 
-import java.io.PrintStream;
-
 public class HelpFormatterCommand {
 
-    public void out(CommandLineInterfaceCall commandLineInterfaceCall) {
+    public void out(CliCall cliCall) {
 
-        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
-        CommandParserResult commandParserResult = commandLineInterfaceCall.getCommandLineInterfaceResult().getCommandParserResult();
+        CliDefinition cliDefinition = cliCall.getCliDefinition();
+        CommandParserResult commandParserResult = cliCall.getCliResult().getCommandParserResult();
 
-        printUsageString(commandLineInterfaceCall);
+        printUsageString(cliCall);
 
         printDescription(commandParserResult);
 
-        printGlobalOptions(commandLineInterfaceDefinition);
+        printGlobalOptions(cliDefinition);
 
         printSpecificOptions(commandParserResult);
 
         printParameters(commandParserResult);
     }
 
-    private void printUsageString(CommandLineInterfaceCall call) {
+    private void printUsageString(CliCall call) {
 
-        CommandLineInterfaceDefinition definition = call.getCommandLineInterfaceDefinition();
-        CommandParserResult commandParserResult = call.getCommandLineInterfaceResult().getCommandParserResult();
+        CliDefinition definition = call.getCliDefinition();
+        CommandParserResult commandParserResult = call.getCliResult().getCommandParserResult();
 
-        String usage = "Usage: " + call.getCommandLineInterfaceDefinition().getCommandLineInterfaceDescription().getExecutableName();
+        String usage = "Usage: " + call.getCliDefinition().getCliDescription().getExecutableName();
 
         if (definition.hasGlobalOptions()) {
             usage += " [global options]";
@@ -60,10 +58,10 @@ public class HelpFormatterCommand {
         }
     }
 
-    private void printGlobalOptions(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
-        if (commandLineInterfaceDefinition.hasGlobalOptions()) {
+    private void printGlobalOptions(CliDefinition cliDefinition) {
+        if (cliDefinition.hasGlobalOptions()) {
             CLIContext.out.println("Global Options:");
-            Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
+            Options globalOptions = cliDefinition.getGlobalOptions();
             CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
         }
     }

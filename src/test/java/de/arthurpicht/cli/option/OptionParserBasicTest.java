@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -108,8 +108,8 @@ public class OptionParserBasicTest {
 
     private OptionParserResult execute(ArgumentIterator argumentIterator, Options options) {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        OptionParser optionParser = new OptionParser(GLOBAL, options, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        OptionParser optionParser = new OptionParser(GLOBAL, options, cliResultBuilder);
 
         try {
             optionParser.parse(argumentIterator);

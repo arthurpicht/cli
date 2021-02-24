@@ -1,7 +1,7 @@
 package de.arthurpicht.cli.integration;
 
 import de.arthurpicht.cli.*;
-import de.arthurpicht.cli.CommandLineInterfaceResult.Status;
+import de.arthurpicht.cli.CliResult.Status;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ParsingBrokenTest {
 
-    private CommandLineInterface getCommandLineInterface() {
+    private Cli createCli() {
 
         Options globalOptions = new Options()
                 .add(new HelpOption())
@@ -39,7 +39,7 @@ public class ParsingBrokenTest {
                         .build()
         );
 
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
                 .build("test");
@@ -49,10 +49,10 @@ public class ParsingBrokenTest {
     @Test
     public void breakOnHelpAsGlobalOptionOnly() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = new String[]{"-h"};
 
-        CommandLineInterfaceResult cliResult = commandLineInterface.parse(args).getCommandLineInterfaceResult();
+        CliResult cliResult = cli.parse(args).getCliResult();
 
         assertEquals(Status.BROKEN, cliResult.getStatus());
         assertTrue(cliResult.hasGlobalOptions());
@@ -65,10 +65,10 @@ public class ParsingBrokenTest {
     @Test
     public void breakOnHelpAsGlobalOption() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = new String[]{"-h", "something"};
 
-        CommandLineInterfaceResult cliResult = commandLineInterface.parse(args).getCommandLineInterfaceResult();
+        CliResult cliResult = cli.parse(args).getCliResult();
 
         assertEquals(Status.BROKEN, cliResult.getStatus());
         assertTrue(cliResult.hasGlobalOptions());
@@ -83,10 +83,10 @@ public class ParsingBrokenTest {
     @Test
     public void breakOnHelpAsSpecificOptionWithParameter() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = new String[]{"COMMAND_A", "-h", "something"};
 
-        CommandLineInterfaceResult cliResult = commandLineInterface.parse(args).getCommandLineInterfaceResult();
+        CliResult cliResult = cli.parse(args).getCliResult();
 
         assertEquals(Status.BROKEN, cliResult.getStatus());
         assertFalse(cliResult.hasGlobalOptions());
@@ -99,10 +99,10 @@ public class ParsingBrokenTest {
     @Test
     public void breakOnHelpAsSpecificOptionWithoutParameter() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = new String[]{"COMMAND_A", "-h"};
 
-        CommandLineInterfaceResult cliResult = commandLineInterface.parse(args).getCommandLineInterfaceResult();
+        CliResult cliResult = cli.parse(args).getCliResult();
 
         assertEquals(Status.BROKEN, cliResult.getStatus());
         assertFalse(cliResult.hasGlobalOptions());

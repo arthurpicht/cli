@@ -6,12 +6,8 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.OptionBuilder;
-import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
-import de.arthurpicht.cli.parameter.ParameterParserResult;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,12 +15,12 @@ public class DefaultCommandTestWithGlobalOptionOnly {
 
     private static class DefaultCommandExecutor implements CommandExecutor {
         @Override
-        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
+        public void execute(CliCall cliCall) {
             // din
         }
     }
 
-    private CommandLineInterface createCommandLineInterface() {
+    private Cli createCli() {
 
         Options globalOptions = new Options()
                 .add(new OptionBuilder()
@@ -36,7 +32,7 @@ public class DefaultCommandTestWithGlobalOptionOnly {
                 .build();
         Commands commands = new Commands()
                 .setDefaultCommand(defaultCommand);
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
                 .build("test");
@@ -45,41 +41,41 @@ public class DefaultCommandTestWithGlobalOptionOnly {
     @Test
     public void noArg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
-        assertTrue(commandLineInterfaceCall.getCommandExecutor() instanceof DefaultCommandExecutor);
-        assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
+        assertFalse(cliResult.getOptionParserResultGlobal().hasOption("v"));
+        assertTrue(cliCall.getCommandExecutor() instanceof DefaultCommandExecutor);
+        assertTrue(cliCall.getCommandList().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getParameterParserResult().isEmpty());
     }
 
     @Test
     public void globalOptionOnly() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"--version"};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
-        assertTrue(commandLineInterfaceCall.getCommandExecutor() instanceof DefaultCommandExecutor);
-        assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(commandLineInterfaceResult.getParameterParserResult().getParameterList().isEmpty());
+        assertTrue(cliResult.getOptionParserResultGlobal().hasOption("v"));
+        assertTrue(cliCall.getCommandExecutor() instanceof DefaultCommandExecutor);
+        assertTrue(cliCall.getCommandList().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getParameterParserResult().getParameterList().isEmpty());
     }
 
     @Test
     public void commandOnly_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"A"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(UnrecognizedArgumentException.class.getSimpleName() + " expected.");
         } catch (UnrecognizedArgumentException e) {
             // din
@@ -89,11 +85,11 @@ public class DefaultCommandTestWithGlobalOptionOnly {
     @Test
     public void globalOptionAndCommand_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"-v", "A"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(UnrecognizedArgumentException.class.getSimpleName() + " expected.");
         } catch (UnrecognizedArgumentException e) {
             // din

@@ -2,21 +2,21 @@ package de.arthurpicht.cli;
 
 import de.arthurpicht.utils.core.strings.Strings;
 
-public class CommandLineInterfaceDescription {
+public class CliDescription {
 
     private final String executableName;
     private final String description;
     private final String version;
     private final String date;
 
-    public CommandLineInterfaceDescription(String executableName) {
+    public CliDescription(String executableName) {
         this.executableName = executableName;
         this.description = "";
         this.version = "";
         this.date = "";
     }
 
-    public CommandLineInterfaceDescription(
+    public CliDescription(
             String executableName,
             String description,
             String version,

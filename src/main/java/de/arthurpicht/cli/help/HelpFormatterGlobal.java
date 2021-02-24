@@ -1,8 +1,8 @@
 package de.arthurpicht.cli.help;
 
-import de.arthurpicht.cli.CommandLineInterfaceCall;
-import de.arthurpicht.cli.CommandLineInterfaceDefinition;
-import de.arthurpicht.cli.CommandLineInterfaceDescription;
+import de.arthurpicht.cli.CliCall;
+import de.arthurpicht.cli.CliDefinition;
+import de.arthurpicht.cli.CliDescription;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
@@ -15,36 +15,36 @@ import static de.arthurpicht.cli.help.HelpFormatterCommons.getUsageOfDefaultComm
 
 public class HelpFormatterGlobal {
 
-    public void out(CommandLineInterfaceCall commandLineInterfaceCall) {
+    public void out(CliCall cliCall) {
 
-        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
-        CommandLineInterfaceDescription commandLineInterfaceDescription = commandLineInterfaceDefinition.getCommandLineInterfaceDescription();
-        CommandTree commandTree = commandLineInterfaceCall.getCommandLineInterfaceDefinition().getCommandTree();
+        CliDefinition cliDefinition = cliCall.getCliDefinition();
+        CliDescription cliDescription = cliDefinition.getCliDescription();
+        CommandTree commandTree = cliCall.getCliDefinition().getCommandTree();
 
-        HelpFormatterCommons.printHeaderString(commandLineInterfaceDefinition);
+        HelpFormatterCommons.printHeaderString(cliDefinition);
 
-        HelpFormatterCommons.printExecutableDescription(commandLineInterfaceDescription);
+        HelpFormatterCommons.printExecutableDescription(cliDescription);
 
-        printUsage(commandLineInterfaceDefinition, commandTree);
+        printUsage(cliDefinition, commandTree);
 
-        if (commandLineInterfaceDefinition.hasGlobalOptions()) {
+        if (cliDefinition.hasGlobalOptions()) {
             CLIContext.out.println("Global Options:");
-            Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
+            Options globalOptions = cliDefinition.getGlobalOptions();
             CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
         }
     }
 
-    private void printUsage(CommandLineInterfaceDefinition commandLineInterfaceDefinition, CommandTree commandTree) {
+    private void printUsage(CliDefinition cliDefinition, CommandTree commandTree) {
         CLIContext.out.println("Usage:");
 
-        if (commandLineInterfaceDefinition.hasDefaultCommand()) {
-            CLIContext.out.println(INDENT + getUsageOfDefaultCommand(commandLineInterfaceDefinition, false));
+        if (cliDefinition.hasDefaultCommand()) {
+            CLIContext.out.println(INDENT + getUsageOfDefaultCommand(cliDefinition, false));
         }
 
         if (commandTree.hasCommands()) {
             List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
-                String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, commandLineInterfaceDefinition);
+                String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition);
                 CLIContext.out.println(INDENT + usageString);
             }
         }

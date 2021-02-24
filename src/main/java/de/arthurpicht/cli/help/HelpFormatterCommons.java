@@ -1,24 +1,22 @@
 package de.arthurpicht.cli.help;
 
-import de.arthurpicht.cli.CommandLineInterfaceDefinition;
-import de.arthurpicht.cli.CommandLineInterfaceDescription;
+import de.arthurpicht.cli.CliDefinition;
+import de.arthurpicht.cli.CliDescription;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
 
-import java.io.PrintStream;
-
 public class HelpFormatterCommons {
 
     public static final String INDENT = "  ";
     public static final int COL_WIDTH = 30;
 
-    public static String getHeaderString(CommandLineInterfaceDefinition cliDefinition) {
+    public static String getHeaderString(CliDefinition cliDefinition) {
 
-        String executableName = cliDefinition.getCommandLineInterfaceDescription().getExecutableName();
-        CommandLineInterfaceDescription cliDescription = cliDefinition.getCommandLineInterfaceDescription();
+        String executableName = cliDefinition.getCliDescription().getExecutableName();
+        CliDescription cliDescription = cliDefinition.getCliDescription();
 
         String header = executableName;
         if (cliDescription.hasVersion()) {
@@ -31,25 +29,25 @@ public class HelpFormatterCommons {
         return header;
     }
 
-    public static void printHeaderString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
-        CLIContext.out.println(HelpFormatterCommons.getHeaderString(commandLineInterfaceDefinition));
+    public static void printHeaderString(CliDefinition cliDefinition) {
+        CLIContext.out.println(HelpFormatterCommons.getHeaderString(cliDefinition));
     }
 
-    public static void printExecutableDescription(CommandLineInterfaceDescription commandLineInterfaceDescription) {
+    public static void printExecutableDescription(CliDescription cliDescription) {
 
-        if (commandLineInterfaceDescription.hasDescription()) {
-            String description = commandLineInterfaceDescription.getDescription();
+        if (cliDescription.hasDescription()) {
+            String description = cliDescription.getDescription();
             CLIContext.out.println(HelpFormatterCommons.indentString(description));
         }
     }
 
     public static String getUsageOfDefaultCommand(
-            CommandLineInterfaceDefinition commandLineInterfaceDefinition,
+            CliDefinition cliDefinition,
             boolean defaultOnly) {
 
-        String executableName = commandLineInterfaceDefinition.getCommandLineInterfaceDescription().getExecutableName();
-        boolean hasGlobalOptions = commandLineInterfaceDefinition.hasGlobalOptions();
-        DefaultCommand defaultCommand = commandLineInterfaceDefinition.getDefaultCommand();
+        String executableName = cliDefinition.getCliDescription().getExecutableName();
+        boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
+        DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
 
         String usage = executableName;
 
@@ -67,9 +65,9 @@ public class HelpFormatterCommons {
         return usage;
     }
 
-    public static String getCommandSpecificUsage(CommandTreeNode commandTreeNode, CommandLineInterfaceDefinition cliDefinition) {
+    public static String getCommandSpecificUsage(CommandTreeNode commandTreeNode, CliDefinition cliDefinition) {
 
-        String executableName = cliDefinition.getCommandLineInterfaceDescription().getExecutableName();
+        String executableName = cliDefinition.getCliDescription().getExecutableName();
         boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
         String commandsString = commandTreeNode.getCommandsString();
         boolean hasSpecificOptions = commandTreeNode.getCommand().getCommandTerminator().hasSpecificOptions();
@@ -110,19 +108,19 @@ public class HelpFormatterCommons {
         return stringBuilder.toString();
     }
 
-    public static String getVersionAndDateString(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
-        CommandLineInterfaceDescription commandLineInterfaceDescription
-                = commandLineInterfaceDefinition.getCommandLineInterfaceDescription();
+    public static String getVersionAndDateString(CliDefinition cliDefinition) {
+        CliDescription cliDescription
+                = cliDefinition.getCliDescription();
 
         String versionAndDate = "";
 
-        if (commandLineInterfaceDescription.hasVersion()) {
-            versionAndDate += "Version: " + commandLineInterfaceDescription.getVersion();
+        if (cliDescription.hasVersion()) {
+            versionAndDate += "Version: " + cliDescription.getVersion();
         }
 
-        if (commandLineInterfaceDescription.hasDate()) {
+        if (cliDescription.hasDate()) {
             if (Strings.isSpecified(versionAndDate)) versionAndDate += " ";
-            versionAndDate += "from: " + commandLineInterfaceDescription.getDate();
+            versionAndDate += "from: " + cliDescription.getDate();
         }
 
         return versionAndDate;

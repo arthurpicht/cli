@@ -1,9 +1,9 @@
 package de.arthurpicht.cli.command.integration;
 
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.CommandLineInterfaceCall;
-import de.arthurpicht.cli.CommandLineInterfaceResult;
+import de.arthurpicht.cli.Cli;
+import de.arthurpicht.cli.CliBuilder;
+import de.arthurpicht.cli.CliCall;
+import de.arthurpicht.cli.CliResult;
 import de.arthurpicht.cli.command.CommandSequence;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CommandOverlapWithParameters {
 
-    private CommandLineInterface getCommandLineInterface() {
+    private Cli createCli() {
 
         Options globalOptions = new Options()
                 .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v"))
@@ -50,83 +50,83 @@ public class CommandOverlapWithParameters {
                 .build();
         commands.add(commandSequenceB);
 
-        return new CommandLineInterfaceBuilder().withGlobalOptions(globalOptions).withCommands(commands).build("test");
+        return new CliBuilder().withGlobalOptions(globalOptions).withCommands(commands).build("test");
     }
 
     @Test
     public void longSequence() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"A", "B", "C", "D", "parameter"};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(List.of("A", "B", "C", "D"), commandLineInterfaceCall.getCommandList());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertFalse(commandLineInterfaceResult.getParameterParserResult().isEmpty());
-        assertEquals("parameter", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(List.of("A", "B", "C", "D"), cliCall.getCommandList());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertFalse(cliResult.getParameterParserResult().isEmpty());
+        assertEquals("parameter", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     public void shortSequence() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         // -- is necessary here
         String[] args = {"A", "B", "--", "parameter"};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(List.of("A", "B"), commandLineInterfaceCall.getCommandList());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertFalse(commandLineInterfaceResult.getParameterParserResult().getParameterList().isEmpty());
-        assertEquals("parameter", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(List.of("A", "B"), cliCall.getCommandList());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertFalse(cliResult.getParameterParserResult().getParameterList().isEmpty());
+        assertEquals("parameter", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     public void shortSequenceWithSpecificParameters() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"A", "B", "-b", "value", "parameter"};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(List.of("A", "B"), commandLineInterfaceCall.getCommandList());
-        assertEquals(1, commandLineInterfaceResult.getOptionParserResultSpecific().getSize());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().hasOption("b"));
-        assertEquals("value", commandLineInterfaceResult.getOptionParserResultSpecific().getValue("b"));
-        assertFalse(commandLineInterfaceResult.getParameterParserResult().isEmpty());
-        assertEquals("parameter", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(List.of("A", "B"), cliCall.getCommandList());
+        assertEquals(1, cliResult.getOptionParserResultSpecific().getSize());
+        assertTrue(cliResult.getOptionParserResultSpecific().hasOption("b"));
+        assertEquals("value", cliResult.getOptionParserResultSpecific().getValue("b"));
+        assertFalse(cliResult.getParameterParserResult().isEmpty());
+        assertEquals("parameter", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     public void shortSequenceWithDoubleDash() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         // -- is unnecessary here but works
         String[] args = {"A", "B", "--", "-b", "value", "parameter"};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertEquals(List.of("A", "B"), commandLineInterfaceCall.getCommandList());
-        assertEquals(1, commandLineInterfaceResult.getOptionParserResultSpecific().getSize());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().hasOption("b"));
-        assertEquals("value", commandLineInterfaceResult.getOptionParserResultSpecific().getValue("b"));
-        assertFalse(commandLineInterfaceResult.getParameterParserResult().isEmpty());
-        assertEquals("parameter", commandLineInterfaceResult.getParameterParserResult().getParameterList().get(0));
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertEquals(List.of("A", "B"), cliCall.getCommandList());
+        assertEquals(1, cliResult.getOptionParserResultSpecific().getSize());
+        assertTrue(cliResult.getOptionParserResultSpecific().hasOption("b"));
+        assertEquals("value", cliResult.getOptionParserResultSpecific().getValue("b"));
+        assertFalse(cliResult.getParameterParserResult().isEmpty());
+        assertEquals("parameter", cliResult.getParameterParserResult().getParameterList().get(0));
     }
 
     @Test
     public void illegalCommandException_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"A", "parameter"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(IllegalCommandException.class.getName() + " expected");
         } catch (IllegalCommandException e) {
             assertEquals("Command [parameter] not recognized. Possible commands are: [ B ].", e.getMessage());
@@ -136,11 +136,11 @@ public class CommandOverlapWithParameters {
     @Test
     public void insufficientNumberOfCommandsWithOption_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"A", "-b", "value", "parameter"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(InsufficientNrOfCommandsException.class.getName() + " expected");
         } catch (InsufficientNrOfCommandsException e) {
             assertEquals("Insufficient number of commands. Next command is one of: [ B ].", e.getMessage());
@@ -150,11 +150,11 @@ public class CommandOverlapWithParameters {
     @Test
     public void insufficientNumberOfCommandsWithDoubleDash_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
         String[] args = {"A", "--", "-b", "value", "parameter"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(IllegalCommandException.class.getName() + " expected");
         } catch (IllegalCommandException e) {
             assertEquals("Double dash \"--\" not allowed here. Possible commands are: [ B ].", e.getMessage());

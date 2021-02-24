@@ -5,15 +5,15 @@ import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.common.CLISpecificationException;
 import de.arthurpicht.cli.option.Options;
 
-public class CommandLineInterfaceDefinition {
+public class CliDefinition {
 
-    private final CommandLineInterfaceDescription commandLineInterfaceDescription;
+    private final CliDescription cliDescription;
     private final Options globalOptions;
     private final CommandTree commandTree;
     private final DefaultCommand defaultCommand;
 
-    public CommandLineInterfaceDefinition(CommandLineInterfaceDescription commandLineInterfaceDescription, Options globalOptions, CommandTree commandTree, DefaultCommand defaultCommand) {
-        this.commandLineInterfaceDescription = commandLineInterfaceDescription;
+    public CliDefinition(CliDescription cliDescription, Options globalOptions, CommandTree commandTree, DefaultCommand defaultCommand) {
+        this.cliDescription = cliDescription;
         this.globalOptions = globalOptions;
         this.commandTree = commandTree;
         this.defaultCommand = defaultCommand;
@@ -22,8 +22,8 @@ public class CommandLineInterfaceDefinition {
             throw new CLISpecificationException("Specification of at least commands or default command is expected.");
     }
 
-    public CommandLineInterfaceDescription getCommandLineInterfaceDescription() {
-        return commandLineInterfaceDescription;
+    public CliDescription getCliDescription() {
+        return cliDescription;
     }
 
     public boolean hasGlobalOptions() {

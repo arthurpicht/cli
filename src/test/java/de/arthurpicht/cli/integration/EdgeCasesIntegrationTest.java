@@ -1,7 +1,7 @@
 package de.arthurpicht.cli.integration;
 
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
+import de.arthurpicht.cli.Cli;
+import de.arthurpicht.cli.CliBuilder;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
@@ -21,15 +21,15 @@ public class EdgeCasesIntegrationTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
+        CliBuilder cliBuilder = new CliBuilder()
                 .withCommands(commands);
 
-        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build("test");
+        Cli cli = cliBuilder.build("test");
 
         String[] args = {"A"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
             println("ArgumentIndex: " + e.getArgumentIndex());
             println(e.getArgsAsString());
@@ -45,15 +45,15 @@ public class EdgeCasesIntegrationTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
+        CliBuilder cliBuilder = new CliBuilder()
                 .withCommands(commands);
 
-        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build("test");
+        Cli cli = cliBuilder.build("test");
 
         String[] args = {"--", "A"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(IllegalCommandException.class.getSimpleName() + " expected.");
         } catch (IllegalCommandException e) {
             assertEquals("Double dash \"--\" not allowed here. Possible commands are: [ A ].", e.getMessage());
@@ -66,15 +66,15 @@ public class EdgeCasesIntegrationTest {
         Commands commands = new Commands();
         commands.add(new CommandSequenceBuilder().addCommand("A").build());
 
-        CommandLineInterfaceBuilder commandLineInterfaceBuilder = new CommandLineInterfaceBuilder()
+        CliBuilder cliBuilder = new CliBuilder()
                 .withCommands(commands);
 
-        CommandLineInterface commandLineInterface = commandLineInterfaceBuilder.build("test");
+        Cli cli = cliBuilder.build("test");
 
         String[] args = {"A", "--"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(UnrecognizedArgumentException.class.getSimpleName() + " expected.");
         } catch (UnrecognizedArgumentException e) {
             assertEquals("Unrecognized argument: --", e.getMessage());

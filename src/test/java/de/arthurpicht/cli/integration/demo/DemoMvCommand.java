@@ -12,16 +12,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DemoMvCommand {
 
-    private CommandLineInterface createCommandLineInterface(PrintStream out) {
+    private Cli createCli(PrintStream out) {
 
         Options globalOptions = new Options().add(new HelpOption());
 
@@ -33,37 +30,37 @@ public class DemoMvCommand {
                                         .addParameter("destination", "destination file to be moved to")
                                         .build())
                         .withCommandExecutor(
-                                (commandLineInterfaceCall)
+                                (cliCall)
                                         -> System.out.println(
-                                        "Copy file from " + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(0) + " to "
-                                                + commandLineInterfaceCall.getParameterParserResult().getParameterList().get(1))
+                                        "Copy file from " + cliCall.getParameterParserResult().getParameterList().get(0) + " to "
+                                                + cliCall.getParameterParserResult().getParameterList().get(1))
                         ).build();
 
         Commands commands = new Commands().setDefaultCommand(defaultCommand);
 
-        CommandLineInterfaceDescription commandLineInterfaceDescription =
-                new CommandLineInterfaceDescriptionBuilder("mv")
+        CliDescription cliDescription =
+                new CliDescriptionBuilder("mv")
                 .withDescription("(Demo) Move file from source to destination.")
                 .withDate("22.02.2021")
                 .withVersion("1.0")
                 .build();
 
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
                 .withOut(out)
-                .build(commandLineInterfaceDescription);
+                .build(cliDescription);
     }
 
     @Test
     public void regularCall() throws UnrecognizedArgumentException, CommandExecutorException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface(System.out);
+        Cli cli = createCli(System.out);
 
         String[] args = {"source", "destination"};
 
-        CommandLineInterfaceCall call = commandLineInterface.execute(args);
-        CommandLineInterfaceResult result = call.getCommandLineInterfaceResult();
+        CliCall call = cli.execute(args);
+        CliResult result = call.getCliResult();
 
         assertTrue(result.getOptionParserResultGlobal().isEmpty());
         assertTrue(result.getCommandParserResult().getCommandStringList().isEmpty());
@@ -79,10 +76,10 @@ public class DemoMvCommand {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        CommandLineInterface commandLineInterface = createCommandLineInterface(out);
+        Cli cli = createCli(out);
         String[] args = {"-h"};
 
-        CommandLineInterfaceCall call = commandLineInterface.execute(args);
+        CliCall call = cli.execute(args);
 
         String output = outBAOS.toString();
         String expectedOutput =

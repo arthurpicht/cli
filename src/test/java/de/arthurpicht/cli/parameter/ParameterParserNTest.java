@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,8 @@ class ParameterParserNTest {
     @Test
     void parseFirst() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(1, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(1, cliResultBuilder);
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -35,8 +35,8 @@ class ParameterParserNTest {
     @Test
     void parseFirstTwo() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(2, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(2, cliResultBuilder);
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -57,8 +57,8 @@ class ParameterParserNTest {
     @Test
     void parseLastThree() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(3, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -80,8 +80,8 @@ class ParameterParserNTest {
     @Test
     void parseLastFourOutOfBounds_neg() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(4, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(4, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -98,8 +98,8 @@ class ParameterParserNTest {
     @Test
     void parseOutOfBounds_neg() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(1, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(1, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 3);

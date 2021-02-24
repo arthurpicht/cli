@@ -1,6 +1,6 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.CommandLineInterfaceResult.Status;
+import de.arthurpicht.cli.CliResult.Status;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.parameter.ParameterParserResult;
 
@@ -8,29 +8,29 @@ import java.util.List;
 
 /**
  * Representation of an end user call to command line interface. An instance is
- * created by cli {@link CommandLineInterface} when given end user arguments
+ * created by cli {@link Cli} when given end user arguments
  * could be recognized as syntactically correct and parsed successfully.
- * Contains specified arguments, {@link CommandLineInterfaceDefinition} and
- * {@link CommandLineInterfaceResult}.
+ * Contains specified arguments, {@link CliDefinition} and
+ * {@link CliResult}.
  */
-public class CommandLineInterfaceCall {
+public class CliCall {
 
     private final List<String> args;
-    private final CommandLineInterfaceDefinition commandLineInterfaceDefinition;
-    private final CommandLineInterfaceResult commandLineInterfaceResult;
+    private final CliDefinition cliDefinition;
+    private final CliResult cliResult;
 
-    public CommandLineInterfaceCall(
+    public CliCall(
             String[] args,
-            CommandLineInterfaceDefinition commandLineInterfaceDefinition,
-            CommandLineInterfaceResult commandLineInterfaceResult
+            CliDefinition cliDefinition,
+            CliResult cliResult
     ) {
         if (args == null) throw new IllegalArgumentException("Method parameter is null.");
-        if (commandLineInterfaceDefinition == null) throw new IllegalArgumentException("Method parameter is null.");
-        if (commandLineInterfaceResult == null) throw new IllegalArgumentException("Method parameter is null.");
+        if (cliDefinition == null) throw new IllegalArgumentException("Method parameter is null.");
+        if (cliResult == null) throw new IllegalArgumentException("Method parameter is null.");
 
         this.args = List.of(args);
-        this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
-        this.commandLineInterfaceResult = commandLineInterfaceResult;
+        this.cliDefinition = cliDefinition;
+        this.cliResult = cliResult;
     }
 
     /**
@@ -47,8 +47,8 @@ public class CommandLineInterfaceCall {
      *
      * @return Definition of command line interface.
      */
-    public CommandLineInterfaceDefinition getCommandLineInterfaceDefinition() {
-        return commandLineInterfaceDefinition;
+    public CliDefinition getCliDefinition() {
+        return cliDefinition;
     }
 
     /**
@@ -56,8 +56,8 @@ public class CommandLineInterfaceCall {
      *
      * @return aggregated parsed arguments as given by end user
      */
-    public CommandLineInterfaceResult getCommandLineInterfaceResult() {
-        return commandLineInterfaceResult;
+    public CliResult getCliResult() {
+        return cliResult;
     }
 
     /**
@@ -66,7 +66,7 @@ public class CommandLineInterfaceCall {
      * @return global options as given by end user
      */
     public OptionParserResult getOptionParserResultGlobal() {
-        return this.commandLineInterfaceResult.getOptionParserResultGlobal();
+        return this.cliResult.getOptionParserResultGlobal();
     }
 
     /**
@@ -75,7 +75,7 @@ public class CommandLineInterfaceCall {
      * @return commands as given by end user
      */
     public List<String> getCommandList() {
-        return this.commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
+        return this.cliResult.getCommandParserResult().getCommandStringList();
     }
 
     /**
@@ -85,7 +85,7 @@ public class CommandLineInterfaceCall {
      * @return specific options as given by end user
      */
     public OptionParserResult getOptionParserResultSpecific() {
-        return this.commandLineInterfaceResult.getOptionParserResultSpecific();
+        return this.cliResult.getOptionParserResultSpecific();
     }
 
     /**
@@ -95,7 +95,7 @@ public class CommandLineInterfaceCall {
      * @return parameters as given by end user
      */
     public ParameterParserResult getParameterParserResult() {
-        return this.commandLineInterfaceResult.getParameterParserResult();
+        return this.cliResult.getParameterParserResult();
     }
 
     /**
@@ -105,7 +105,7 @@ public class CommandLineInterfaceCall {
      * @return true if exists a {@link CommandExecutor}
      */
     public boolean hasCommandExecutor() {
-        return this.commandLineInterfaceResult.getCommandParserResult().hasCommandExecutor();
+        return this.cliResult.getCommandParserResult().hasCommandExecutor();
     }
 
     /**
@@ -115,7 +115,7 @@ public class CommandLineInterfaceCall {
      * @return CommandExecutor as associated to command given by end user.
      */
     public CommandExecutor getCommandExecutor() {
-        return this.commandLineInterfaceResult.getCommandParserResult().getCommandExecutor();
+        return this.cliResult.getCommandParserResult().getCommandExecutor();
     }
 
     /**
@@ -124,7 +124,7 @@ public class CommandLineInterfaceCall {
      * @return status of parsing result
      */
     public Status getStatus() {
-        return this.commandLineInterfaceResult.getStatus();
+        return this.cliResult.getStatus();
     }
 
 }

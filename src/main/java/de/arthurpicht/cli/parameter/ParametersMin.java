@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.help.HelpFormatterCommons;
 import de.arthurpicht.utils.core.strings.Strings;
 
@@ -40,8 +40,8 @@ public class ParametersMin extends Parameters {
     }
 
     @Override
-    public ParameterParser getParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        return new ParameterParserMin(this.minimalNrOfParameters, commandLineInterfaceResultBuilder);
+    public ParameterParser getParameterParser(CliResultBuilder cliResultBuilder) {
+        return new ParameterParserMin(this.minimalNrOfParameters, cliResultBuilder);
     }
 
     @Override

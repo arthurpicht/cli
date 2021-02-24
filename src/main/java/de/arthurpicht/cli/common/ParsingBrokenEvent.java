@@ -1,16 +1,16 @@
 package de.arthurpicht.cli.common;
 
-import de.arthurpicht.cli.CommandLineInterfaceResult;
+import de.arthurpicht.cli.CliResult;
 
 public class ParsingBrokenEvent extends Throwable {
 
-    private final CommandLineInterfaceResult commandLineInterfaceResult;
+    private final CliResult cliResult;
 
-    public ParsingBrokenEvent(CommandLineInterfaceResult commandLineInterfaceResult) {
-        this.commandLineInterfaceResult = commandLineInterfaceResult;
+    public ParsingBrokenEvent(CliResult cliResult) {
+        this.cliResult = cliResult;
     }
 
-    public CommandLineInterfaceResult getCommandLineInterfaceResult() {
-        return commandLineInterfaceResult;
+    public CliResult getCliResult() {
+        return cliResult;
     }
 }

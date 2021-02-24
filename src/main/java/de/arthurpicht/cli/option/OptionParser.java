@@ -1,12 +1,12 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Parser;
 import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
-import static de.arthurpicht.cli.CommandLineInterfaceResult.Status.BROKEN;
+import static de.arthurpicht.cli.CliResult.Status.BROKEN;
 
 public class OptionParser extends Parser {
 
@@ -16,8 +16,8 @@ public class OptionParser extends Parser {
     private final Options options;
     private final OptionParserResult optionParserResult;
 
-    public OptionParser(Target target, Options options, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        super(commandLineInterfaceResultBuilder);
+    public OptionParser(Target target, Options options, CliResultBuilder cliResultBuilder) {
+        super(cliResultBuilder);
         this.target = target;
         this.options = options;
         this.optionParserResult = new OptionParserResult();
@@ -33,13 +33,13 @@ public class OptionParser extends Parser {
         parseInner(argumentIterator);
 
         if (this.target == Target.GLOBAL) {
-            commandLineInterfaceResultBuilder.withOptionParserResultGlobal(this.optionParserResult);
+            cliResultBuilder.withOptionParserResultGlobal(this.optionParserResult);
         } else {
-            commandLineInterfaceResultBuilder.withOptionParserResultSpecific(this.optionParserResult);
+            cliResultBuilder.withOptionParserResultSpecific(this.optionParserResult);
         }
 
         if (this.optionParserResult.hasBreakingOption())
-            throw new ParsingBrokenEvent(commandLineInterfaceResultBuilder.build(BROKEN));
+            throw new ParsingBrokenEvent(cliResultBuilder.build(BROKEN));
     }
 
     public void parseInner(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException {

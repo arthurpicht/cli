@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,8 @@ class ParameterParserMinTest {
     @Test
     void parseFirst() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(0, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin parameterParserMin = new ParameterParserMin(0, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -39,8 +39,8 @@ class ParameterParserMinTest {
     @Test
     void parseLast() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(0, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin parameterParserMin = new ParameterParserMin(0, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 2);
@@ -62,8 +62,8 @@ class ParameterParserMinTest {
     @Test
     void parseMidMin2() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(2, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin parameterParserMin = new ParameterParserMin(2, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 1);
@@ -85,8 +85,8 @@ class ParameterParserMinTest {
     @Test
     void parseMidMin3Fail() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(3, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin parameterParserMin = new ParameterParserMin(3, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 1);
@@ -103,8 +103,8 @@ class ParameterParserMinTest {
     @Test
     void parseZero() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin argumentParserVar = new ParameterParserMin(0, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin argumentParserVar = new ParameterParserMin(0, cliResultBuilder);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

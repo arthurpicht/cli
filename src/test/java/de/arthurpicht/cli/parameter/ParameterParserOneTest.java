@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +15,8 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserOne parameterParserOne = new ParameterParserOne(commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserOne parameterParserOne = new ParameterParserOne(cliResultBuilder);
         parameterParserOne.parse(argumentIterator);
 
         assertEquals("A", parameterParserOne.getParserResult().getParameterList().get(0));
@@ -29,8 +29,8 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 2);
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserOne parameterParserOne = new ParameterParserOne(commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserOne parameterParserOne = new ParameterParserOne(cliResultBuilder);
         parameterParserOne.parse(argumentIterator);
 
         assertEquals("D", parameterParserOne.getParameterList().get(0));
@@ -43,8 +43,8 @@ class ParameterParserOneTest {
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 3);
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserOne argumentParserOne = new ParameterParserOne(commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserOne argumentParserOne = new ParameterParserOne(cliResultBuilder);
         try {
             argumentParserOne.parse(argumentIterator);
             fail(ParameterParserException.class.getSimpleName() + " expected.");

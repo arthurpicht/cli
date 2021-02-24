@@ -1,8 +1,8 @@
 package de.arthurpicht.cli.help;
 
-import de.arthurpicht.cli.CommandLineInterfaceCall;
-import de.arthurpicht.cli.CommandLineInterfaceDefinition;
-import de.arthurpicht.cli.CommandLineInterfaceDescription;
+import de.arthurpicht.cli.CliCall;
+import de.arthurpicht.cli.CliDefinition;
+import de.arthurpicht.cli.CliDescription;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
@@ -12,26 +12,26 @@ import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
 
 public class HelpFormatterDefaultOnly {
 
-    public void out(CommandLineInterfaceCall commandLineInterfaceCall) {
+    public void out(CliCall cliCall) {
 
-        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
-        CommandLineInterfaceDescription commandLineInterfaceDescription = commandLineInterfaceDefinition.getCommandLineInterfaceDescription();
-        DefaultCommand defaultCommand = commandLineInterfaceDefinition.getDefaultCommand();
+        CliDefinition cliDefinition = cliCall.getCliDefinition();
+        CliDescription cliDescription = cliDefinition.getCliDescription();
+        DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
 
-        HelpFormatterCommons.printHeaderString(commandLineInterfaceDefinition);
+        HelpFormatterCommons.printHeaderString(cliDefinition);
 
-        HelpFormatterCommons.printExecutableDescription(commandLineInterfaceDescription);
+        HelpFormatterCommons.printExecutableDescription(cliDescription);
 
         CLIContext.out.println("Usage:");
-        CLIContext.out.println(INDENT + HelpFormatterCommons.getUsageOfDefaultCommand(commandLineInterfaceDefinition, true));
+        CLIContext.out.println(INDENT + HelpFormatterCommons.getUsageOfDefaultCommand(cliDefinition, true));
 
         if (defaultCommand.hasDescription()) {
             CLIContext.out.println(HelpFormatterCommons.indentString(defaultCommand.getDescription()));
         }
 
-        if (commandLineInterfaceDefinition.hasGlobalOptions()) {
+        if (cliDefinition.hasGlobalOptions()) {
             CLIContext.out.println("Options:");
-            Options globalOptions = commandLineInterfaceDefinition.getGlobalOptions();
+            Options globalOptions = cliDefinition.getGlobalOptions();
             CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
         }
 

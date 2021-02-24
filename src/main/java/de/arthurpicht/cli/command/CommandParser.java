@@ -1,7 +1,7 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.CommandExecutor;
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.command.exceptions.AmbiguousCommandException;
 import de.arthurpicht.cli.command.exceptions.IllegalCommandException;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
@@ -29,8 +29,8 @@ public class CommandParser extends Parser {
     private CommandExecutor commandExecutor;
     private String description;
 
-    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        super(commandLineInterfaceResultBuilder);
+    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand, CliResultBuilder cliResultBuilder) {
+        super(cliResultBuilder);
         this.commandTree = commandTree;
         this.defaultCommand = defaultCommand;
 
@@ -54,7 +54,7 @@ public class CommandParser extends Parser {
     @Override
     public void parse(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {
         parseInner(argumentIterator);
-        this.commandLineInterfaceResultBuilder.withCommandParserResult(getParserResult());
+        this.cliResultBuilder.withCommandParserResult(getParserResult());
     }
 
     private void parseInner(ArgumentIterator argumentIterator) throws IllegalCommandException, AmbiguousCommandException, InsufficientNrOfCommandsException {

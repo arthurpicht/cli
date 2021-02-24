@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,8 @@ public class ParameterParserNExceptionTest {
     @Test
     void parseInsufficientNumber_neg() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(3, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder);
 
         String[] args = {"somethingElse", "A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -38,8 +38,8 @@ public class ParameterParserNExceptionTest {
     @Test
     void oneParameterSurplus_neg() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(3, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder);
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -66,8 +66,8 @@ public class ParameterParserNExceptionTest {
     @Test
     void twoParametersSurplus() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(2, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserN parameterParserN = new ParameterParserN(2, cliResultBuilder);
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);

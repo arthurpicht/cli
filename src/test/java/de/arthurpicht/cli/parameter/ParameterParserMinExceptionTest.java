@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,8 @@ public class ParameterParserMinExceptionTest {
     @Test
     void emptyArgs_neg() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(1, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin parameterParserMin = new ParameterParserMin(1, cliResultBuilder);
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -36,8 +36,8 @@ public class ParameterParserMinExceptionTest {
     @Test
     void parseFirst_neg() {
 
-        CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-        ParameterParserMin argumentParserVar = new ParameterParserMin(5, commandLineInterfaceResultBuilder);
+        CliResultBuilder cliResultBuilder = new CliResultBuilder();
+        ParameterParserMin argumentParserVar = new ParameterParserMin(5, cliResultBuilder);
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

@@ -1,16 +1,15 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.Arguments;
-import de.arthurpicht.cli.common.ParserResult;
 
 public class ParameterParserN extends ParameterParser {
 
     private final int nrOfArguments;
 
-    public ParameterParserN(int nrOfArguments, CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        super(commandLineInterfaceResultBuilder);
+    public ParameterParserN(int nrOfArguments, CliResultBuilder cliResultBuilder) {
+        super(cliResultBuilder);
         this.nrOfArguments = nrOfArguments;
     }
 
@@ -30,7 +29,7 @@ public class ParameterParserN extends ParameterParser {
 
         checkForTooManyParameters(arguments, beginIndex);
 
-        this.commandLineInterfaceResultBuilder.withParameterParserResult(getParserResult());
+        this.cliResultBuilder.withParameterParserResult(getParserResult());
     }
 
     private void checkForTooManyParameters(Arguments args, int beginIndex) throws IllegalNumberOfParametersException {

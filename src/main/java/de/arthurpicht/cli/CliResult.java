@@ -7,7 +7,7 @@ import de.arthurpicht.cli.parameter.ParameterParserResult;
 import java.util.Collections;
 import java.util.List;
 
-public class CommandLineInterfaceResult {
+public class CliResult {
 
     public enum Status {COMPLETE, BROKEN, TEST}
 
@@ -17,7 +17,7 @@ public class CommandLineInterfaceResult {
     private final OptionParserResult optionParserResultSpecific;
     private final ParameterParserResult parameterParserResult;
 
-    public CommandLineInterfaceResult(Status status, OptionParserResult optionParserResultGlobal, CommandParserResult commandParserResult, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
+    public CliResult(Status status, OptionParserResult optionParserResultGlobal, CommandParserResult commandParserResult, OptionParserResult optionParserResultSpecific, ParameterParserResult parameterParserResult) {
         if (status == null) throw new IllegalArgumentException("Method parameter is null.");
         if (optionParserResultGlobal == null) throw new IllegalArgumentException("Method parameter is null.");
         if (commandParserResult == null) throw new IllegalArgumentException("Method parameter is null.");

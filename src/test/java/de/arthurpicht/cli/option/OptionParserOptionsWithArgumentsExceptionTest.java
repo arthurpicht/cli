@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -28,8 +28,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -56,8 +56,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -84,8 +84,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -112,8 +112,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -140,8 +140,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception exception.");
 
@@ -168,8 +168,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -196,8 +196,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -226,8 +226,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -255,8 +255,8 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 

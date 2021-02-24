@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.Parser;
 
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ public abstract class ParameterParser extends Parser {
 
     protected List<String> parameterList;
 
-    public ParameterParser(CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder) {
-        super(commandLineInterfaceResultBuilder);
+    public ParameterParser(CliResultBuilder cliResultBuilder) {
+        super(cliResultBuilder);
         this.parameterList = new ArrayList<>();
     }
 

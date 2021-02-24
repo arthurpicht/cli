@@ -1,36 +1,36 @@
 package de.arthurpicht.cli;
 
-public class CommandLineInterfaceDescriptionBuilder {
+public class CliDescriptionBuilder {
 
     private final String executableName;
     private String description;
     private String version;
     private String date;
 
-    public CommandLineInterfaceDescriptionBuilder(String executableName) {
+    public CliDescriptionBuilder(String executableName) {
         this.executableName = executableName;
         this.description = "";
         this.version = "";
         this.date = "";
     }
 
-    public CommandLineInterfaceDescriptionBuilder withDescription(String description) {
+    public CliDescriptionBuilder withDescription(String description) {
         this.description = description;
         return this;
     }
 
-    public CommandLineInterfaceDescriptionBuilder withVersion(String version) {
+    public CliDescriptionBuilder withVersion(String version) {
         this.version = version;
         return this;
     }
 
-    public CommandLineInterfaceDescriptionBuilder withDate(String date) {
+    public CliDescriptionBuilder withDate(String date) {
         this.date = date;
         return this;
     }
 
-    public CommandLineInterfaceDescription build() {
-        return new CommandLineInterfaceDescription(
+    public CliDescription build() {
+        return new CliDescription(
                 this.executableName,
                 this.description,
                 this.version,

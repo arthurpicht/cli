@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.TestOut;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ class ParametersMinTest {
     @Test
     public void getParser() {
         ParametersMin parametersMin = new ParametersMin(2);
-        assertNotNull(parametersMin.getParameterParser(new CommandLineInterfaceResultBuilder()));
+        assertNotNull(parametersMin.getParameterParser(new CliResultBuilder()));
     }
 
     @Test

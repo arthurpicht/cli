@@ -1,9 +1,9 @@
 package de.arthurpicht.cli.integration.demo;
 
-import de.arthurpicht.cli.CommandLineInterface;
-import de.arthurpicht.cli.CommandLineInterfaceBuilder;
-import de.arthurpicht.cli.CommandLineInterfaceCall;
-import de.arthurpicht.cli.CommandLineInterfaceResult;
+import de.arthurpicht.cli.Cli;
+import de.arthurpicht.cli.CliBuilder;
+import de.arthurpicht.cli.CliCall;
+import de.arthurpicht.cli.CliResult;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Demo01 {
 
-    private CommandLineInterface getCommandLineInterface() {
+    private Cli createCli() {
 
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withGlobalOptions(new Options()
                         .add(new OptionBuilder().withShortName('v').withLongName("v").withDescription("verbose").build("v"))
                         .add(new OptionBuilder().withLongName("vv").withDescription("very verbose").build("vv"))
@@ -42,17 +42,17 @@ public class Demo01 {
     @Test
     void test() {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         @SuppressWarnings("SpellCheckingInspection")
         String[] args = {"-v", "adduser", "--user", "Joe", "--password", "supersecret"};
 
         try {
-            CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-            CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+            CliCall cliCall = cli.parse(args);
+            CliResult cliResult = cliCall.getCliResult();
 
-            assertNotNull(commandLineInterfaceResult.getOptionParserResultGlobal());
-            OptionParserResult optionParserResultGlobal = commandLineInterfaceResult.getOptionParserResultGlobal();
+            assertNotNull(cliResult.getOptionParserResultGlobal());
+            OptionParserResult optionParserResultGlobal = cliResult.getOptionParserResultGlobal();
 
             assertEquals(1, optionParserResultGlobal.getSize());
 
@@ -60,11 +60,11 @@ public class Demo01 {
             assertFalse(optionParserResultGlobal.hasOption("vv"));
             assertFalse(optionParserResultGlobal.hasOption("vvv"));
 
-            List<String> commandList = commandLineInterfaceResult.getCommandParserResult().getCommandStringList();
+            List<String> commandList = cliResult.getCommandParserResult().getCommandStringList();
             assertEquals(1, commandList.size());
             assertEquals("adduser", commandList.get(0));
 
-            OptionParserResult optionParserResultSpecific = commandLineInterfaceResult.getOptionParserResultSpecific();
+            OptionParserResult optionParserResultSpecific = cliResult.getOptionParserResultSpecific();
             assertEquals(2, optionParserResultSpecific.getSize());
             assertTrue(optionParserResultSpecific.hasOption("user"));
             assertEquals("Joe", optionParserResultSpecific.getValue("user"));
@@ -80,12 +80,12 @@ public class Demo01 {
     @Test
     void test2() {
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface();
+        Cli cli = createCli();
 
         String[] args = {};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail();
         } catch (UnrecognizedArgumentException e) {
             println(e.getArgsAsString());

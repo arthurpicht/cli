@@ -7,11 +7,7 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.DefaultCommandBuilder;
 import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
-import de.arthurpicht.cli.option.OptionParserResult;
-import de.arthurpicht.cli.parameter.ParameterParserResult;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,19 +15,19 @@ public class DefaultCommandTestCommandOnly {
 
     private static class DefaultCommandExecutor implements CommandExecutor {
         @Override
-        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
+        public void execute(CliCall cliCall) {
             // din
         }
     }
 
     private static class CommandExecutorA implements CommandExecutor {
         @Override
-        public void execute(CommandLineInterfaceCall commandLineInterfaceCall) {
+        public void execute(CliCall cliCall) {
             // din
         }
     }
 
-    private CommandLineInterface createCommandLineInterfaceWithGlobalOptionAndCommand() {
+    private Cli createCliWithGlobalOptionAndCommand() {
 
         DefaultCommand defaultCommand = new DefaultCommandBuilder()
                 .withCommandExecutor(new DefaultCommandExecutor())
@@ -39,7 +35,7 @@ public class DefaultCommandTestCommandOnly {
         Commands commands = new Commands()
                 .setDefaultCommand(defaultCommand)
                 .add(new CommandSequenceBuilder().addCommands("A").withCommandExecutor(new CommandExecutorA()).build());
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withCommands(commands)
                 .build("test");
     }
@@ -47,26 +43,26 @@ public class DefaultCommandTestCommandOnly {
     @Test
     public void noArg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterfaceWithGlobalOptionAndCommand();
+        Cli cli = createCliWithGlobalOptionAndCommand();
         String[] args = {};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertFalse(commandLineInterfaceResult.getOptionParserResultGlobal().hasOption("v"));
-        assertTrue(commandLineInterfaceCall.getCommandExecutor() instanceof DefaultCommandExecutor);
-        assertTrue(commandLineInterfaceCall.getCommandList().isEmpty());
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
+        assertFalse(cliResult.getOptionParserResultGlobal().hasOption("v"));
+        assertTrue(cliCall.getCommandExecutor() instanceof DefaultCommandExecutor);
+        assertTrue(cliCall.getCommandList().isEmpty());
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getParameterParserResult().isEmpty());
     }
 
     @Test
     public void globalOptionOnly_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterfaceWithGlobalOptionAndCommand();
+        Cli cli = createCliWithGlobalOptionAndCommand();
         String[] args = {"--version"};
 
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(InsufficientNrOfCommandsException.class.getSimpleName() + " expected.");
         } catch (InsufficientNrOfCommandsException e) {
             assertEquals("Insufficient number of commands. Next command is one of: [ A ] or no command.", e.getMessage());
@@ -76,25 +72,25 @@ public class DefaultCommandTestCommandOnly {
     @Test
     public void commandOnly() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterfaceWithGlobalOptionAndCommand();
+        Cli cli = createCliWithGlobalOptionAndCommand();
         String[] args = {"A"};
-        CommandLineInterfaceCall commandLineInterfaceCall = commandLineInterface.parse(args);
-        CommandLineInterfaceResult commandLineInterfaceResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
+        CliCall cliCall = cli.parse(args);
+        CliResult cliResult = cliCall.getCliResult();
 
-        assertTrue(commandLineInterfaceResult.getOptionParserResultGlobal().isEmpty());
-        assertTrue(commandLineInterfaceCall.getCommandExecutor() instanceof CommandExecutorA);
-        assertEquals("A", commandLineInterfaceCall.getCommandList().get(0));
-        assertTrue(commandLineInterfaceResult.getOptionParserResultSpecific().isEmpty());
-        assertTrue(commandLineInterfaceResult.getParameterParserResult().isEmpty());
+        assertTrue(cliResult.getOptionParserResultGlobal().isEmpty());
+        assertTrue(cliCall.getCommandExecutor() instanceof CommandExecutorA);
+        assertEquals("A", cliCall.getCommandList().get(0));
+        assertTrue(cliResult.getOptionParserResultSpecific().isEmpty());
+        assertTrue(cliResult.getParameterParserResult().isEmpty());
     }
 
     @Test
     public void globalOptionAndCommand_neg() throws UnrecognizedArgumentException {
 
-        CommandLineInterface commandLineInterface = createCommandLineInterfaceWithGlobalOptionAndCommand();
+        Cli cli = createCliWithGlobalOptionAndCommand();
         String[] args = {"-v", "A"};
         try {
-            commandLineInterface.parse(args);
+            cli.parse(args);
             fail(InsufficientNrOfCommandsException.class.getSimpleName() + " expected.");
         } catch (InsufficientNrOfCommandsException e) {
             assertEquals("Insufficient number of commands. Next command is one of: [ A ] or no command.", e.getMessage());

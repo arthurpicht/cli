@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.common.ArgumentIterator;
 import de.arthurpicht.cli.common.ParsingBrokenEvent;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
@@ -24,8 +24,8 @@ class OptionParserOptionsMixedOptionsTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -47,8 +47,8 @@ class OptionParserOptionsMixedOptionsTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -75,8 +75,8 @@ class OptionParserOptionsMixedOptionsTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -103,8 +103,8 @@ class OptionParserOptionsMixedOptionsTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -131,8 +131,8 @@ class OptionParserOptionsMixedOptionsTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -159,8 +159,8 @@ class OptionParserOptionsMixedOptionsTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
-            CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), commandLineInterfaceResultBuilder);
+            CliResultBuilder cliResultBuilder = new CliResultBuilder();
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 

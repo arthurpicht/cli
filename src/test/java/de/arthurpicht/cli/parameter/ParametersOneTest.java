@@ -1,6 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
-import de.arthurpicht.cli.CommandLineInterfaceResultBuilder;
+import de.arthurpicht.cli.CliResultBuilder;
 import de.arthurpicht.cli.TestOut;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ class ParametersOneTest {
     @Test
     public void getParser() {
         ParametersOne parametersOne = new ParametersOne();
-        assertNotNull(parametersOne.getParameterParser(new CommandLineInterfaceResultBuilder()));
+        assertNotNull(parametersOne.getParameterParser(new CliResultBuilder()));
     }
 
     @Test

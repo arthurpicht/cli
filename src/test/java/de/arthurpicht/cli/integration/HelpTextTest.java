@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HelpTextTest {
 
-    private CommandLineInterface getCommandLineInterface(PrintStream out) {
+    private Cli createCli(PrintStream out) {
 
         Options globalOptions = new Options()
                 .add(new VersionOption())
@@ -60,18 +60,18 @@ public class HelpTextTest {
                         .build()
         );
 
-        CommandLineInterfaceDescription commandLineInterfaceDescription
-                = new CommandLineInterfaceDescriptionBuilder("test")
+        CliDescription cliDescription
+                = new CliDescriptionBuilder("test")
                 .withDescription("A description for test.")
                 .withVersion("v1.0.0")
                 .withDate("18.02.2021")
                 .build();
 
-        return new CommandLineInterfaceBuilder()
+        return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
                 .withOut(out)
-                .build(commandLineInterfaceDescription);
+                .build(cliDescription);
     }
 
     @Test
@@ -80,9 +80,9 @@ public class HelpTextTest {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface(out);
+        Cli cli = createCli(out);
         String[] args = {"COMMAND_A", "-h"};
-        commandLineInterface.execute(args);
+        cli.execute(args);
 
         String output = outBAOS.toString();
         TestOut.println(output);
@@ -111,9 +111,9 @@ public class HelpTextTest {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface(out);
+        Cli cli = createCli(out);
         String[] args = {"-h"};
-        commandLineInterface.execute(args);
+        cli.execute(args);
 
         String output = outBAOS.toString();
         TestOut.println(output);
@@ -140,9 +140,9 @@ public class HelpTextTest {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        CommandLineInterface commandLineInterface = getCommandLineInterface(out);
+        Cli cli = createCli(out);
         String[] args = {"-m"};
-        commandLineInterface.execute(args);
+        cli.execute(args);
 
         String output = outBAOS.toString();
 

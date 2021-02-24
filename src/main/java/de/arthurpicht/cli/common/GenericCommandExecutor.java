@@ -9,24 +9,24 @@ import de.arthurpicht.cli.option.VersionOption;
 
 public class GenericCommandExecutor implements CommandExecutor {
 
-    public static void apply(CommandLineInterfaceCall commandLineInterfaceCall) throws CommandExecutorException {
+    public static void apply(CliCall cliCall) throws CommandExecutorException {
         GenericCommandExecutor commandExecutor = new GenericCommandExecutor();
-        commandExecutor.execute(commandLineInterfaceCall);
+        commandExecutor.execute(cliCall);
     }
 
     @Override
-    public void execute(CommandLineInterfaceCall commandLineInterfaceCall) throws CommandExecutorException {
+    public void execute(CliCall cliCall) throws CommandExecutorException {
 
-        CommandLineInterfaceResult cliResult = commandLineInterfaceCall.getCommandLineInterfaceResult();
-        CommandLineInterfaceDefinition cliDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
+        CliResult cliResult = cliCall.getCliResult();
+        CliDefinition cliDefinition = cliCall.getCliDefinition();
         OptionParserResult optionParserResultGlobal = cliResult.getOptionParserResultGlobal();
 
         if (optionParserResultGlobal.hasOption(HelpOption.ID)) {
-            if (isOnlyDefaultCommand(commandLineInterfaceCall)) {
-                new HelpFormatterDefaultOnly().out(commandLineInterfaceCall);
+            if (isOnlyDefaultCommand(cliCall)) {
+                new HelpFormatterDefaultOnly().out(cliCall);
                 return;
             } else {
-                new HelpFormatterGlobal().out(commandLineInterfaceCall);
+                new HelpFormatterGlobal().out(cliCall);
                 return;
             }
         } else if (optionParserResultGlobal.hasOption(VersionOption.ID)) {
@@ -34,7 +34,7 @@ public class GenericCommandExecutor implements CommandExecutor {
             System.out.println(versionString);
             return;
         } else if (optionParserResultGlobal.hasOption(ManOption.ID)) {
-            new HelpFormatterMan().out(commandLineInterfaceCall);
+            new HelpFormatterMan().out(cliCall);
             return;
         }
 
@@ -42,15 +42,15 @@ public class GenericCommandExecutor implements CommandExecutor {
         OptionParserResult optionParserResultSpecific = cliResult.getOptionParserResultSpecific();
 
         if (optionParserResultSpecific.hasOption(HelpOption.ID)) {
-            new HelpFormatterCommand().out(commandLineInterfaceCall);
+            new HelpFormatterCommand().out(cliCall);
             return;
         }
 
     }
 
-    private static boolean isOnlyDefaultCommand(CommandLineInterfaceCall commandLineInterfaceCall) {
-        CommandLineInterfaceDefinition commandLineInterfaceDefinition = commandLineInterfaceCall.getCommandLineInterfaceDefinition();
-        return (commandLineInterfaceDefinition.hasDefaultCommand() && !commandLineInterfaceDefinition.hasCommands());
+    private static boolean isOnlyDefaultCommand(CliCall cliCall) {
+        CliDefinition cliDefinition = cliCall.getCliDefinition();
+        return (cliDefinition.hasDefaultCommand() && !cliDefinition.hasCommands());
     }
 
 }

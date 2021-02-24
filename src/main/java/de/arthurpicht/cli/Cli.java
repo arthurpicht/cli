@@ -1,6 +1,6 @@
 package de.arthurpicht.cli;
 
-import de.arthurpicht.cli.CommandLineInterfaceResult.Status;
+import de.arthurpicht.cli.CliResult.Status;
 import de.arthurpicht.cli.command.CommandParser;
 import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.command.DefaultCommand;
@@ -18,27 +18,27 @@ import de.arthurpicht.cli.parameter.Parameters;
 
 import java.util.ArrayList;
 
-import static de.arthurpicht.cli.CommandLineInterfaceResult.Status.COMPLETE;
+import static de.arthurpicht.cli.CliResult.Status.COMPLETE;
 
-public class CommandLineInterface {
+public class Cli {
 
-    private final CommandLineInterfaceDefinition commandLineInterfaceDefinition;
-    private final CommandLineInterfaceResultBuilder commandLineInterfaceResultBuilder;
+    private final CliDefinition cliDefinition;
+    private final CliResultBuilder cliResultBuilder;
     private boolean calledBefore;
 
     /**
-     * Initializes CommandLIneInterface. Usage for end user is discouraged. Use {@link CommandLineInterfaceBuilder}
+     * Initializes CLI. Usage for end user is discouraged. Use {@link CliBuilder}
      * instead.
      *
-     * @param commandLineInterfaceDefinition
+     * @param cliDefinition
      */
-    public CommandLineInterface(CommandLineInterfaceDefinition commandLineInterfaceDefinition) {
+    public Cli(CliDefinition cliDefinition) {
 
-        if (commandLineInterfaceDefinition == null)
-            throw new IllegalArgumentException("Parameter 'CommandLineInterfaceDefinition' is null.");
+        if (cliDefinition == null)
+            throw new IllegalArgumentException("Parameter 'CliDefinition' is null.");
 
-        this.commandLineInterfaceDefinition = commandLineInterfaceDefinition;
-        this.commandLineInterfaceResultBuilder = new CommandLineInterfaceResultBuilder();
+        this.cliDefinition = cliDefinition;
+        this.cliResultBuilder = new CliResultBuilder();
         this.calledBefore = false;
     }
 
@@ -50,26 +50,26 @@ public class CommandLineInterface {
      * @throws UnrecognizedArgumentException
      * @throws IllegalStateException if called more than once
      */
-    public CommandLineInterfaceCall parse(String[] args) throws UnrecognizedArgumentException {
+    public CliCall parse(String[] args) throws UnrecognizedArgumentException {
 
         assertNotCalledBefore();
 
-        CommandLineInterfaceResult commandLineInterfaceResult;
+        CliResult cliResult;
 
         try {
-            commandLineInterfaceResult = parseCore(args);
+            cliResult = parseCore(args);
         } catch (ParsingBrokenEvent parsingBrokenEvent) {
-            commandLineInterfaceResult = parsingBrokenEvent.getCommandLineInterfaceResult();
+            cliResult = parsingBrokenEvent.getCliResult();
         }
 
-        return new CommandLineInterfaceCall(
+        return new CliCall(
                 args,
-                this.commandLineInterfaceDefinition,
-                commandLineInterfaceResult
+                this.cliDefinition,
+                cliResult
         );
     }
 
-    private CommandLineInterfaceResult parseCore(String[] args) throws UnrecognizedArgumentException, ParsingBrokenEvent {
+    private CliResult parseCore(String[] args) throws UnrecognizedArgumentException, ParsingBrokenEvent {
 
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
@@ -83,31 +83,31 @@ public class CommandLineInterface {
 
         handleSurplusArguments(argumentIterator);
 
-        return commandLineInterfaceResultBuilder.build(COMPLETE);
+        return cliResultBuilder.build(COMPLETE);
     }
 
     private void parseGlobalOptions(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
-        if (this.commandLineInterfaceDefinition.hasGlobalOptions()) {
+        if (this.cliDefinition.hasGlobalOptions()) {
             OptionParser optionParserGlobal = new OptionParser(
                     OptionParser.Target.GLOBAL,
-                    this.commandLineInterfaceDefinition.getGlobalOptions(),
-                    this.commandLineInterfaceResultBuilder);
+                    this.cliDefinition.getGlobalOptions(),
+                    this.cliResultBuilder);
             optionParserGlobal.parse(argumentIterator);
         }
     }
 
     private void parseCommands(ArgumentIterator argumentIterator) throws InsufficientNrOfCommandsException, IllegalCommandException, AmbiguousCommandException {
 
-        if (this.commandLineInterfaceDefinition.hasCommands()) {
+        if (this.cliDefinition.hasCommands()) {
             CommandParser commandParser = new CommandParser(
-                    this.commandLineInterfaceDefinition.getCommandTree(),
-                    this.commandLineInterfaceDefinition.getDefaultCommand(),
-                    this.commandLineInterfaceResultBuilder);
+                    this.cliDefinition.getCommandTree(),
+                    this.cliDefinition.getDefaultCommand(),
+                    this.cliResultBuilder);
             commandParser.parse(argumentIterator);
         } else {
-            if (this.commandLineInterfaceDefinition.hasDefaultCommand()) {
-                DefaultCommand defaultCommand = this.commandLineInterfaceDefinition.getDefaultCommand();
-                this.commandLineInterfaceResultBuilder.withCommandParserResult(
+            if (this.cliDefinition.hasDefaultCommand()) {
+                DefaultCommand defaultCommand = this.cliDefinition.getDefaultCommand();
+                this.cliResultBuilder.withCommandParserResult(
                         new CommandParserResult(
                                 new ArrayList<>(),
                                 null,
@@ -120,20 +120,20 @@ public class CommandLineInterface {
     }
 
     private void parseSpecificOptions(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
-        if (this.commandLineInterfaceResultBuilder.hasSpecificOptions()) {
-            Options optionsSpecific = this.commandLineInterfaceResultBuilder.getSpecificOptions();
+        if (this.cliResultBuilder.hasSpecificOptions()) {
+            Options optionsSpecific = this.cliResultBuilder.getSpecificOptions();
             OptionParser optionParserSpecific = new OptionParser(
                     OptionParser.Target.SPECIFIC,
                     optionsSpecific,
-                    this.commandLineInterfaceResultBuilder);
+                    this.cliResultBuilder);
             optionParserSpecific.parse(argumentIterator);
         }
     }
 
     private void parseParameters(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
-        if (this.commandLineInterfaceResultBuilder.hasParameters()) {
-            Parameters parameters = this.commandLineInterfaceResultBuilder.getParameters();
-            ParameterParser parameterParser = parameters.getParameterParser(this.commandLineInterfaceResultBuilder);
+        if (this.cliResultBuilder.hasParameters()) {
+            Parameters parameters = this.cliResultBuilder.getParameters();
+            ParameterParser parameterParser = parameters.getParameterParser(this.cliResultBuilder);
             parameterParser.parse(argumentIterator);
         }
     }
@@ -149,42 +149,42 @@ public class CommandLineInterface {
      * Parses specified arguments against cli specification and executes CommandExecutor, if found.
      *
      * @param args cli arguments
-     * @return CommandLineInterfaceCall
+     * @return cliCall
      * @throws UnrecognizedArgumentException if an argument can not be recognized as an syntactical element of the cli
      */
-    public CommandLineInterfaceCall execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
+    public CliCall execute(String[] args) throws UnrecognizedArgumentException, CommandExecutorException {
 
         if (args == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'args' is null.");
 
-        CommandLineInterfaceCall commandLineInterfaceCall = this.parse(args);
-        if (commandLineInterfaceCall.getStatus() == Status.BROKEN) {
-            GenericCommandExecutor.apply(commandLineInterfaceCall);
-        } else if (commandLineInterfaceCall.hasCommandExecutor()) {
-            CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
-            commandExecutor.execute(commandLineInterfaceCall);
+        CliCall cliCall = this.parse(args);
+        if (cliCall.getStatus() == Status.BROKEN) {
+            GenericCommandExecutor.apply(cliCall);
+        } else if (cliCall.hasCommandExecutor()) {
+            CommandExecutor commandExecutor = cliCall.getCommandExecutor();
+            commandExecutor.execute(cliCall);
         }
-        return commandLineInterfaceCall;
+        return cliCall;
     }
 
     /**
      * Executes CommandExecutor for pre-parsed arguments. No action is performed if no CommandExecutor is bound
      * to parserResult.
      *
-     * @param commandLineInterfaceCall aggregation of an end user call including cli definition and parser result
+     * @param cliCall aggregation of an end user call including cli definition and parser result
      * @throws CommandExecutorException if an error occurs while executing CommandExecutor
      */
-    public void execute(CommandLineInterfaceCall commandLineInterfaceCall) throws CommandExecutorException {
+    public void execute(CliCall cliCall) throws CommandExecutorException {
 
-        if (commandLineInterfaceCall == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
+        if (cliCall == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
 
-        if (commandLineInterfaceCall.hasCommandExecutor()) {
-            CommandExecutor commandExecutor = commandLineInterfaceCall.getCommandExecutor();
-            commandExecutor.execute(commandLineInterfaceCall);
+        if (cliCall.hasCommandExecutor()) {
+            CommandExecutor commandExecutor = cliCall.getCommandExecutor();
+            commandExecutor.execute(cliCall);
         }
     }
 
     private void assertNotCalledBefore() {
-        if (this.calledBefore) throw new IllegalStateException(CommandLineInterface.class.getSimpleName() + ".parse called more than once.");
+        if (this.calledBefore) throw new IllegalStateException(Cli.class.getSimpleName() + ".parse called more than once.");
         calledBefore = true;
     }
 
