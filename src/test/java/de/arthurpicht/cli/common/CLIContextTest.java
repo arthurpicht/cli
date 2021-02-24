@@ -1,5 +1,6 @@
 package de.arthurpicht.cli.common;
 
+import de.arthurpicht.cli.TestOut;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +18,7 @@ class CLIContextTest {
         out.println("Test");
         out.println("Test2");
 
-        System.out.println(outBAOS.toString());
+        TestOut.println(outBAOS.toString());
 
     }
 

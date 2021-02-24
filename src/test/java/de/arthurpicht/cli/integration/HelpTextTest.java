@@ -146,7 +146,7 @@ public class HelpTextTest {
 
         String output = outBAOS.toString();
 
-        System.out.println(output);
+        TestOut.println(output);
 
         @SuppressWarnings("SpellCheckingInspection")
         String expectedOutput =

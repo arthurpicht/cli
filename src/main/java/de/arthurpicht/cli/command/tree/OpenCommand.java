@@ -12,8 +12,6 @@ public class OpenCommand extends Command {
 
     public OpenCommand() {
         super();
-        // TODO Implement OpenCommand concept
-        throw new RuntimeException("Not implemented yet.");
     }
 
     @Override

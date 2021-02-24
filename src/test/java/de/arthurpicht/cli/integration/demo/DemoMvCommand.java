@@ -31,7 +31,7 @@ public class DemoMvCommand {
                                         .build())
                         .withCommandExecutor(
                                 (cliCall)
-                                        -> System.out.println(
+                                        -> TestOut.println(
                                         "Copy file from " + cliCall.getParameterParserResult().getParameterList().get(0) + " to "
                                                 + cliCall.getParameterParserResult().getParameterList().get(1))
                         ).build();

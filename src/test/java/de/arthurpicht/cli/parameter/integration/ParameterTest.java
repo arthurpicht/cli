@@ -131,8 +131,8 @@ public class ParameterTest {
 
         } catch (UnrecognizedArgumentException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
-            System.out.println(e.getArgumentIndex());
+            TestOut.println(e.getMessage());
+            TestOut.println(e.getArgumentIndex());
             fail();
         }
     }

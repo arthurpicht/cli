@@ -21,9 +21,9 @@ public class DemoCommandExecutor {
 
         @Override
         public void execute(CliCall cliCall) {
-            System.out.println("Adding the following items:");
+            TestOut.println("Adding the following items:");
             for (String item : cliCall.getParameterParserResult().getParameterList()) {
-                System.out.println(item);
+                TestOut.println(item);
             }
             isExecuted = true;
         }
@@ -39,9 +39,9 @@ public class DemoCommandExecutor {
 
         @Override
         public void execute(CliCall cliCall) {
-            System.out.println("Deleting the following items:");
+            TestOut.println("Deleting the following items:");
             for (String item : cliCall.getParameterParserResult().getParameterList()) {
-                System.out.println(item);
+                TestOut.println(item);
             }
             isExecuted = true;
         }
@@ -65,9 +65,9 @@ public class DemoCommandExecutor {
                         .addCommands("delete")
                         .withParameters(new ParametersMin(1))
                         .withCommandExecutor((cliCall) -> {
-                            System.out.println("Deleting the following items:");
+                            TestOut.println("Deleting the following items:");
                             for (String item : cliCall.getParameterParserResult().getParameterList()) {
-                                System.out.println(item);
+                                TestOut.println(item);
                             }
                         })
                         .build()
