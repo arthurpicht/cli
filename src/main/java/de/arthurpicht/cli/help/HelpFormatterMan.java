@@ -51,14 +51,9 @@ public class HelpFormatterMan {
         }
 
         if (commandTree.hasCommands()) {
-            Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
-            List<String> usageStringList = new ArrayList<>();
+            List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
                 String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, commandLineInterfaceDefinition);
-                usageStringList.add(usageString);
-            }
-            usageStringList.sort(new UsageStringComparator());
-            for (String usageString : usageStringList) {
                 CLIContext.out.println(INDENT + usageString);
             }
         }
@@ -78,10 +73,8 @@ public class HelpFormatterMan {
         }
 
         if (commandTree.hasCommands()) {
-            Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
-            List<CommandTreeNode> terminatedNodesList = new ArrayList<>(terminatedNodes);
-            terminatedNodesList.sort(new CommandTreeNodeComparator());
-            for (CommandTreeNode commandTreeNode : terminatedNodesList) {
+            List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
+            for (CommandTreeNode commandTreeNode : terminatedNodes) {
                 printCommandBlock(commandTreeNode, commandLineInterfaceDefinition);
             }
         }

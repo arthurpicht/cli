@@ -44,14 +44,9 @@ public class HelpFormatterGlobal {
         }
 
         if (commandTree.hasCommands()) {
-            Set<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodes();
-            List<String> usageStringList = new ArrayList<>();
+            List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
                 String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, commandLineInterfaceDefinition);
-                usageStringList.add(usageString);
-            }
-            usageStringList.sort(new UsageStringComparator());
-            for (String usageString : usageStringList) {
                 CLIContext.out.println(INDENT + usageString);
             }
         }

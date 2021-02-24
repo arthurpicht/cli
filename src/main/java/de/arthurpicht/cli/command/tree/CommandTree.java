@@ -3,6 +3,7 @@ package de.arthurpicht.cli.command.tree;
 import de.arthurpicht.cli.command.tree.generic.UnsortedMultiBiTree;
 import de.arthurpicht.cli.command.tree.generic.UnsortedMultiBiTreeNode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +42,12 @@ public class CommandTree extends UnsortedMultiBiTree<Command> {
             if (commandTreeNode.isTerminated()) terminatedNodes.add(commandTreeNode);
         }
         return terminatedNodes;
+    }
+
+    public List<CommandTreeNode> getTerminatedNodesSorted() {
+        List<CommandTreeNode> commandTreeNodes = new ArrayList<>(getTerminatedNodes());
+        commandTreeNodes.sort(new CommandTreeNodeComparator());
+        return commandTreeNodes;
     }
 
     public Set<String> getAllCommandChainStrings() {
