@@ -46,7 +46,7 @@ public class ParametersMin extends Parameters {
 
     @Override
     public String getHelpUsageSubString() {
-        return this.minimalNrOfParameters + "...n*<" + this.name + ">";
+        return this.minimalNrOfParameters + "..n*<" + this.name + ">";
     }
 
     @Override

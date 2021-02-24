@@ -21,8 +21,8 @@ class ParametersMinTest {
         TestOut.println(parametersMin.getHelpUsageSubString());
         TestOut.println(parametersMin.getHelpString());
 
-        assertEquals("2...n*<parameter>", parametersMin.getHelpUsageSubString());
-        assertEquals("2...n*<parameter>", parametersMin.getHelpString());
+        assertEquals("2..n*<parameter>", parametersMin.getHelpUsageSubString());
+        assertEquals("2..n*<parameter>", parametersMin.getHelpString());
     }
 
     @Test
@@ -33,8 +33,8 @@ class ParametersMinTest {
         TestOut.println(parametersMin.getHelpUsageSubString());
         TestOut.println(parametersMin.getHelpString());
 
-        assertEquals("2...n*<test>", parametersMin.getHelpUsageSubString());
-        assertEquals("2...n*<test>                  test description", parametersMin.getHelpString());
+        assertEquals("2..n*<test>", parametersMin.getHelpUsageSubString());
+        assertEquals("2..n*<test>                   test description", parametersMin.getHelpString());
     }
 
 }

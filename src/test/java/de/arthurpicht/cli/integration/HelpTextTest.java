@@ -88,7 +88,7 @@ public class HelpTextTest {
         TestOut.println(output);
 
         String expectedOutput =
-                "Usage: test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+                "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  This is a description for command_A.\n" +
                         "Global Options:\n" +
                         "  -h, --help                    Show help message and exit.\n" +
@@ -100,7 +100,7 @@ public class HelpTextTest {
                         "  -A, --almost-all              do not list implied . and ..\n" +
                         "  -h, --help                    Show help message and exit.\n" +
                         "Parameters:\n" +
-                        "  1...n*<file>                  Files to be processed.\n";
+                        "  1..n*<file>                   Files to be processed.\n";
 
         assertEquals(expectedOutput, output);
     }
@@ -122,7 +122,7 @@ public class HelpTextTest {
                 "  A description for test.\n" +
                 "Usage:\n" +
                 "  test [global options] <parameter>\n" +
-                "  test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+                "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                 "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                 "Global Options:\n" +
                 "  -h, --help                    Show help message and exit.\n" +
@@ -154,7 +154,7 @@ public class HelpTextTest {
                         "  A description for test.\n" +
                         "Usage:\n" +
                         "  test [global options] <parameter>\n" +
-                        "  test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+                        "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                         "Global Options:\n" +
                         "  -h, --help                    Show help message and exit.\n" +
@@ -167,13 +167,13 @@ public class HelpTextTest {
                         "Parameters:\n" +
                         "  <parameter>\n" +
                         "\n" +
-                        "Usage: test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+                        "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  This is a description for command_A.\n" +
                         "Specific options:\n" +
                         "  -A, --almost-all              do not list implied . and ..\n" +
                         "  -h, --help                    Show help message and exit.\n" +
                         "Parameters:\n" +
-                        "  1...n*<file>                  Files to be processed.\n" +
+                        "  1..n*<file>                   Files to be processed.\n" +
                         "\n" +
                         "Usage: test [global options] COMMAND_B [specific options] <parameter>\n" +
                         "Specific options:\n" +
