@@ -23,7 +23,8 @@ public class HelpTextTest {
         Options globalOptions = new Options()
                 .add(new VersionOption())
                 .add(new HelpOption())
-                .add(new OptionBuilder().withLongName("stacktrace").withDescription("Show stacktrace on error occurence.").build("STACKTRACE"))
+                .add(new ManOption())
+                .add(new OptionBuilder().withLongName("stacktrace").withDescription("Show stacktrace on error occurrence.").build("STACKTRACE"))
                 .add(new OptionBuilder().withLongName("loglevel").withArgumentName("loglevel").withDescription("Log level.").build("LOGLEVEL"));
 
         DefaultCommand defaultCommand = new DefaultCommandBuilder()
@@ -83,6 +84,7 @@ public class HelpTextTest {
         commandLineInterface.execute(args);
 
         String output = outBAOS.toString();
+        TestOut.println(output);
 
         String expectedOutput =
                 "Usage: test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
@@ -90,7 +92,8 @@ public class HelpTextTest {
                         "Global Options:\n" +
                         "  -h, --help                    Show help message and exit.\n" +
                         "      --loglevel <loglevel>     Log level.\n" +
-                        "      --stacktrace              Show stacktrace on error occurence.\n" +
+                        "  -m, --man                     Show manual and exit.\n" +
+                        "      --stacktrace              Show stacktrace on error occurrence.\n" +
                         "  -v, --version                 Show version message and exit.\n" +
                         "Specific options:\n" +
                         "  -A, --almost-all              do not list implied . and ..\n" +
@@ -112,6 +115,7 @@ public class HelpTextTest {
         commandLineInterface.execute(args);
 
         String output = outBAOS.toString();
+        TestOut.println(output);
 
         String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
                 "  A description for test.\n" +
@@ -122,10 +126,45 @@ public class HelpTextTest {
                 "Global Options:\n" +
                 "  -h, --help                    Show help message and exit.\n" +
                 "      --loglevel <loglevel>     Log level.\n" +
-                "      --stacktrace              Show stacktrace on error occurence.\n" +
+                "  -m, --man                     Show manual and exit.\n" +
+                "      --stacktrace              Show stacktrace on error occurrence.\n" +
                 "  -v, --version                 Show version message and exit.\n";
 
         assertEquals(expectedOutput, output);
     }
+
+    @Test
+    public void man() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outBAOS);
+
+        CommandLineInterface commandLineInterface = getCommandLineInterface(out);
+        String[] args = {"-m"};
+        commandLineInterface.execute(args);
+
+        String output = outBAOS.toString();
+
+        System.out.println(output);
+
+        String expectedOutput =
+                "";
+
+
+//        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
+//                "  A description for test.\n" +
+//                "Usage:\n" +
+//                "  test [global options] <parameter>\n" +
+//                "  test [global options] COMMAND_A [specific options] 1...n*<file>\n" +
+//                "  test [global options] COMMAND_B [specific options] <parameter>\n" +
+//                "Global Options:\n" +
+//                "  -h, --help                    Show help message and exit.\n" +
+//                "      --loglevel <loglevel>     Log level.\n" +
+//                "      --stacktrace              Show stacktrace on error occurrence.\n" +
+//                "  -v, --version                 Show version message and exit.\n";
+//
+//        assertEquals(expectedOutput, output);
+    }
+
 
 }
