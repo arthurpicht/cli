@@ -4,6 +4,7 @@ import de.arthurpicht.cli.Cli;
 import de.arthurpicht.cli.CliBuilder;
 import de.arthurpicht.cli.TestOut;
 import de.arthurpicht.cli.command.*;
+import de.arthurpicht.cli.command.exceptions.InsufficientNrOfCommandsException;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.OptionBuilder;
@@ -11,8 +12,9 @@ import de.arthurpicht.cli.option.Options;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ExceptionTest {
+public class InsufficientNrOfCommandsExceptionIntegTest {
 
     private Cli createCli() {
 
@@ -54,7 +56,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void noArgs() {
+    public void noArgs_neg() {
 
         Cli cli = createCli();
         String[] args = {};
@@ -62,6 +64,9 @@ public class ExceptionTest {
         try {
             cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            assertTrue(e instanceof InsufficientNrOfCommandsException);
+
             TestOut.println(e.getMessage());
             TestOut.println(e.getCallString());
             TestOut.println(e.getCallPointerString());
@@ -73,7 +78,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void optionOnly() {
+    public void optionOnly_neg() {
 
         Cli cli = createCli();
         String[] args = {"-h"};
@@ -81,6 +86,9 @@ public class ExceptionTest {
         try {
             cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            assertTrue(e instanceof InsufficientNrOfCommandsException);
+
             TestOut.println(e.getMessage());
             TestOut.println(e.getCallString());
             TestOut.println(e.getCallPointerString());
@@ -92,7 +100,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void optionOnlyWithDefaultCommand() {
+    public void optionOnlyWithDefaultCommand_neg() {
 
         Cli cli = createCliWithDefaultCommand();
         String[] args = {"-h"};
@@ -100,6 +108,9 @@ public class ExceptionTest {
         try {
             cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            assertTrue(e instanceof InsufficientNrOfCommandsException);
+
             TestOut.println(e.getMessage());
             TestOut.println(e.getCallString());
             TestOut.println(e.getCallPointerString());
@@ -111,7 +122,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void optionInsteadOfCommand() {
+    public void optionInsteadOfCommand_neg() {
 
         Cli cli = createCli();
         String[] args = {"A", "-h"};
@@ -119,6 +130,9 @@ public class ExceptionTest {
         try {
             cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            assertTrue(e instanceof InsufficientNrOfCommandsException);
+
             TestOut.println(e.getMessage());
             TestOut.println(e.getCallString());
             TestOut.println(e.getCallPointerString());
@@ -130,7 +144,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void optionInsteadOfCommandWithFollowingOption() {
+    public void optionInsteadOfCommandWithFollowingOption_neg() {
 
         Cli cli = createCli();
         String[] args = {"A", "-h", "B"};
@@ -138,6 +152,9 @@ public class ExceptionTest {
         try {
             cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            assertTrue(e instanceof InsufficientNrOfCommandsException);
+
             TestOut.println(e.getMessage());
             TestOut.println(e.getCallString());
             TestOut.println(e.getCallPointerString());
@@ -149,7 +166,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void CommandMissing() {
+    public void CommandMissing_neg() {
 
         Cli cli = createCli();
         String[] args = {"A"};
@@ -157,6 +174,9 @@ public class ExceptionTest {
         try {
             cli.parse(args);
         } catch (UnrecognizedArgumentException e) {
+
+            assertTrue(e instanceof InsufficientNrOfCommandsException);
+
             TestOut.println(e.getMessage());
             TestOut.println(e.getCallString());
             TestOut.println(e.getCallPointerString());

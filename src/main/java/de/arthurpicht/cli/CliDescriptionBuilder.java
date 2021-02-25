@@ -2,13 +2,11 @@ package de.arthurpicht.cli;
 
 public class CliDescriptionBuilder {
 
-    private final String executableName;
     private String description;
     private String version;
     private String date;
 
-    public CliDescriptionBuilder(String executableName) {
-        this.executableName = executableName;
+    public CliDescriptionBuilder() {
         this.description = "";
         this.version = "";
         this.date = "";
@@ -29,9 +27,9 @@ public class CliDescriptionBuilder {
         return this;
     }
 
-    public CliDescription build() {
+    public CliDescription build(String executableName) {
         return new CliDescription(
-                this.executableName,
+                executableName,
                 this.description,
                 this.version,
                 this.date
