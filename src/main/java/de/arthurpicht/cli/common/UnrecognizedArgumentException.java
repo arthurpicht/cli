@@ -44,7 +44,10 @@ public class UnrecognizedArgumentException extends Exception {
      * @return call string
      */
     public String getCallString() {
-        return this.executableName + " " + getArgsAsString();
+        String stringBuilder = this.executableName +
+                " " +
+                getArgsAsString();
+        return stringBuilder.trim();
     }
 
     public String getIndexedArgument() {

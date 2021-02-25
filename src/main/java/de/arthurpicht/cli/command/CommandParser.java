@@ -90,10 +90,15 @@ public class CommandParser extends Parser {
                     argumentIterator.getPrevious();
                     return;
                 }
-                if (lastCommand != null)
+                if (lastCommand != null) {
+                    argumentIterator.getPrevious();
                     throw InsufficientNrOfCommandsException.createInstance(this.executableName, argumentIterator, commandCandidates);
-                if (this.defaultCommand != null)
+                }
+                if (this.defaultCommand != null) {
+                    argumentIterator.reset();
                     throw InsufficientNrOfCommandsException.createInstanceWithNoCommandAsOption(this.executableName, argumentIterator, commandCandidates);
+                }
+                argumentIterator.reset();
                 throw InsufficientNrOfCommandsException.createInstance(this.executableName, argumentIterator, commandCandidates);
             }
 
