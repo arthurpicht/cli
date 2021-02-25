@@ -6,11 +6,11 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 public class CommandParserException extends UnrecognizedArgumentException {
 
-    public CommandParserException(ArgumentIterator argumentIterator, String message) {
-        super(argumentIterator, message);
+    public CommandParserException(String executableName, ArgumentIterator argumentIterator, String message) {
+        super(executableName, argumentIterator, message);
     }
 
-    public CommandParserException(Arguments arguments, int argumentIndex, String message) {
-        super(arguments, argumentIndex, message);
+    public CommandParserException(String executableName, Arguments arguments, int argumentIndex, String message) {
+        super(executableName, arguments, argumentIndex, message);
     }
 }

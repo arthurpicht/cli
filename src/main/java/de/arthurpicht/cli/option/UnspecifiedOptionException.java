@@ -7,8 +7,8 @@ import de.arthurpicht.cli.common.ArgumentIterator;
  */
 public class UnspecifiedOptionException extends OptionParserException {
 
-    public UnspecifiedOptionException(ArgumentIterator argumentIterator) {
-        super(argumentIterator, "Unknown option: '" + argumentIterator.getCurrent() + "'");
+    public UnspecifiedOptionException(String executableName, ArgumentIterator argumentIterator) {
+        super(executableName, argumentIterator, "Unknown option: '" + argumentIterator.getCurrent() + "'");
     }
 
 }

@@ -13,15 +13,15 @@ import java.util.Set;
  */
 public class AmbiguousCommandException extends CommandParserException {
 
-    private Set<String> matchingCandidatesStrings;
+    private final Set<String> matchingCandidatesStrings;
 
-    public static AmbiguousCommandException createInstance(ArgumentIterator argumentIterator, Set<RecognizedCommand> matchingCandidates) {
+    public static AmbiguousCommandException createInstance(String execName, ArgumentIterator argumentIterator, Set<RecognizedCommand> matchingCandidates) {
         String message = "Ambiguous command '" + argumentIterator.getCurrent() + "'. Possible candidates are: " + Strings.listing(RecognizedCommand.getCommandNames(matchingCandidates), ", ", "[", "]");
-        return new AmbiguousCommandException(argumentIterator, message, matchingCandidates);
+        return new AmbiguousCommandException(execName, argumentIterator, message, matchingCandidates);
     }
 
-    private AmbiguousCommandException(ArgumentIterator argumentIterator, String message, Set<RecognizedCommand> matchingCandidates) {
-        super(argumentIterator, message);
+    private AmbiguousCommandException(String execName, ArgumentIterator argumentIterator, String message, Set<RecognizedCommand> matchingCandidates) {
+        super(execName, argumentIterator, message);
         this.matchingCandidatesStrings = RecognizedCommand.getCommandNames(matchingCandidates);
     }
 

@@ -29,7 +29,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -57,7 +57,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -85,7 +85,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -113,7 +113,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -141,7 +141,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception exception.");
 
@@ -169,7 +169,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -197,7 +197,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -227,7 +227,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 
@@ -256,7 +256,7 @@ public class OptionParserOptionsWithArgumentsExceptionTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             fail("Exception expected.");
 

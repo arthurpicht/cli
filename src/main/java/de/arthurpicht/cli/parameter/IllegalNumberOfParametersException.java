@@ -7,8 +7,8 @@ public class IllegalNumberOfParametersException extends ParameterParserException
     private final String nrParametersRequired;
     private final int nrParametersFound;
 
-    public IllegalNumberOfParametersException(Arguments arguments, int argumentIndex, int nrParametersRequired, int nrParametersFound) {
-        super(arguments, argumentIndex, "Illegal number of parameters. Required: " + nrParametersRequired + " Found: " + nrParametersFound);
+    public IllegalNumberOfParametersException(String executableName, Arguments arguments, int argumentIndex, int nrParametersRequired, int nrParametersFound) {
+        super(executableName, arguments, argumentIndex, "Illegal number of parameters. Required: " + nrParametersRequired + " Found: " + nrParametersFound);
         this.nrParametersRequired = String.valueOf(nrParametersRequired);
         this.nrParametersFound = nrParametersFound;
 

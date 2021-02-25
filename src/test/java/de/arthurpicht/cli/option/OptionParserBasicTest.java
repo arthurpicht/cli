@@ -109,7 +109,7 @@ public class OptionParserBasicTest {
     private OptionParserResult execute(ArgumentIterator argumentIterator, Options options) {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        OptionParser optionParser = new OptionParser(GLOBAL, options, cliResultBuilder);
+        OptionParser optionParser = new OptionParser(GLOBAL, options, cliResultBuilder, "test");
 
         try {
             optionParser.parse(argumentIterator);

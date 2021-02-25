@@ -7,10 +7,12 @@ import de.arthurpicht.cli.common.Arguments;
 public class ParameterParserN extends ParameterParser {
 
     private final int nrOfArguments;
+    private final String executableName;
 
-    public ParameterParserN(int nrOfArguments, CliResultBuilder cliResultBuilder) {
+    public ParameterParserN(int nrOfArguments, CliResultBuilder cliResultBuilder, String executableName) {
         super(cliResultBuilder);
         this.nrOfArguments = nrOfArguments;
+        this.executableName = executableName;
     }
 
     @Override
@@ -20,7 +22,7 @@ public class ParameterParserN extends ParameterParser {
         int beginIndex = argumentIterator.getIndex() + 1;
 
         if (arguments.size() < this.nrOfArguments + beginIndex)
-            throw new IllegalNumberOfParametersException(arguments, arguments.size(), this.nrOfArguments, arguments.size() - beginIndex);
+            throw new IllegalNumberOfParametersException(this.executableName, arguments, arguments.size(), this.nrOfArguments, arguments.size() - beginIndex);
 
         while (argumentIterator.hasNext()) {
             String argument = argumentIterator.getNext();
@@ -36,7 +38,7 @@ public class ParameterParserN extends ParameterParser {
         if (args.size() > beginIndex + this.nrOfArguments) {
             int indexFailPointer = beginIndex + this.nrOfArguments;
             int nrParametersFound = args.size() - beginIndex;
-            throw new IllegalNumberOfParametersException(args, indexFailPointer, this.nrOfArguments, nrParametersFound);
+            throw new IllegalNumberOfParametersException(this.executableName, args, indexFailPointer, this.nrOfArguments, nrParametersFound);
         }
     }
 }

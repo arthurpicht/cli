@@ -11,7 +11,7 @@ class ParametersMinTest {
     @Test
     public void getParser() {
         ParametersMin parametersMin = new ParametersMin(2);
-        assertNotNull(parametersMin.getParameterParser(new CliResultBuilder()));
+        assertNotNull(parametersMin.getParameterParser(new CliResultBuilder(), "test"));
     }
 
     @Test

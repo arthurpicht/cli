@@ -14,7 +14,7 @@ class ParameterParserMinTest {
     void parseFirst() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(0, cliResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(0, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -40,7 +40,7 @@ class ParameterParserMinTest {
     void parseLast() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(0, cliResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(0, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 2);
@@ -63,7 +63,7 @@ class ParameterParserMinTest {
     void parseMidMin2() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(2, cliResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(2, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 1);
@@ -86,7 +86,7 @@ class ParameterParserMinTest {
     void parseMidMin3Fail() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(3, cliResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(3, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 1);
@@ -104,7 +104,7 @@ class ParameterParserMinTest {
     void parseZero() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin argumentParserVar = new ParameterParserMin(0, cliResultBuilder);
+        ParameterParserMin argumentParserVar = new ParameterParserMin(0, cliResultBuilder, "test");
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

@@ -9,8 +9,11 @@ import de.arthurpicht.cli.common.Arguments;
  */
 public class ParameterParserOne extends ParameterParser {
 
-    public ParameterParserOne(CliResultBuilder cliResultBuilder) {
+    private final String executableName;
+
+    public ParameterParserOne(CliResultBuilder cliResultBuilder, String executableName) {
         super(cliResultBuilder);
+        this.executableName = executableName;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class ParameterParserOne extends ParameterParser {
             String argument = argumentIterator.getNext();
             this.parameterList.add(argument);
         } else {
-            throw new ParameterParserException(arguments, argumentIterator.getIndex() + 1, "One parameter expected.");
+            throw new ParameterParserException(this.executableName, arguments, argumentIterator.getIndex() + 1, "One parameter expected.");
         }
 
         this.cliResultBuilder.withParameterParserResult(getParserResult());

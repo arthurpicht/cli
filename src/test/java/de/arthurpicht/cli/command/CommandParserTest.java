@@ -31,7 +31,8 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(
                 commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -64,7 +65,8 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(
                 commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -98,7 +100,8 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(
                 commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -134,7 +137,8 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(
                 commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "something", "C2"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -160,7 +164,8 @@ class CommandParserTest {
         CommandParser commandParser = new CommandParser(
                 commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -193,7 +198,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "D", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -220,7 +226,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -256,7 +263,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -286,7 +294,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"X"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -315,7 +324,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -344,7 +354,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"E", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -376,7 +387,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -414,7 +426,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "--test"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -452,7 +465,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -492,7 +506,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "--test"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -527,7 +542,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -563,7 +579,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -598,7 +615,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -634,7 +652,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "C"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -677,7 +696,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -708,7 +728,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "-b"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -738,7 +759,8 @@ class CommandParserTest {
 
         CommandParser commandParser = new CommandParser(commands.getCommandTree(),
                 null,
-                cliResultBuilder);
+                cliResultBuilder,
+                "test");
 
         String[] args = {"A", "B", "--", "somethingElse"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

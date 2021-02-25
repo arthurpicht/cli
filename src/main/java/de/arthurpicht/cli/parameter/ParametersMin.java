@@ -40,8 +40,8 @@ public class ParametersMin extends Parameters {
     }
 
     @Override
-    public ParameterParser getParameterParser(CliResultBuilder cliResultBuilder) {
-        return new ParameterParserMin(this.minimalNrOfParameters, cliResultBuilder);
+    public ParameterParser getParameterParser(CliResultBuilder cliResultBuilder, String executableName) {
+        return new ParameterParserMin(this.minimalNrOfParameters, cliResultBuilder, executableName);
     }
 
     @Override

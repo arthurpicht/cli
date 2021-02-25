@@ -14,7 +14,7 @@ public class ParameterParserNExceptionTest {
     void parseInsufficientNumber_neg() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder, "test");
 
         String[] args = {"somethingElse", "A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -39,14 +39,14 @@ public class ParameterParserNExceptionTest {
     void oneParameterSurplus_neg() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder, "test");
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
 
         try {
             parameterParserN.parse(argumentIterator);
-            fail(IllegalNumberOfParametersException.class.getSimpleName() + " exptected.");
+            fail(IllegalNumberOfParametersException.class.getSimpleName() + " expected.");
 
         } catch (IllegalNumberOfParametersException e) {
 
@@ -67,7 +67,7 @@ public class ParameterParserNExceptionTest {
     void twoParametersSurplus() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(2, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(2, cliResultBuilder, "test");
 
         String[] args = {"somethingElse", "A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);

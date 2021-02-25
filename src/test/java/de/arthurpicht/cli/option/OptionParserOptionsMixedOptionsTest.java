@@ -25,7 +25,7 @@ class OptionParserOptionsMixedOptionsTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -48,7 +48,7 @@ class OptionParserOptionsMixedOptionsTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -76,7 +76,7 @@ class OptionParserOptionsMixedOptionsTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -104,7 +104,7 @@ class OptionParserOptionsMixedOptionsTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -132,7 +132,7 @@ class OptionParserOptionsMixedOptionsTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 
@@ -160,7 +160,7 @@ class OptionParserOptionsMixedOptionsTest {
 
         try {
             CliResultBuilder cliResultBuilder = new CliResultBuilder();
-            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder);
+            OptionParser optionParser = new OptionParser(GLOBAL, getOptions(), cliResultBuilder, "test");
             optionParser.parse(argumentIterator);
             OptionParserResult optionParserResult = optionParser.getParserResult();
 

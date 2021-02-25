@@ -14,7 +14,7 @@ public class ParameterParserMinExceptionTest {
     void emptyArgs_neg() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin parameterParserMin = new ParameterParserMin(1, cliResultBuilder);
+        ParameterParserMin parameterParserMin = new ParameterParserMin(1, cliResultBuilder, "test");
 
         String[] args = {};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -37,7 +37,7 @@ public class ParameterParserMinExceptionTest {
     void parseFirst_neg() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserMin argumentParserVar = new ParameterParserMin(5, cliResultBuilder);
+        ParameterParserMin argumentParserVar = new ParameterParserMin(5, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);

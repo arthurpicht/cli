@@ -6,12 +6,12 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 
 public class OptionParserException extends UnrecognizedArgumentException {
 
-    public OptionParserException(ArgumentIterator argumentIterator, String message) {
-        super(argumentIterator.getArguments(), argumentIterator.getIndex(), message);
+    public OptionParserException(String executableName, ArgumentIterator argumentIterator, String message) {
+        super(executableName, argumentIterator.getArguments(), argumentIterator.getIndex(), message);
     }
 
-    public OptionParserException(Arguments arguments, int argumentIndex, String message) {
-        super(arguments, argumentIndex, message);
+    public OptionParserException(String executableName, Arguments arguments, int argumentIndex, String message) {
+        super(executableName, arguments, argumentIndex, message);
     }
 
 }

@@ -22,6 +22,7 @@ public class CommandParser extends Parser {
 
     private final CommandTree commandTree;
     private final DefaultCommand defaultCommand;
+    private final String executableName;
 
     private final List<String> commandStringList;
     private Options specificOptions;
@@ -29,10 +30,11 @@ public class CommandParser extends Parser {
     private CommandExecutor commandExecutor;
     private String description;
 
-    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand, CliResultBuilder cliResultBuilder) {
+    public CommandParser(CommandTree commandTree, DefaultCommand defaultCommand, CliResultBuilder cliResultBuilder, String executableName) {
         super(cliResultBuilder);
         this.commandTree = commandTree;
         this.defaultCommand = defaultCommand;
+        this.executableName = executableName;
 
         this.commandStringList = new ArrayList<>();
         this.specificOptions = null;
@@ -80,7 +82,7 @@ public class CommandParser extends Parser {
                     setPropertiesFromFoundCommand(lastCommand);
                     return;
                 }
-                throw IllegalCommandException.createInstanceForDoubleDash(argumentIterator, commandCandidates);
+                throw IllegalCommandException.createInstanceForDoubleDash(this.executableName, argumentIterator, commandCandidates);
             }
             if (curArgument.startsWith("-")) {
                 if (lastCommand != null && lastCommand.isTerminated()) {
@@ -89,10 +91,10 @@ public class CommandParser extends Parser {
                     return;
                 }
                 if (lastCommand != null)
-                    throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+                    throw InsufficientNrOfCommandsException.createInstance(this.executableName, argumentIterator, commandCandidates);
                 if (this.defaultCommand != null)
-                    throw InsufficientNrOfCommandsException.createInstanceWithNoCommandAsOption(argumentIterator, commandCandidates);
-                throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+                    throw InsufficientNrOfCommandsException.createInstanceWithNoCommandAsOption(this.executableName, argumentIterator, commandCandidates);
+                throw InsufficientNrOfCommandsException.createInstance(this.executableName, argumentIterator, commandCandidates);
             }
 
             CommandMatcher commandMatcher = new CommandMatcher(commandCandidates, curArgument, true);
@@ -104,9 +106,9 @@ public class CommandParser extends Parser {
                 lastCommand = matchingCommand.getCommand();
             } else {
                 if (commandMatcher.hasCandidates()) {
-                    throw AmbiguousCommandException.createInstance(argumentIterator, commandMatcher.getMatchingCandidates());
+                    throw AmbiguousCommandException.createInstance(this.executableName, argumentIterator, commandMatcher.getMatchingCandidates());
                 } else {
-                    throw IllegalCommandException.createInstance(argumentIterator, commandCandidates);
+                    throw IllegalCommandException.createInstance(this.executableName, argumentIterator, commandCandidates);
                 }
             }
 
@@ -119,7 +121,7 @@ public class CommandParser extends Parser {
 
         if (!commandCandidates.isEmpty()) {
             if (lastCommand == null || !lastCommand.isTerminated())
-                throw InsufficientNrOfCommandsException.createInstance(argumentIterator, commandCandidates);
+                throw InsufficientNrOfCommandsException.createInstance(this.executableName, argumentIterator, commandCandidates);
             setPropertiesFromFoundCommand(lastCommand);
             return;
         }

@@ -15,12 +15,14 @@ public class OptionParser extends Parser {
     private final Target target;
     private final Options options;
     private final OptionParserResult optionParserResult;
+    private final String executableName;
 
-    public OptionParser(Target target, Options options, CliResultBuilder cliResultBuilder) {
+    public OptionParser(Target target, Options options, CliResultBuilder cliResultBuilder, String executableName) {
         super(cliResultBuilder);
         this.target = target;
         this.options = options;
         this.optionParserResult = new OptionParserResult();
+        this.executableName = executableName;
     }
 
     OptionParserResult getParserResult() {
@@ -46,7 +48,7 @@ public class OptionParser extends Parser {
 
         if (!argumentIterator.hasNext()) return;
 
-        OptionParserState optionParserState = new OptionParserStateName(options, this);
+        OptionParserState optionParserState = new OptionParserStateName(options, this, this.executableName);
         while (argumentIterator.hasNext()) {
 
             argumentIterator.getNext();
@@ -59,7 +61,7 @@ public class OptionParser extends Parser {
         }
 
         if (optionParserState instanceof OptionParserStateValue) {
-            throw new ValueExpectedException(argumentIterator);
+            throw new ValueExpectedException(this.executableName, argumentIterator);
         }
     }
 

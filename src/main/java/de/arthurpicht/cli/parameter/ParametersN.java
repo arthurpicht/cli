@@ -47,8 +47,8 @@ public class ParametersN extends Parameters {
     }
 
     @Override
-    public ParameterParser getParameterParser(CliResultBuilder cliResultBuilder) {
-        return new ParameterParserN(getNrOfParameters(), cliResultBuilder);
+    public ParameterParser getParameterParser(CliResultBuilder cliResultBuilder, String executableName) {
+        return new ParameterParserN(getNrOfParameters(), cliResultBuilder, executableName);
     }
 
     @Override

@@ -16,7 +16,7 @@ class ParameterParserOneTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserOne parameterParserOne = new ParameterParserOne(cliResultBuilder);
+        ParameterParserOne parameterParserOne = new ParameterParserOne(cliResultBuilder, "test");
         parameterParserOne.parse(argumentIterator);
 
         assertEquals("A", parameterParserOne.getParserResult().getParameterList().get(0));
@@ -30,10 +30,10 @@ class ParameterParserOneTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 2);
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserOne parameterParserOne = new ParameterParserOne(cliResultBuilder);
+        ParameterParserOne parameterParserOne = new ParameterParserOne(cliResultBuilder, "test");
         parameterParserOne.parse(argumentIterator);
 
-        assertEquals("D", parameterParserOne.getParameterList().get(0));
+        assertEquals("D", parameterParserOne.getParserResult().getParameterList().get(0));
         assertEquals(3, argumentIterator.getIndex());
     }
 
@@ -44,7 +44,7 @@ class ParameterParserOneTest {
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 3);
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserOne argumentParserOne = new ParameterParserOne(cliResultBuilder);
+        ParameterParserOne argumentParserOne = new ParameterParserOne(cliResultBuilder, "test");
         try {
             argumentParserOne.parse(argumentIterator);
             fail(ParameterParserException.class.getSimpleName() + " expected.");

@@ -19,8 +19,8 @@ public class ParametersOne extends Parameters {
     }
 
     @Override
-    public ParameterParserOne getParameterParser(CliResultBuilder cliResultBuilder) {
-        return new ParameterParserOne(cliResultBuilder);
+    public ParameterParserOne getParameterParser(CliResultBuilder cliResultBuilder, String executableName) {
+        return new ParameterParserOne(cliResultBuilder, executableName);
     }
 
     @Override

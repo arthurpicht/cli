@@ -91,7 +91,8 @@ public class Cli {
             OptionParser optionParserGlobal = new OptionParser(
                     OptionParser.Target.GLOBAL,
                     this.cliDefinition.getGlobalOptions(),
-                    this.cliResultBuilder);
+                    this.cliResultBuilder,
+                    this.cliDefinition.getCliDescription().getExecutableName());
             optionParserGlobal.parse(argumentIterator);
         }
     }
@@ -102,7 +103,8 @@ public class Cli {
             CommandParser commandParser = new CommandParser(
                     this.cliDefinition.getCommandTree(),
                     this.cliDefinition.getDefaultCommand(),
-                    this.cliResultBuilder);
+                    this.cliResultBuilder,
+                    this.cliDefinition.getCliDescription().getExecutableName());
             commandParser.parse(argumentIterator);
         } else {
             if (this.cliDefinition.hasDefaultCommand()) {
@@ -125,7 +127,8 @@ public class Cli {
             OptionParser optionParserSpecific = new OptionParser(
                     OptionParser.Target.SPECIFIC,
                     optionsSpecific,
-                    this.cliResultBuilder);
+                    this.cliResultBuilder,
+                    this.cliDefinition.getCliDescription().getExecutableName());
             optionParserSpecific.parse(argumentIterator);
         }
     }
@@ -133,7 +136,8 @@ public class Cli {
     private void parseParameters(ArgumentIterator argumentIterator) throws ParsingBrokenEvent, UnrecognizedArgumentException {
         if (this.cliResultBuilder.hasParameters()) {
             Parameters parameters = this.cliResultBuilder.getParameters();
-            ParameterParser parameterParser = parameters.getParameterParser(this.cliResultBuilder);
+            String executableName = this.cliDefinition.getCliDescription().getExecutableName();
+            ParameterParser parameterParser = parameters.getParameterParser(this.cliResultBuilder, executableName);
             parameterParser.parse(argumentIterator);
         }
     }
@@ -141,7 +145,8 @@ public class Cli {
     private void handleSurplusArguments(ArgumentIterator argumentIterator) throws UnrecognizedArgumentException {
         if (argumentIterator.hasNext()) {
             String arg = argumentIterator.getNext();
-            throw new UnrecognizedArgumentException(argumentIterator, "Unrecognized argument: " + arg);
+            String executableName = this.cliDefinition.getCliDescription().getExecutableName();
+            throw new UnrecognizedArgumentException(executableName, argumentIterator, "Unrecognized argument: " + arg);
         }
     }
 

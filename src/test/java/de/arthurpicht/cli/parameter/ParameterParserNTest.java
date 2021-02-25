@@ -14,7 +14,7 @@ class ParameterParserNTest {
     void parseFirst() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(1, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(1, cliResultBuilder, "test");
 
         String[] args = {"A"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -36,7 +36,7 @@ class ParameterParserNTest {
     void parseFirstTwo() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(2, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(2, cliResultBuilder, "test");
 
         String[] args = {"A", "B"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args);
@@ -58,7 +58,7 @@ class ParameterParserNTest {
     void parseLastThree() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(3, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -81,7 +81,7 @@ class ParameterParserNTest {
     void parseLastFourOutOfBounds_neg() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(4, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(4, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 0);
@@ -99,7 +99,7 @@ class ParameterParserNTest {
     void parseOutOfBounds_neg() {
 
         CliResultBuilder cliResultBuilder = new CliResultBuilder();
-        ParameterParserN parameterParserN = new ParameterParserN(1, cliResultBuilder);
+        ParameterParserN parameterParserN = new ParameterParserN(1, cliResultBuilder, "test");
 
         String[] args = {"A", "B", "C", "D"};
         ArgumentIterator argumentIterator = new ArgumentIterator(args, 3);

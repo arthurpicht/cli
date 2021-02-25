@@ -7,10 +7,12 @@ import de.arthurpicht.cli.common.Arguments;
 public class ParameterParserMin extends ParameterParser {
 
     private final int minimalNrOfArgument;
+    private final String executableName;
 
-    public ParameterParserMin(int minimalNrOfArguments, CliResultBuilder cliResultBuilder) {
+    public ParameterParserMin(int minimalNrOfArguments, CliResultBuilder cliResultBuilder, String executableName) {
         super(cliResultBuilder);
         this.minimalNrOfArgument = minimalNrOfArguments;
+        this.executableName = executableName;
     }
 
     @Override
@@ -21,7 +23,7 @@ public class ParameterParserMin extends ParameterParser {
 
         if (arguments.size() < this.minimalNrOfArgument + beginIndex) {
             int nrFoundArgs = arguments.size() - beginIndex;
-            throw new ParameterParserException(arguments, beginIndex + nrFoundArgs, "Wrong number of parameters. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
+            throw new ParameterParserException(this.executableName, arguments, beginIndex + nrFoundArgs, "Wrong number of parameters. Minimal number expected: " + this.minimalNrOfArgument + ", found: " + nrFoundArgs + ".");
         }
 
         while (argumentIterator.hasNext()) {

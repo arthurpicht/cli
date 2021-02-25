@@ -14,7 +14,7 @@ class ParametersNTest {
     @Test
     public void getParser() {
         ParametersN parametersN = new ParametersN(2);
-        assertNotNull(parametersN.getParameterParser(new CliResultBuilder()));
+        assertNotNull(parametersN.getParameterParser(new CliResultBuilder(), "test"));
     }
 
     @Test
