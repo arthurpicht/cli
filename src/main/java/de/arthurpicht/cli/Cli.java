@@ -157,12 +157,7 @@ public class Cli {
         if (args == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'args' is null.");
 
         CliCall cliCall = this.parse(args);
-        if (cliCall.getStatus() == Status.BROKEN) {
-            GenericCommandExecutor.apply(cliCall);
-        } else if (cliCall.hasCommandExecutor()) {
-            CommandExecutor commandExecutor = cliCall.getCommandExecutor();
-            commandExecutor.execute(cliCall);
-        }
+        execute(cliCall);
         return cliCall;
     }
 
@@ -174,10 +169,11 @@ public class Cli {
      * @throws CommandExecutorException if an error occurs while executing CommandExecutor
      */
     public void execute(CliCall cliCall) throws CommandExecutorException {
-
         if (cliCall == null) throw new IllegalArgumentException("Assertion failed. Method parameter 'parserResult' is null.");
 
-        if (cliCall.hasCommandExecutor()) {
+        if (cliCall.getStatus() == Status.BROKEN) {
+            GenericCommandExecutor.apply(cliCall);
+        } else if (cliCall.hasCommandExecutor()) {
             CommandExecutor commandExecutor = cliCall.getCommandExecutor();
             commandExecutor.execute(cliCall);
         }
