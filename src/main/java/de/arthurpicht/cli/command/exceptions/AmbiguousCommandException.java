@@ -15,13 +15,13 @@ public class AmbiguousCommandException extends CommandParserException {
 
     private final Set<String> matchingCandidatesStrings;
 
-    public static AmbiguousCommandException createInstance(String execName, ArgumentIterator argumentIterator, Set<RecognizedCommand> matchingCandidates) {
+    public static AmbiguousCommandException createInstance(String executableName, ArgumentIterator argumentIterator, Set<RecognizedCommand> matchingCandidates) {
         String message = "Ambiguous command '" + argumentIterator.getCurrent() + "'. Possible candidates are: " + Strings.listing(RecognizedCommand.getCommandNames(matchingCandidates), ", ", "[", "]");
-        return new AmbiguousCommandException(execName, argumentIterator, message, matchingCandidates);
+        return new AmbiguousCommandException(executableName, argumentIterator, message, matchingCandidates);
     }
 
-    private AmbiguousCommandException(String execName, ArgumentIterator argumentIterator, String message, Set<RecognizedCommand> matchingCandidates) {
-        super(execName, argumentIterator, message);
+    private AmbiguousCommandException(String executableName, ArgumentIterator argumentIterator, String message, Set<RecognizedCommand> matchingCandidates) {
+        super(executableName, argumentIterator, message);
         this.matchingCandidatesStrings = RecognizedCommand.getCommandNames(matchingCandidates);
     }
 

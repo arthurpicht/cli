@@ -8,20 +8,20 @@ import java.util.Set;
 
 public class IllegalCommandException extends CommandParserException {
 
-    public static IllegalCommandException createInstance(String execName, ArgumentIterator argumentIterator, Set<Command> validCommandSet) {
+    public static IllegalCommandException createInstance(String executableName, ArgumentIterator argumentIterator, Set<Command> validCommandSet) {
         String message = "Command [" + argumentIterator.getCurrent() + "] not recognized. Possible commands are: "
                 + CommandsHelper.toFormattedList(validCommandSet) + ".";
-        return new IllegalCommandException(execName, argumentIterator, message);
+        return new IllegalCommandException(executableName, argumentIterator, message);
     }
 
-    public static IllegalCommandException createInstanceForDoubleDash(String execName, ArgumentIterator argumentIterator, Set<Command> validCommandSet) {
+    public static IllegalCommandException createInstanceForDoubleDash(String executableName, ArgumentIterator argumentIterator, Set<Command> validCommandSet) {
         String message = "Double dash \"--\" not allowed here. Possible commands are: "
                 + CommandsHelper.toFormattedList(validCommandSet) + ".";
-        return new IllegalCommandException(execName, argumentIterator, message);
+        return new IllegalCommandException(executableName, argumentIterator, message);
     }
 
-    public IllegalCommandException(String execName, ArgumentIterator argumentIterator, String message) {
-        super(execName, argumentIterator, message);
+    public IllegalCommandException(String executableName, ArgumentIterator argumentIterator, String message) {
+        super(executableName, argumentIterator, message);
     }
 
 }

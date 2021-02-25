@@ -25,7 +25,7 @@ In that case, a default command must be specified whereas the definition of
 further *commands* can be omitted.
 
 In contrast to regular commands, a default command can not have specific options.
-This is because in that case, global an specific commands can not be distinguished
+This is because in that case, global and specific commands can not be distinguished
 syntactically.
 
 ## Command overlap
@@ -52,3 +52,9 @@ Implementations of the *CommandExecutor* interface can be bound to each
 terminating command. It can automatically be called by *CommandLineInterface* 
 in case a command sequence is specified by the end user which terminates with
 the respective command.
+
+## Abbreviation of commands
+
+Commands specified on command line by the end user can be abbreviated. That
+means they can be shortened as long as they keep unique for all commands on
+that particular level.
