@@ -39,11 +39,11 @@ public class DemoMvCommand {
         Commands commands = new Commands().setDefaultCommand(defaultCommand);
 
         CliDescription cliDescription =
-                new CliDescriptionBuilder("mv")
+                new CliDescriptionBuilder()
                 .withDescription("(Demo) Move file from source to destination.")
                 .withDate("22.02.2021")
                 .withVersion("1.0")
-                .build();
+                .build("mv");
 
         return new CliBuilder()
                 .withGlobalOptions(globalOptions)

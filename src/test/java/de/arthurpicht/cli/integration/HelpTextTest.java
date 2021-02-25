@@ -61,11 +61,11 @@ public class HelpTextTest {
         );
 
         CliDescription cliDescription
-                = new CliDescriptionBuilder("test")
+                = new CliDescriptionBuilder()
                 .withDescription("A description for test.")
                 .withVersion("v1.0.0")
                 .withDate("18.02.2021")
-                .build();
+                .build("test");
 
         return new CliBuilder()
                 .withGlobalOptions(globalOptions)
