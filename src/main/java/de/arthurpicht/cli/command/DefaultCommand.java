@@ -38,4 +38,8 @@ public class DefaultCommand {
     public String getDescription() {
         return description;
     }
+
+    public boolean includeIntoHelpText() {
+        return true;
+    }
 }

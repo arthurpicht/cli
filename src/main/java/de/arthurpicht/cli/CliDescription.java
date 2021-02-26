@@ -40,6 +40,11 @@ public class CliDescription {
         return description;
     }
 
+    public String getDescriptionFirstLine() {
+        if (!hasDescription()) throw new IllegalStateException("No description specified.");
+        return this.description.lines().findFirst().get();
+    }
+
     public boolean hasVersion() {
         return Strings.isSpecified(this.version);
     }

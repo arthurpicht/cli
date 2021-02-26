@@ -1,10 +1,7 @@
 package de.arthurpicht.cli.integration;
 
 import de.arthurpicht.cli.*;
-import de.arthurpicht.cli.command.CommandSequenceBuilder;
-import de.arthurpicht.cli.command.Commands;
-import de.arthurpicht.cli.command.DefaultCommand;
-import de.arthurpicht.cli.command.DefaultCommandBuilder;
+import de.arthurpicht.cli.command.*;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.*;
 import de.arthurpicht.cli.parameter.ParametersMin;
@@ -18,7 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HelpTextTest {
 
-    private Cli createCli(PrintStream out) {
+    private Cli createCli(PrintStream out, boolean withCustomDefaultCommand, boolean withInfoDefaultCommand) {
+
+        if (withCustomDefaultCommand && withInfoDefaultCommand) {
+            throw new IllegalArgumentException("Only one one ca be true: 'withCustomDefaultCommand' or 'withInfoDefaultCommand'");
+        }
 
         Options globalOptions = new Options()
                 .add(new VersionOption())
@@ -27,13 +28,19 @@ public class HelpTextTest {
                 .add(new OptionBuilder().withLongName("stacktrace").withDescription("Show stacktrace on error occurrence.").build("STACKTRACE"))
                 .add(new OptionBuilder().withLongName("loglevel").withArgumentName("loglevel").withDescription("Log level.").build("LOGLEVEL"));
 
-        DefaultCommand defaultCommand = new DefaultCommandBuilder()
-                .withParameters(new ParametersOne())
-                .withDescription("The default command")
-                .build();
-
         Commands commands = new Commands();
-        commands.setDefaultCommand(defaultCommand);
+
+        if (withCustomDefaultCommand) {
+            DefaultCommand defaultCommand = new DefaultCommandBuilder()
+                    .withParameters(new ParametersOne())
+                    .withDescription("The default command")
+                    .build();
+            commands.setDefaultCommand(defaultCommand);
+        } else if (withInfoDefaultCommand) {
+            DefaultCommand defaultCommand = new InfoDefaultCommand();
+            commands.setDefaultCommand(defaultCommand);
+        }
+
         commands.add(
                 new CommandSequenceBuilder()
                         .addCommands("COMMAND_A")
@@ -80,7 +87,7 @@ public class HelpTextTest {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        Cli cli = createCli(out);
+        Cli cli = createCli(out, true, false);
         String[] args = {"COMMAND_A", "-h"};
         cli.execute(args);
 
@@ -106,12 +113,12 @@ public class HelpTextTest {
     }
 
     @Test
-    public void globalHelp() throws CommandExecutorException, UnrecognizedArgumentException {
+    public void globalHelpWithCustomDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        Cli cli = createCli(out);
+        Cli cli = createCli(out, true, false);
         String[] args = {"-h"};
         cli.execute(args);
 
@@ -135,12 +142,68 @@ public class HelpTextTest {
     }
 
     @Test
+    public void globalHelpWithInfoDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outBAOS);
+
+        Cli cli = createCli(out, false, true);
+        String[] args = {"-h"};
+        cli.execute(args);
+
+        String output = outBAOS.toString();
+        TestOut.println(output);
+
+        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
+                "  A description for test.\n" +
+                "Usage:\n" +
+                "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
+                "  test [global options] COMMAND_B [specific options] <parameter>\n" +
+                "Global Options:\n" +
+                "  -h, --help                    Show help message and exit.\n" +
+                "      --loglevel <loglevel>     Log level.\n" +
+                "  -m, --man                     Show manual and exit.\n" +
+                "      --stacktrace              Show stacktrace on error occurrence.\n" +
+                "  -v, --version                 Show version message and exit.\n";
+
+        assertEquals(expectedOutput, output);
+    }
+
+    @Test
+    public void globalHelpWithNoDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outBAOS);
+
+        Cli cli = createCli(out, false, false);
+        String[] args = {"-h"};
+        cli.execute(args);
+
+        String output = outBAOS.toString();
+        TestOut.println(output);
+
+        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
+                "  A description for test.\n" +
+                "Usage:\n" +
+                "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
+                "  test [global options] COMMAND_B [specific options] <parameter>\n" +
+                "Global Options:\n" +
+                "  -h, --help                    Show help message and exit.\n" +
+                "      --loglevel <loglevel>     Log level.\n" +
+                "  -m, --man                     Show manual and exit.\n" +
+                "      --stacktrace              Show stacktrace on error occurrence.\n" +
+                "  -v, --version                 Show version message and exit.\n";
+
+        assertEquals(expectedOutput, output);
+    }
+
+    @Test
     public void man() throws CommandExecutorException, UnrecognizedArgumentException {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
-        Cli cli = createCli(out);
+        Cli cli = createCli(out, true, false);
         String[] args = {"-m"};
         cli.execute(args);
 
