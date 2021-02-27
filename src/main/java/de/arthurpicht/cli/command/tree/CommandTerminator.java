@@ -5,6 +5,8 @@ import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
 
+import java.util.Objects;
+
 public class CommandTerminator {
 
     private final Options specificOptions;
@@ -14,7 +16,7 @@ public class CommandTerminator {
     private final int helpPriority;
 
     public CommandTerminator(Options specificOptions, Parameters parameters, CommandExecutor commandExecutor, String description, int helpPriority) {
-        this.specificOptions = specificOptions;
+        this.specificOptions = Objects.requireNonNullElseGet(specificOptions, Options::new);
         this.parameters = parameters;
         this.commandExecutor = commandExecutor;
         this.description = description;
@@ -22,7 +24,7 @@ public class CommandTerminator {
     }
 
     public boolean hasSpecificOptions() {
-        return this.specificOptions != null;
+        return !this.specificOptions.isEmpty();
     }
 
     public Options getSpecificOptions() {

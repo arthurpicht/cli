@@ -4,6 +4,7 @@ import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.common.CLIContext;
+import de.arthurpicht.cli.common.PostProcessor;
 import de.arthurpicht.cli.option.Options;
 
 import java.io.PrintStream;
@@ -15,13 +16,15 @@ public class CliBuilder {
     private DefaultCommand defaultCommand;
     private PrintStream out;
     private PrintStream errorOut;
+    private boolean autoHelp;
 
     public CliBuilder() {
-        this.optionsGlobal = null;
+        this.optionsGlobal = new Options();
         this.commandTree = null;
         this.defaultCommand = null;
         this.out = System.out;
         this.errorOut = System.err;
+        this.autoHelp = false;
     }
 
     public CliBuilder withGlobalOptions(Options options) {
@@ -45,6 +48,11 @@ public class CliBuilder {
         return this;
     }
 
+    public CliBuilder withAutoHelp() {
+        this.autoHelp = true;
+        return this;
+    }
+
     public Cli build(String executableName) {
         CliDescription cliDescription
                 = new CliDescription(executableName);
@@ -58,6 +66,10 @@ public class CliBuilder {
     private Cli createCli(CliDescription cliDescription) {
 
         CLIContext.init(this.out, this.errorOut);
+
+        if (this.autoHelp) {
+            PostProcessor.addAutoHelp(this.optionsGlobal, this.commandTree);
+        }
 
         CliDefinition cliDefinition = new CliDefinition(
                 cliDescription,
