@@ -66,15 +66,6 @@ public class Commands {
         return this;
     }
 
-    public boolean hasDefaultCommand() {
-        return this.defaultCommand != null;
-    }
-
-    public static boolean hasDefaultCommand(Commands commands) {
-        if (commands == null) return false;
-        return commands.hasDefaultCommand();
-    }
-
     public DefaultCommand getDefaultCommand() {
         return this.defaultCommand;
     }
