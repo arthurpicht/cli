@@ -198,7 +198,7 @@ public class HelpTextTest {
     }
 
     @Test
-    public void man() throws CommandExecutorException, UnrecognizedArgumentException {
+    public void manWithCustomDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
@@ -248,5 +248,100 @@ public class HelpTextTest {
 
         assertEquals(expectedOutput, output);
     }
+
+    @Test
+    public void manWithDefaultInfoCommand() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outBAOS);
+
+        Cli cli = createCli(out, false, true);
+        String[] args = {"-m"};
+        cli.execute(args);
+
+        String output = outBAOS.toString();
+
+        TestOut.println(output);
+
+        @SuppressWarnings("SpellCheckingInspection")
+        String expectedOutput =
+                "test v1.0.0 from 18.02.2021\n" +
+                        "  A description for test.\n" +
+                        "Usage:\n" +
+                        "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
+                        "  test [global options] COMMAND_B [specific options] <parameter>\n" +
+                        "Global Options:\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "      --loglevel <loglevel>     Log level.\n" +
+                        "  -m, --man                     Show manual and exit.\n" +
+                        "      --stacktrace              Show stacktrace on error occurrence.\n" +
+                        "  -v, --version                 Show version message and exit.\n" +
+                        "\n" +
+                        "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
+                        "  This is a description for command_A.\n" +
+                        "Specific options:\n" +
+                        "  -A, --almost-all              do not list implied . and ..\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "Parameters:\n" +
+                        "  1..n*<file>                   Files to be processed.\n" +
+                        "\n" +
+                        "Usage: test [global options] COMMAND_B [specific options] <parameter>\n" +
+                        "Specific options:\n" +
+                        "  -b, --brrr                    The brrr option\n" +
+                        "  -c, --cool <what>             The cool option.\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "Parameters:\n" +
+                        "  <parameter>\n";
+
+        assertEquals(expectedOutput, output);
+    }
+
+    @Test
+    public void manWithNoDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
+
+        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outBAOS);
+
+        Cli cli = createCli(out, false, false);
+        String[] args = {"-m"};
+        cli.execute(args);
+
+        String output = outBAOS.toString();
+
+        TestOut.println(output);
+
+        @SuppressWarnings("SpellCheckingInspection")
+        String expectedOutput =
+                "test v1.0.0 from 18.02.2021\n" +
+                        "  A description for test.\n" +
+                        "Usage:\n" +
+                        "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
+                        "  test [global options] COMMAND_B [specific options] <parameter>\n" +
+                        "Global Options:\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "      --loglevel <loglevel>     Log level.\n" +
+                        "  -m, --man                     Show manual and exit.\n" +
+                        "      --stacktrace              Show stacktrace on error occurrence.\n" +
+                        "  -v, --version                 Show version message and exit.\n" +
+                        "\n" +
+                        "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
+                        "  This is a description for command_A.\n" +
+                        "Specific options:\n" +
+                        "  -A, --almost-all              do not list implied . and ..\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "Parameters:\n" +
+                        "  1..n*<file>                   Files to be processed.\n" +
+                        "\n" +
+                        "Usage: test [global options] COMMAND_B [specific options] <parameter>\n" +
+                        "Specific options:\n" +
+                        "  -b, --brrr                    The brrr option\n" +
+                        "  -c, --cool <what>             The cool option.\n" +
+                        "  -h, --help                    Show help message and exit.\n" +
+                        "Parameters:\n" +
+                        "  <parameter>\n";
+
+        assertEquals(expectedOutput, output);
+    }
+
 
 }

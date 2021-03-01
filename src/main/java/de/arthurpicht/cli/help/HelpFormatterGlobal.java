@@ -37,7 +37,7 @@ public class HelpFormatterGlobal {
     private void printUsage(CliDefinition cliDefinition, CommandTree commandTree) {
         CLIContext.out.println("Usage:");
 
-        if (hasDefaultCommandToBeIncludedIntoHelpText(cliDefinition)) {
+        if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
             CLIContext.out.println(INDENT + getUsageOfDefaultCommand(cliDefinition, false));
         }
 
@@ -48,10 +48,6 @@ public class HelpFormatterGlobal {
                 CLIContext.out.println(INDENT + usageString);
             }
         }
-    }
-
-    private boolean hasDefaultCommandToBeIncludedIntoHelpText(CliDefinition cliDefinition) {
-        return cliDefinition.hasDefaultCommand() && cliDefinition.getDefaultCommand().includeIntoHelpText();
     }
 
 }

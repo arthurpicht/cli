@@ -43,7 +43,7 @@ public class HelpFormatterMan {
     private void printUsage(CliDefinition cliDefinition, CommandTree commandTree) {
         CLIContext.out.println("Usage:");
 
-        if (cliDefinition.hasDefaultCommand()) {
+        if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
             CLIContext.out.println(INDENT + getUsageOfDefaultCommand(cliDefinition, false));
         }
 
@@ -58,7 +58,7 @@ public class HelpFormatterMan {
 
     private void printCommandBlocks(CliDefinition cliDefinition, CommandTree commandTree) {
 
-        if (cliDefinition.hasDefaultCommand()) {
+        if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
             CLIContext.out.println();
             CLIContext.out.println("Usage: " + getUsageOfDefaultCommand(cliDefinition, false));
             DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();

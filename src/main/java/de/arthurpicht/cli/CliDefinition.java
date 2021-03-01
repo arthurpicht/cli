@@ -38,6 +38,10 @@ public class CliDefinition {
         return this.defaultCommand != null;
     }
 
+    public boolean hasDefaultCommandToBeIncludedIntoHelpText() {
+        return hasDefaultCommand() && getDefaultCommand().includeIntoHelpText();
+    }
+
     public DefaultCommand getDefaultCommand() {
         return defaultCommand;
     }
