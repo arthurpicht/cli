@@ -42,6 +42,7 @@ public class CliDescription {
 
     public String getDescriptionFirstLine() {
         if (!hasDescription()) throw new IllegalStateException("No description specified.");
+        //noinspection OptionalGetWithoutIsPresent
         return this.description.lines().findFirst().get();
     }
 
