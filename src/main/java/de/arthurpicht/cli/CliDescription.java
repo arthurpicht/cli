@@ -6,30 +6,30 @@ public class CliDescription {
 
     private final String executableName;
     private final String description;
-    private final String version;
-    private final String date;
+    private final String versionText;
+    private final String versionTextSupplement;
 
     public CliDescription(String executableName) {
         this.executableName = executableName;
         this.description = "";
-        this.version = "";
-        this.date = "";
+        this.versionText = "";
+        this.versionTextSupplement = "";
     }
 
     public CliDescription(
             String executableName,
             String description,
-            String version,
-            String date
+            String versionText,
+            String versionTextSupplement
     ) {
         this.executableName = executableName;
         this.description = description;
-        this.version = version;
-        this.date = date;
+        this.versionText = versionText;
+        this.versionTextSupplement = versionTextSupplement;
     }
 
     public String getExecutableName() {
-        return executableName;
+        return this.executableName;
     }
 
     public boolean hasDescription() {
@@ -37,7 +37,7 @@ public class CliDescription {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public String getDescriptionFirstLine() {
@@ -45,19 +45,20 @@ public class CliDescription {
         return this.description.lines().findFirst().get();
     }
 
-    public boolean hasVersion() {
-        return Strings.isSpecified(this.version);
+    public boolean hasVersionText() {
+        return Strings.isSpecified(this.versionText);
     }
 
-    public String getVersion() {
-        return version;
+    public String getVersionText() {
+        return this.versionText;
     }
 
-    public boolean hasDate() {
-        return Strings.isSpecified(this.date);
+    public boolean hasVersionTextSupplement() {
+        return Strings.isSpecified(this.versionTextSupplement);
     }
 
-    public String getDate() {
-        return date;
+    public String getVersionTextSupplement() {
+        return this.versionTextSupplement;
     }
+
 }

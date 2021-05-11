@@ -19,11 +19,8 @@ public class HelpFormatterCommons {
         CliDescription cliDescription = cliDefinition.getCliDescription();
 
         String header = executableName;
-        if (cliDescription.hasVersion()) {
-            header += " " + cliDescription.getVersion();
-        }
-        if (cliDescription.hasDate()) {
-            header += " from " + cliDescription.getDate();
+        if (cliDescription.hasVersionText()) {
+            header += " " + cliDescription.getVersionText();
         }
 
         return header;
@@ -108,22 +105,21 @@ public class HelpFormatterCommons {
         return stringBuilder.toString();
     }
 
-    public static String getVersionAndDateString(CliDefinition cliDefinition) {
+    public static String getFullVersionText(CliDefinition cliDefinition) {
         CliDescription cliDescription
                 = cliDefinition.getCliDescription();
 
-        String versionAndDate = "";
+        String fullVersionText = "";
 
-        if (cliDescription.hasVersion()) {
-            versionAndDate += "Version: " + cliDescription.getVersion();
+        if (cliDescription.hasVersionText()) {
+            fullVersionText += cliDescription.getVersionText();
         }
 
-        if (cliDescription.hasDate()) {
-            if (Strings.isSpecified(versionAndDate)) versionAndDate += " ";
-            versionAndDate += "from: " + cliDescription.getDate();
+        if (cliDescription.hasVersionTextSupplement()) {
+            fullVersionText += "\n" + cliDescription.getVersionTextSupplement();
         }
 
-        return versionAndDate;
+        return fullVersionText;
     }
 
 }

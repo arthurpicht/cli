@@ -3,13 +3,13 @@ package de.arthurpicht.cli;
 public class CliDescriptionBuilder {
 
     private String description;
-    private String version;
-    private String date;
+    private String versionText;
+    private String versionTextSupplement;
 
     public CliDescriptionBuilder() {
         this.description = "";
-        this.version = "";
-        this.date = "";
+        this.versionText = "";
+        this.versionTextSupplement = "";
     }
 
     public CliDescriptionBuilder withDescription(String description) {
@@ -17,13 +17,24 @@ public class CliDescriptionBuilder {
         return this;
     }
 
-    public CliDescriptionBuilder withVersion(String version) {
-        this.version = version;
+    public CliDescriptionBuilder withVersionText(String versionText) {
+        this.versionText = versionText;
         return this;
     }
 
-    public CliDescriptionBuilder withDate(String date) {
-        this.date = date;
+    public CliDescriptionBuilder withVersionByTag(String versionTag) {
+        this.versionText = "version " + versionTag;
+        return this;
+    }
+
+    public CliDescriptionBuilder withVersionByTag(String versionTag, String date) {
+        this.versionText = "version " + versionTag + " from " + date;
+        return this;
+    }
+
+    public CliDescriptionBuilder withVersionByTag(String versionTag, String date, String supplement) {
+        this.versionText = "version " + versionTag + " from " + date;
+        this.versionTextSupplement = supplement;
         return this;
     }
 
@@ -31,8 +42,8 @@ public class CliDescriptionBuilder {
         return new CliDescription(
                 executableName,
                 this.description,
-                this.version,
-                this.date
+                this.versionText,
+                this.versionTextSupplement
         );
     }
 

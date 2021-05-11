@@ -21,4 +21,4 @@ ToDo
 Built-in options are: `version`, `help` and `man`. All three built-in options
 are `breaking options`, which means that the parsing process is stopped when
 such a option is found. Moreover, all three built-in options are connected to
-a generic CommandExecutor, that is triggered automatically.
+a [generic CommandExecutor](../src/main/java/de/arthurpicht/cli/common/GenericCommandExecutor.java), that is triggered automatically.

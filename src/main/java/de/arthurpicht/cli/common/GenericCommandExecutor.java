@@ -17,11 +17,14 @@ public class GenericCommandExecutor implements CommandExecutor {
     @Override
     public void execute(CliCall cliCall) throws CommandExecutorException {
 
+        // TODO clean-up if-blocks/return
+
         CliResult cliResult = cliCall.getCliResult();
         CliDefinition cliDefinition = cliCall.getCliDefinition();
         OptionParserResult optionParserResultGlobal = cliResult.getOptionParserResultGlobal();
 
         if (optionParserResultGlobal.hasOption(HelpOption.ID)) {
+            //noinspection IfStatementWithIdenticalBranches
             if (isOnlyDefaultCommand(cliCall)) {
                 new HelpFormatterDefaultOnly().out(cliCall);
                 return;
@@ -30,8 +33,8 @@ public class GenericCommandExecutor implements CommandExecutor {
                 return;
             }
         } else if (optionParserResultGlobal.hasOption(VersionOption.ID)) {
-            String versionString = HelpFormatterCommons.getVersionAndDateString(cliDefinition);
-            System.out.println(versionString);
+            String versionString = HelpFormatterCommons.getFullVersionText(cliDefinition);
+            CLIContext.out.println(versionString);
             return;
         } else if (optionParserResultGlobal.hasOption(ManOption.ID)) {
             new HelpFormatterMan().out(cliCall);
@@ -43,9 +46,9 @@ public class GenericCommandExecutor implements CommandExecutor {
 
         if (optionParserResultSpecific.hasOption(HelpOption.ID)) {
             new HelpFormatterCommand().out(cliCall);
+            //noinspection UnnecessaryReturnStatement
             return;
         }
-
     }
 
     private static boolean isOnlyDefaultCommand(CliCall cliCall) {

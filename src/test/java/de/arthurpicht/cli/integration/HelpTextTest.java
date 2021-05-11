@@ -70,8 +70,7 @@ public class HelpTextTest {
         CliDescription cliDescription
                 = new CliDescriptionBuilder()
                 .withDescription("A description for test.")
-                .withVersion("v1.0.0")
-                .withDate("18.02.2021")
+                .withVersionByTag("v1.0.0", "18.02.2021")
                 .build("test");
 
         return new CliBuilder()
@@ -125,7 +124,7 @@ public class HelpTextTest {
         String output = outBAOS.toString();
         TestOut.println(output);
 
-        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
+        String expectedOutput = "test version v1.0.0 from 18.02.2021\n" +
                 "  A description for test.\n" +
                 "Usage:\n" +
                 "  test [global options] <parameter>\n" +
@@ -154,7 +153,7 @@ public class HelpTextTest {
         String output = outBAOS.toString();
         TestOut.println(output);
 
-        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
+        String expectedOutput = "test version v1.0.0 from 18.02.2021\n" +
                 "  A description for test.\n" +
                 "Usage:\n" +
                 "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
@@ -182,7 +181,7 @@ public class HelpTextTest {
         String output = outBAOS.toString();
         TestOut.println(output);
 
-        String expectedOutput = "test v1.0.0 from 18.02.2021\n" +
+        String expectedOutput = "test version v1.0.0 from 18.02.2021\n" +
                 "  A description for test.\n" +
                 "Usage:\n" +
                 "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
@@ -213,7 +212,7 @@ public class HelpTextTest {
 
         @SuppressWarnings("SpellCheckingInspection")
         String expectedOutput =
-                "test v1.0.0 from 18.02.2021\n" +
+                "test version v1.0.0 from 18.02.2021\n" +
                         "  A description for test.\n" +
                         "Usage:\n" +
                         "  test [global options] <parameter>\n" +
@@ -265,7 +264,7 @@ public class HelpTextTest {
 
         @SuppressWarnings("SpellCheckingInspection")
         String expectedOutput =
-                "test v1.0.0 from 18.02.2021\n" +
+                "test version v1.0.0 from 18.02.2021\n" +
                         "  A description for test.\n" +
                         "Usage:\n" +
                         "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
@@ -312,7 +311,7 @@ public class HelpTextTest {
 
         @SuppressWarnings("SpellCheckingInspection")
         String expectedOutput =
-                "test v1.0.0 from 18.02.2021\n" +
+                "test version v1.0.0 from 18.02.2021\n" +
                         "  A description for test.\n" +
                         "Usage:\n" +
                         "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +

@@ -35,12 +35,12 @@ public class OptionParser extends Parser {
         parseInner(argumentIterator);
 
         if (this.target == Target.GLOBAL) {
-            cliResultBuilder.withOptionParserResultGlobal(this.optionParserResult);
+            this.cliResultBuilder.withOptionParserResultGlobal(this.optionParserResult);
         } else {
-            cliResultBuilder.withOptionParserResultSpecific(this.optionParserResult);
+            this.cliResultBuilder.withOptionParserResultSpecific(this.optionParserResult);
         }
 
-        if (this.optionParserResult.hasBreakingOption())
+        if (this.optionParserResult.containsBreakingOption())
             throw new ParsingBrokenEvent(cliResultBuilder.build(BROKEN));
     }
 

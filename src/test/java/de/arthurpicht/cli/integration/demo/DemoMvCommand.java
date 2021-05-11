@@ -41,8 +41,7 @@ public class DemoMvCommand {
         CliDescription cliDescription =
                 new CliDescriptionBuilder()
                 .withDescription("(Demo) Move file from source to destination.")
-                .withDate("22.02.2021")
-                .withVersion("1.0")
+                .withVersionByTag("1.0", "22.02.2021")
                 .build("mv");
 
         return new CliBuilder()
@@ -79,11 +78,11 @@ public class DemoMvCommand {
         Cli cli = createCli(out);
         String[] args = {"-h"};
 
-        CliCall call = cli.execute(args);
+        cli.execute(args);
 
         String output = outBAOS.toString();
         String expectedOutput =
-                "mv 1.0 from 22.02.2021\n" +
+                "mv version 1.0 from 22.02.2021\n" +
                 "  (Demo) Move file from source to destination.\n" +
                 "Usage:\n" +
                 "  mv [options] <source> <destination>\n" +
