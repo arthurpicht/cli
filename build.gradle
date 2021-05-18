@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.arthurpicht'
-version '0.1-alpha9-snapshot'
+version '0.1-beta1'
 
 repositories {
     mavenCentral()
