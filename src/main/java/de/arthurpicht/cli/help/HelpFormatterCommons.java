@@ -6,6 +6,8 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.message.format.Format;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class HelpFormatterCommons {
@@ -27,7 +29,9 @@ public class HelpFormatterCommons {
     }
 
     public static void printHeaderString(CliDefinition cliDefinition) {
-        CLIContext.out.println(HelpFormatterCommons.getHeaderString(cliDefinition));
+        String headerString = HelpFormatterCommons.getHeaderString(cliDefinition);
+        Console.println(headerString, Format.WHITE_TEXT());
+//        CLIContext.out.println(HelpFormatterCommons.getHeaderString(cliDefinition));
     }
 
     public static void printExecutableDescription(CliDescription cliDescription) {
