@@ -7,6 +7,8 @@ import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.message.Message;
 
 import java.util.List;
 
@@ -44,8 +46,8 @@ public class HelpFormatterGlobal {
         if (commandTree.hasCommands()) {
             List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
-                String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition);
-                CLIContext.out.println(INDENT + usageString);
+                Message usageMessage = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition, true, "");
+                Console.out(usageMessage);
             }
         }
     }

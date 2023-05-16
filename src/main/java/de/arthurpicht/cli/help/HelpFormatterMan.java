@@ -10,6 +10,8 @@ import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.message.Message;
 
 import java.util.List;
 
@@ -50,8 +52,8 @@ public class HelpFormatterMan {
         if (commandTree.hasCommands()) {
             List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
-                String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition);
-                CLIContext.out.println(INDENT + usageString);
+                Message usageMessage = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition, true, "");
+                Console.out(usageMessage);
             }
         }
     }
@@ -79,9 +81,9 @@ public class HelpFormatterMan {
 
     private void printCommandBlock(CommandTreeNode commandTreeNode, CliDefinition cliDefinition) {
 
-        CLIContext.out.println();
-        String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition);
-        CLIContext.out.println("Usage: " + usageString);
+        Console.println();
+        Message usageMessage = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition, false, "Usage: ");
+        Console.out(usageMessage);
 
         CommandTerminator commandTerminator = commandTreeNode.getCommand().getCommandTerminator();
 

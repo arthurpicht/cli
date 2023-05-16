@@ -6,6 +6,8 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.*;
 import de.arthurpicht.cli.parameter.ParametersMin;
 import de.arthurpicht.cli.parameter.ParametersOne;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.config.ConsoleConfigurationBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -117,6 +119,11 @@ public class HelpTextTest {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
+
         Cli cli = createCli(out, true, false);
         String[] args = {"-h"};
         cli.execute(args);
@@ -138,6 +145,8 @@ public class HelpTextTest {
                 "  -v, --version                 Show version message and exit.\n";
 
         assertEquals(expectedOutput, output);
+
+        Console.initWithDefaults();
     }
 
     @Test
@@ -145,6 +154,11 @@ public class HelpTextTest {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
+
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
 
         Cli cli = createCli(out, false, true);
         String[] args = {"-h"};
@@ -166,6 +180,8 @@ public class HelpTextTest {
                 "  -v, --version                 Show version message and exit.\n";
 
         assertEquals(expectedOutput, output);
+
+        Console.initWithDefaults();
     }
 
     @Test
@@ -173,6 +189,11 @@ public class HelpTextTest {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
+
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
 
         Cli cli = createCli(out, false, false);
         String[] args = {"-h"};
@@ -194,6 +215,8 @@ public class HelpTextTest {
                 "  -v, --version                 Show version message and exit.\n";
 
         assertEquals(expectedOutput, output);
+
+        Console.initWithDefaults();
     }
 
     @Test
@@ -201,6 +224,11 @@ public class HelpTextTest {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
+
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
 
         Cli cli = createCli(out, true, false);
         String[] args = {"-m"};
@@ -246,6 +274,8 @@ public class HelpTextTest {
                         "  <parameter>\n";
 
         assertEquals(expectedOutput, output);
+
+        Console.initWithDefaults();
     }
 
     @Test
@@ -253,6 +283,11 @@ public class HelpTextTest {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
+
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
 
         Cli cli = createCli(out, false, true);
         String[] args = {"-m"};
@@ -293,6 +328,8 @@ public class HelpTextTest {
                         "  <parameter>\n";
 
         assertEquals(expectedOutput, output);
+
+        Console.initWithDefaults();
     }
 
     @Test
@@ -300,6 +337,11 @@ public class HelpTextTest {
 
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
+
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
 
         Cli cli = createCli(out, false, false);
         String[] args = {"-m"};
@@ -340,7 +382,8 @@ public class HelpTextTest {
                         "  <parameter>\n";
 
         assertEquals(expectedOutput, output);
-    }
 
+        Console.initWithDefaults();
+    }
 
 }

@@ -7,6 +7,8 @@ import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.console.Console;
+import de.arthurpicht.console.message.Message;
+import de.arthurpicht.console.message.MessageBuilder;
 import de.arthurpicht.console.message.format.Format;
 import de.arthurpicht.utils.core.strings.Strings;
 
@@ -30,15 +32,13 @@ public class HelpFormatterCommons {
 
     public static void printHeaderString(CliDefinition cliDefinition) {
         String headerString = HelpFormatterCommons.getHeaderString(cliDefinition);
-        Console.println(headerString, Format.WHITE_TEXT());
-//        CLIContext.out.println(HelpFormatterCommons.getHeaderString(cliDefinition));
+        Console.println(headerString, Format.BRIGHT_WHITE_TEXT());
     }
 
     public static void printExecutableDescription(CliDescription cliDescription) {
-
         if (cliDescription.hasDescription()) {
             String description = cliDescription.getDescription();
-            CLIContext.out.println(HelpFormatterCommons.indentString(description));
+            Console.println(HelpFormatterCommons.indentString(description));
         }
     }
 
@@ -66,28 +66,33 @@ public class HelpFormatterCommons {
         return usage;
     }
 
-    public static String getCommandSpecificUsage(CommandTreeNode commandTreeNode, CliDefinition cliDefinition) {
-
+    public static Message getCommandSpecificUsage(CommandTreeNode commandTreeNode, CliDefinition cliDefinition, boolean indent, String label) {
         String executableName = cliDefinition.getCliDescription().getExecutableName();
         boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
         String commandsString = commandTreeNode.getCommandsString();
         boolean hasSpecificOptions = commandTreeNode.getCommand().getCommandTerminator().hasSpecificOptions();
         boolean hasParameters = commandTreeNode.getCommand().getCommandTerminator().hasParameters();
 
-        String usage = executableName;
+        MessageBuilder messageBuilder = new MessageBuilder();
 
-        if (hasGlobalOptions) usage += " [global options]";
+        if (Strings.isSpecified(label))
+            messageBuilder.addText(label);
 
-        usage += " " + commandsString;
+        if (indent) messageBuilder.withIndentation(2);
+        messageBuilder.addText(executableName, Format.BRIGHT_WHITE_TEXT());
 
-        if (hasSpecificOptions) usage += " [specific options]";
+        if (hasGlobalOptions) messageBuilder.addText(" [global options]");
+        messageBuilder.addText(" " + commandsString, Format.BRIGHT_WHITE_TEXT());
+        if (hasSpecificOptions) messageBuilder.addText(" [specific options]");
 
         if (hasParameters) {
             Parameters parameters = commandTreeNode.getCommand().getCommandTerminator().getParameters();
-            usage += " " + parameters.getHelpUsageSubString();
+            messageBuilder
+                    .addText(" ")
+                    .addText(parameters.getHelpUsageSubString(), Format.BRIGHT_WHITE_TEXT());
         }
 
-        return usage;
+        return messageBuilder.build();
     }
 
     public static String indentString(String string) {
