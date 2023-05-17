@@ -60,17 +60,15 @@ public class HelpFormatterCommand {
 
     private void printGlobalOptions(CliDefinition cliDefinition) {
         if (cliDefinition.hasGlobalOptions()) {
-            CLIContext.out.println("Global Options:");
             Options globalOptions = cliDefinition.getGlobalOptions();
-            CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
+            Printer.printOptions(globalOptions, "Global Options:");
         }
     }
 
     private void printSpecificOptions(CommandParserResult commandParserResult) {
         if (commandParserResult.hasSpecificOptions()) {
-            CLIContext.out.println("Specific options:");
             Options specificOptions = commandParserResult.getSpecificOptions();
-            CLIContext.out.println(HelpFormatterCommons.indentString(specificOptions.getHelpString()));
+            Printer.printOptions(specificOptions, "Specific options:");
         }
     }
 

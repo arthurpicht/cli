@@ -77,4 +77,8 @@ public class ParametersN extends Parameters {
     public int getNrOfParameters() {
         return this.parameterList.size();
     }
+
+    public List<Parameter> getParameterList() {
+        return this.parameterList;
+    }
 }

@@ -19,6 +19,10 @@ public class Parameter {
         return name;
     }
 
+    public boolean hasDescription() {
+        return Strings.isSpecified(this.description);
+    }
+
     public String getDescription() {
         return description;
     }

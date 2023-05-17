@@ -1,13 +1,12 @@
 package de.arthurpicht.cli.integration;
 
-import de.arthurpicht.cli.Cli;
-import de.arthurpicht.cli.CliBuilder;
-import de.arthurpicht.cli.CommandExecutorException;
-import de.arthurpicht.cli.TestOut;
+import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.config.ConsoleConfigurationBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,6 +36,11 @@ public class AutoHelpTest {
         ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outBAOS);
 
+        Console.init(new ConsoleConfigurationBuilder()
+                .withStandardOut(out)
+                .withSuppressedColors()
+                .build());
+
         Cli cli = createCli(out);
         String[] args = {"-h"};
         cli.execute(args);
@@ -52,6 +56,8 @@ public class AutoHelpTest {
                 "  -h, --help                    Show help message and exit.\n";
 
         assertEquals(expectedOutput, output);
+
+        Console.initWithDefaults();
     }
 
     @Test

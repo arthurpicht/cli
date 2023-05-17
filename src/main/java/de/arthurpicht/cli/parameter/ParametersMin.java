@@ -39,6 +39,14 @@ public class ParametersMin extends Parameters {
         }
     }
 
+    public boolean hasDescription() {
+        return Strings.isSpecified(this.description);
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
     @Override
     public ParameterParser getParameterParser(CliResultBuilder cliResultBuilder, String executableName) {
         return new ParameterParserMin(this.minimalNrOfParameters, cliResultBuilder, executableName);
@@ -55,4 +63,5 @@ public class ParametersMin extends Parameters {
                 getHelpUsageSubString(),
                 this.description);
     }
+
 }

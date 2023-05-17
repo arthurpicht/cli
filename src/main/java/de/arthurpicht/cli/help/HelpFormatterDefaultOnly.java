@@ -18,9 +18,9 @@ public class HelpFormatterDefaultOnly {
         CliDescription cliDescription = cliDefinition.getCliDescription();
         DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
 
-        HelpFormatterCommons.printHeaderString(cliDefinition);
+        Printer.printHeaderString(cliDefinition);
 
-        HelpFormatterCommons.printExecutableDescription(cliDescription);
+        Printer.printExecutableDescription(cliDescription);
 
         CLIContext.out.println("Usage:");
         CLIContext.out.println(INDENT + HelpFormatterCommons.getUsageOfDefaultCommand(cliDefinition, true));
@@ -30,9 +30,8 @@ public class HelpFormatterDefaultOnly {
         }
 
         if (cliDefinition.hasGlobalOptions()) {
-            CLIContext.out.println("Options:");
             Options globalOptions = cliDefinition.getGlobalOptions();
-            CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
+            Printer.printOptions(globalOptions, "Options:");
         }
 
         if (defaultCommand.hasParameters()) {

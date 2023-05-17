@@ -4,9 +4,7 @@ import de.arthurpicht.cli.CliDefinition;
 import de.arthurpicht.cli.CliDescription;
 import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.console.Console;
 import de.arthurpicht.console.message.Message;
 import de.arthurpicht.console.message.MessageBuilder;
 import de.arthurpicht.console.message.format.Format;
@@ -28,18 +26,6 @@ public class HelpFormatterCommons {
         }
 
         return header;
-    }
-
-    public static void printHeaderString(CliDefinition cliDefinition) {
-        String headerString = HelpFormatterCommons.getHeaderString(cliDefinition);
-        Console.println(headerString, Format.BRIGHT_WHITE_TEXT());
-    }
-
-    public static void printExecutableDescription(CliDescription cliDescription) {
-        if (cliDescription.hasDescription()) {
-            String description = cliDescription.getDescription();
-            Console.println(HelpFormatterCommons.indentString(description));
-        }
     }
 
     public static String getUsageOfDefaultCommand(
@@ -89,7 +75,7 @@ public class HelpFormatterCommons {
             Parameters parameters = commandTreeNode.getCommand().getCommandTerminator().getParameters();
             messageBuilder
                     .addText(" ")
-                    .addText(parameters.getHelpUsageSubString(), Format.BRIGHT_WHITE_TEXT());
+                    .addText(parameters.getHelpUsageSubString(), Format.BRIGHT_YELLOW_TEXT());
         }
 
         return messageBuilder.build();
