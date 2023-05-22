@@ -20,8 +20,8 @@ public class InfoDefaultCommandTest {
     @Test
     public void full() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         Options globalOptions = new Options()
                 .add(new HelpOption())
@@ -38,13 +38,12 @@ public class InfoDefaultCommandTest {
         Cli cli = new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build(cliDescription);
 
         String[] args = {};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         assertEquals("myExec - a dummy description\n" +
@@ -54,8 +53,8 @@ public class InfoDefaultCommandTest {
     @Test
     public void helpManNoDescription() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         Options globalOptions = new Options()
                 .add(new HelpOption())
@@ -68,13 +67,12 @@ public class InfoDefaultCommandTest {
         Cli cli = new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build("myExec");
 
         String[] args = {};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         assertEquals("myExec. Call \"myExec --help\" or \"myExec --man\" for more info.\n", output);
@@ -83,8 +81,8 @@ public class InfoDefaultCommandTest {
     @Test
     public void helpNoDescription() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         Options globalOptions = new Options()
                 .add(new HelpOption());
@@ -96,13 +94,12 @@ public class InfoDefaultCommandTest {
         Cli cli = new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build("myExec");
 
         String[] args = {};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         assertEquals("myExec. Call \"myExec --help\" for more info.\n", output);
@@ -111,8 +108,8 @@ public class InfoDefaultCommandTest {
     @Test
     public void manNoDescription() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         Options globalOptions = new Options()
                 .add(new ManOption());
@@ -124,13 +121,12 @@ public class InfoDefaultCommandTest {
         Cli cli = new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build("myExec");
 
         String[] args = {};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         assertEquals("myExec. Call \"myExec --man\" for more info.\n", output);

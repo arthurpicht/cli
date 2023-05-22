@@ -6,6 +6,7 @@ import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.ManOption;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.VersionOption;
+import de.arthurpicht.console.Console;
 
 public class GenericCommandExecutor implements CommandExecutor {
 
@@ -31,7 +32,7 @@ public class GenericCommandExecutor implements CommandExecutor {
         } else if (optionParserResultGlobal.hasOption(VersionOption.ID)) {
 
             String versionString = HelpFormatterCommons.getFullVersionText(cliDefinition);
-            CLIContext.out.println(versionString);
+            Console.println(versionString);
         } else if (optionParserResultGlobal.hasOption(ManOption.ID)) {
 
             new HelpFormatterMan().out(cliCall);

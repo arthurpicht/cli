@@ -2,10 +2,6 @@ package de.arthurpicht.cli.help;
 
 import de.arthurpicht.cli.CliDefinition;
 import de.arthurpicht.cli.CliDescription;
-import de.arthurpicht.cli.command.DefaultCommand;
-import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.common.CLIContext;
-import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class HelpFormatterCommons {
@@ -24,66 +20,6 @@ public class HelpFormatterCommons {
         }
 
         return header;
-    }
-
-    public static void printHeaderString(CliDefinition cliDefinition) {
-        CLIContext.out.println(HelpFormatterCommons.getHeaderString(cliDefinition));
-    }
-
-    public static void printExecutableDescription(CliDescription cliDescription) {
-
-        if (cliDescription.hasDescription()) {
-            String description = cliDescription.getDescription();
-            CLIContext.out.println(HelpFormatterCommons.indentString(description));
-        }
-    }
-
-    public static String getUsageOfDefaultCommand(
-            CliDefinition cliDefinition,
-            boolean defaultOnly) {
-
-        String executableName = cliDefinition.getCliDescription().getExecutableName();
-        boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
-        DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
-
-        String usage = executableName;
-
-        if (defaultOnly) {
-            if (hasGlobalOptions) usage += " [options]";
-        } else {
-            if (hasGlobalOptions) usage += " [global options]";
-        }
-
-        if (defaultCommand.hasParameters()) {
-            Parameters parameters = defaultCommand.getParameters();
-            usage += " " + parameters.getHelpUsageSubString();
-        }
-
-        return usage;
-    }
-
-    public static String getCommandSpecificUsage(CommandTreeNode commandTreeNode, CliDefinition cliDefinition) {
-
-        String executableName = cliDefinition.getCliDescription().getExecutableName();
-        boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
-        String commandsString = commandTreeNode.getCommandsString();
-        boolean hasSpecificOptions = commandTreeNode.getCommand().getCommandTerminator().hasSpecificOptions();
-        boolean hasParameters = commandTreeNode.getCommand().getCommandTerminator().hasParameters();
-
-        String usage = executableName;
-
-        if (hasGlobalOptions) usage += " [global options]";
-
-        usage += " " + commandsString;
-
-        if (hasSpecificOptions) usage += " [specific options]";
-
-        if (hasParameters) {
-            Parameters parameters = commandTreeNode.getCommand().getCommandTerminator().getParameters();
-            usage += " " + parameters.getHelpUsageSubString();
-        }
-
-        return usage;
     }
 
     public static String indentString(String string) {

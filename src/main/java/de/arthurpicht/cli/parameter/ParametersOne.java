@@ -1,6 +1,7 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CliResultBuilder;
+import de.arthurpicht.utils.core.strings.Strings;
 
 public class ParametersOne extends Parameters {
 
@@ -18,6 +19,14 @@ public class ParametersOne extends Parameters {
         this.parameter = new Parameter(name, description);
     }
 
+    public boolean hasDescription() {
+        return Strings.isSpecified(this.parameter.getDescription());
+    }
+
+    public String getDescription() {
+        return this.parameter.getDescription();
+    }
+
     @Override
     public ParameterParserOne getParameterParser(CliResultBuilder cliResultBuilder, String executableName) {
         return new ParameterParserOne(cliResultBuilder, executableName);
@@ -28,8 +37,4 @@ public class ParametersOne extends Parameters {
         return this.parameter.getUsageString();
     }
 
-    @Override
-    public String getHelpString() {
-        return this.parameter.getHelpString();
-    }
 }

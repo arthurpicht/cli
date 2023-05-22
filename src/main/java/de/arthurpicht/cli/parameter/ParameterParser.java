@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class ParameterParser extends Parser {
 
-    protected List<String> parameterList;
+    protected final List<String> parameterList;
 
     public ParameterParser(CliResultBuilder cliResultBuilder) {
         super(cliResultBuilder);

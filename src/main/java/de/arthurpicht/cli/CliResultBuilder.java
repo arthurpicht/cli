@@ -64,11 +64,4 @@ public class CliResultBuilder {
         return this.commandParserResult.getParameters();
     }
 
-//    public void debugOut() {
-//        System.out.println("has globalOptions   ? " + !this.optionParserResultGlobal.isEmpty());
-//        System.out.println("Commands            : " + Strings.listing(this.commandParserResult.getCommandStringList(), " "));
-//        System.out.println("has specificOptions ? " + !this.optionParserResultSpecific.isEmpty());
-//        System.out.println("Parameters          : " + Strings.listing(this.parameterParserResult.getParameterList(), " "));
-//    }
-
 }

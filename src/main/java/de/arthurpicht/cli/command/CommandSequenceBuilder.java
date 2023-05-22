@@ -7,10 +7,12 @@ import de.arthurpicht.cli.command.tree.OneCommand;
 import de.arthurpicht.cli.command.tree.OpenCommand;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.utils.core.assertion.AssertMethodPrecondition;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static de.arthurpicht.utils.core.assertion.MethodPreconditions.assertArgumentNotNull;
+import static de.arthurpicht.utils.core.assertion.MethodPreconditions.assertArgumentNotNullAndNotEmpty;
 
 public class CommandSequenceBuilder {
 
@@ -27,7 +29,7 @@ public class CommandSequenceBuilder {
     }
 
     public CommandSequenceBuilder addCommand(String commandString) {
-        AssertMethodPrecondition.methodParamNotNullAndNotEmpty("commandString", commandString);
+        assertArgumentNotNullAndNotEmpty("commandString", commandString);
         CommandsPrecondition.assertLegalCharacters(commandString);
         assertNotRestrictedByOpenCommand();
 
@@ -52,25 +54,25 @@ public class CommandSequenceBuilder {
     }
 
     public CommandSequenceBuilder withSpecificOptions(Options specificOptions) {
-        AssertMethodPrecondition.parameterNotNull("specificOptions", specificOptions);
+        assertArgumentNotNull("specificOptions", specificOptions);
         this.specificOptions = specificOptions;
         return this;
     }
 
     public CommandSequenceBuilder withParameters(Parameters parameters) {
-        AssertMethodPrecondition.parameterNotNull("parameters", parameters);
+        assertArgumentNotNull("parameters", parameters);
         this.parameters = parameters;
         return this;
     }
 
     public CommandSequenceBuilder withCommandExecutor(CommandExecutor commandExecutor) {
-        AssertMethodPrecondition.parameterNotNull("commandExecutor", commandExecutor);
+        assertArgumentNotNull("commandExecutor", commandExecutor);
         this.commandExecutor = commandExecutor;
         return this;
     }
 
     public CommandSequenceBuilder withDescription(String description) {
-        AssertMethodPrecondition.methodParamNotNullAndNotEmpty("description", description);
+        assertArgumentNotNullAndNotEmpty("description", description);
         this.description = description;
         return this;
     }

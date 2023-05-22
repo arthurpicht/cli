@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * End user class intended for specifying command sequences with respective
  * specific parameters and arguments.
- *
+ * <p/>
  * Specification is restricted in the following manner. Violations will result in a {@link CommandSpecException} :
  * <ul>
  *     <li>A sequence of commands can not be specified twice.</li>
@@ -16,8 +16,6 @@ import java.util.Set;
  *     <li>After an open command there must be no further command. (realized in {@link CommandSequenceBuilder})</li>
  *     <lid>A combination of an open command and parameters is not possible. (realized in {@link CommandSequenceBuilder})</lid>
  * </ul>
- *
- *
  */
 public class Commands {
 

@@ -1,6 +1,9 @@
 package de.arthurpicht.cli.option;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Options {
 
@@ -68,7 +71,7 @@ public class Options {
         return this.idSet;
     }
 
-    private Set<Option> getAllOptions() {
+    public Set<Option> getAllOptions() {
 
         Set<Option> optionSet = new HashSet<>();
 
@@ -76,29 +79,6 @@ public class Options {
         optionSet.addAll(this.longNameMap.values());
 
         return optionSet;
-    }
-
-    public String getHelpString() {
-
-        List<Option> orderedOptionList = new ArrayList<>(this.getAllOptions());
-        orderedOptionList.sort(new OptionComparator());
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        boolean first = true;
-        for (Option option : orderedOptionList) {
-
-            if (first) {
-                first = false;
-            } else {
-                stringBuilder.append("\n");
-            }
-
-            stringBuilder.append(option.getHelpString());
-
-        }
-
-        return stringBuilder.toString();
     }
 
     public static boolean hasDefinitions(Options options) {

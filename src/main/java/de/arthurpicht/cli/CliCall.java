@@ -2,7 +2,6 @@ package de.arthurpicht.cli;
 
 import de.arthurpicht.cli.CliResult.Status;
 import de.arthurpicht.cli.option.OptionParserResult;
-import de.arthurpicht.cli.parameter.ParameterParserResult;
 
 import java.util.List;
 

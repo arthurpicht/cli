@@ -1,7 +1,12 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CliResultBuilder;
+import de.arthurpicht.cli.PrintTestContext;
 import de.arthurpicht.cli.TestOut;
+import de.arthurpicht.cli.print.ParametersOneMessage;
+import de.arthurpicht.console.config.ConsoleConfiguration;
+import de.arthurpicht.console.message.Message;
+import de.arthurpicht.console.processor.StringComposer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,10 +24,11 @@ class ParametersOneTest {
         ParametersOne parametersOne = new ParametersOne();
 
         TestOut.println(parametersOne.getHelpUsageSubString());
-        TestOut.println(parametersOne.getHelpString());
-
         assertEquals("<parameter>", parametersOne.getHelpUsageSubString());
-        assertEquals("<parameter>", parametersOne.getHelpString());
+
+        String messageString = createMessageString(parametersOne);
+        TestOut.println(messageString);
+        assertEquals("  <parameter>                   ", messageString);
     }
 
     @Test
@@ -31,10 +37,11 @@ class ParametersOneTest {
         ParametersOne parametersOne = new ParametersOne(parameter);
 
         TestOut.println(parametersOne.getHelpUsageSubString());
-        TestOut.println(parametersOne.getHelpString());
-
         assertEquals("<name>", parametersOne.getHelpUsageSubString());
-        assertEquals("<name>                        description", parametersOne.getHelpString());
+
+        String messageString = createMessageString(parametersOne);
+        TestOut.println(messageString);
+        assertEquals("  <name>                        description", messageString);
     }
 
     @Test
@@ -42,10 +49,19 @@ class ParametersOneTest {
         ParametersOne parametersOne = new ParametersOne("name", "description");
 
         TestOut.println(parametersOne.getHelpUsageSubString());
-        TestOut.println(parametersOne.getHelpString());
-
         assertEquals("<name>", parametersOne.getHelpUsageSubString());
-        assertEquals("<name>                        description", parametersOne.getHelpString());
+
+        String messageString = createMessageString(parametersOne);
+        TestOut.println(messageString);
+        assertEquals("  <name>                        description", messageString);
+    }
+
+    private String createMessageString(ParametersOne parametersOne) {
+        Message message = ParametersOneMessage.asMessage(parametersOne);
+        PrintTestContext printTestContext = new PrintTestContext();
+        ConsoleConfiguration consoleConfiguration = printTestContext.getConsoleConfiguration();
+        StringComposer stringComposer = new StringComposer(consoleConfiguration);
+        return stringComposer.compose(message, StringComposer.Target.CONSOLE);
     }
 
 }

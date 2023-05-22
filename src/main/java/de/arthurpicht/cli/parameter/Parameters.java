@@ -8,6 +8,6 @@ public abstract class Parameters {
 
     public abstract String getHelpUsageSubString();
 
-    public abstract String getHelpString();
+//    public abstract String getHelpString();
 
 }

@@ -7,14 +7,13 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTerminator;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.cli.print.UsageMessage;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.message.Message;
 
 import java.util.List;
-
-import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
-import static de.arthurpicht.cli.help.HelpFormatterCommons.getUsageOfDefaultCommand;
 
 public class HelpFormatterMan {
 
@@ -24,48 +23,31 @@ public class HelpFormatterMan {
         CliDescription cliDescription = cliDefinition.getCliDescription();
         CommandTree commandTree = cliCall.getCliDefinition().getCommandTree();
 
-        HelpFormatterCommons.printHeaderString(cliDefinition);
+        Printer.printHeaderString(cliDefinition);
 
-        HelpFormatterCommons.printExecutableDescription(cliDescription);
+        Printer.printExecutableDescription(cliDescription);
 
-        printUsage(cliDefinition, commandTree);
+        Printer.printUsage(cliDefinition, commandTree);
 
         if (cliDefinition.hasGlobalOptions()) {
-            CLIContext.out.println("Global Options:");
             Options globalOptions = cliDefinition.getGlobalOptions();
-            CLIContext.out.println(HelpFormatterCommons.indentString(globalOptions.getHelpString()));
+            Printer.printOptions(globalOptions, "Global Options:");
         }
 
         printCommandBlocks(cliDefinition, commandTree);
 
     }
 
-    private void printUsage(CliDefinition cliDefinition, CommandTree commandTree) {
-        CLIContext.out.println("Usage:");
-
-        if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
-            CLIContext.out.println(INDENT + getUsageOfDefaultCommand(cliDefinition, false));
-        }
-
-        if (commandTree.hasCommands()) {
-            List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
-            for (CommandTreeNode commandTreeNode : terminatedNodes) {
-                String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition);
-                CLIContext.out.println(INDENT + usageString);
-            }
-        }
-    }
-
     private void printCommandBlocks(CliDefinition cliDefinition, CommandTree commandTree) {
 
         if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
-            CLIContext.out.println();
-            CLIContext.out.println("Usage: " + getUsageOfDefaultCommand(cliDefinition, false));
+            Console.println();
+            Console.print("Usage: ");
+            Console.out(UsageMessage.getUsageOfDefaultCommand(cliDefinition, false, false));
             DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
             if (defaultCommand.hasParameters()) {
-                CLIContext.out.println("Parameters:");
                 Parameters parameters = defaultCommand.getParameters();
-                CLIContext.out.println(HelpFormatterCommons.indentString(parameters.getHelpString()));
+                Printer.printParameters(parameters);
             }
         }
 
@@ -79,9 +61,9 @@ public class HelpFormatterMan {
 
     private void printCommandBlock(CommandTreeNode commandTreeNode, CliDefinition cliDefinition) {
 
-        CLIContext.out.println();
-        String usageString = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition);
-        CLIContext.out.println("Usage: " + usageString);
+        Console.println();
+        Message usageMessage = UsageMessage.getCommandSpecificUsage(commandTreeNode, cliDefinition, false, "Usage: ");
+        Console.out(usageMessage);
 
         CommandTerminator commandTerminator = commandTreeNode.getCommand().getCommandTerminator();
 
@@ -94,23 +76,21 @@ public class HelpFormatterMan {
 
     private void printCommandDescription(CommandTerminator commandTerminator) {
         if (commandTerminator.hasDescription()) {
-            CLIContext.out.println(HelpFormatterCommons.indentString(commandTerminator.getDescription()));
+            Console.println(HelpFormatterCommons.indentString(commandTerminator.getDescription()));
         }
     }
 
     private void printSpecificOptions(CommandTerminator commandTerminator) {
         if (commandTerminator.hasSpecificOptions()) {
-            CLIContext.out.println("Specific options:");
             Options specificOptions = commandTerminator.getSpecificOptions();
-            CLIContext.out.println(HelpFormatterCommons.indentString(specificOptions.getHelpString()));
+            Printer.printOptions(specificOptions, "Specific options:");
         }
     }
 
     private void printParameters(CommandTerminator commandTerminator) {
         if (commandTerminator.hasParameters()) {
-            CLIContext.out.println("Parameters:");
             Parameters parameters = commandTerminator.getParameters();
-            CLIContext.out.println(HelpFormatterCommons.indentString(parameters.getHelpString()));
+            Printer.printParameters(parameters);
         }
     }
 

@@ -8,6 +8,7 @@ import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParametersMin;
+import de.arthurpicht.console.Console;
 import de.arthurpicht.utils.core.strings.Strings;
 import org.junit.jupiter.api.Test;
 
@@ -56,7 +57,7 @@ public class DemoCommandExecutor {
         }
     }
 
-    private Cli createCli(PrintStream out) {
+    private Cli createCli() {
         Commands commands = new Commands();
         commands.add(
                 new CommandSequenceBuilder()
@@ -77,14 +78,15 @@ public class DemoCommandExecutor {
 
         return new CliBuilder()
                 .withCommands(commands)
-                .withOut(out)
                 .build("test");
     }
 
     @Test
     public void execute() {
 
-        Cli cli = createCli(System.out);
+        Console.initWithDefaults();
+
+        Cli cli = createCli();
 
         String[] args = {"add", "item1", "item2"};
 
@@ -116,7 +118,9 @@ public class DemoCommandExecutor {
     @Test
     public void parseAndExecuteInSequence() {
 
-        Cli cli = createCli(System.out);
+        Console.initWithDefaults();
+
+        Cli cli = createCli();
 
         String[] args = {"add", "item1", "item2"};
 
@@ -162,10 +166,10 @@ public class DemoCommandExecutor {
     @Test
     public void parseAndExecuteInSequenceForHelpOption() {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Cli cli = createCli(out);
+        Cli cli = createCli();
 
         String[] args = {"delete", "-h"};
 
@@ -203,7 +207,7 @@ public class DemoCommandExecutor {
         try {
             cli.execute(cliCall);
 
-            String output = outBAOS.toString();
+            String output = printTestContext.getOutput();
             TestOut.println(output);
 
             assertTrue(output.startsWith("Usage: test delete"));

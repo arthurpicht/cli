@@ -1,7 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CliResultBuilder;
-import de.arthurpicht.cli.help.HelpFormatterCommons;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class ParametersMin extends Parameters {
@@ -12,7 +11,8 @@ public class ParametersMin extends Parameters {
 
     public ParametersMin(int minimalNrOfParameters) {
         if (minimalNrOfParameters < 0)
-            throw new IllegalArgumentException("Minimal number of arguments: " + minimalNrOfParameters + ". Expected as >= 0");
+            throw new IllegalArgumentException("Minimal number of arguments: " + minimalNrOfParameters + ". " +
+                    "Expected as >= 0");
 
         this.minimalNrOfParameters = minimalNrOfParameters;
         this.name = Parameter.DEFAULT_NAME;
@@ -20,23 +20,21 @@ public class ParametersMin extends Parameters {
     }
 
     public ParametersMin(int minimalNrOfParameters, String name, String description) {
-
         if (minimalNrOfParameters < 0)
-            throw new IllegalArgumentException("Minimal number of arguments: " + minimalNrOfParameters + ". Expected as >= 0");
+            throw new IllegalArgumentException("Minimal number of arguments: " + minimalNrOfParameters + ". " +
+                    "Expected as >= 0");
 
         this.minimalNrOfParameters = minimalNrOfParameters;
+        this.name = Strings.isUnspecified(name) ? Parameter.DEFAULT_NAME : name;
+        this.description = Strings.isUnspecified(description) ? "" : description;
+    }
 
-        if (Strings.isUnspecified(name)) {
-            this.name = Parameter.DEFAULT_NAME;
-        } else {
-            this.name = name;
-        }
+    public boolean hasDescription() {
+        return Strings.isSpecified(this.description);
+    }
 
-        if (Strings.isUnspecified(description)) {
-            this.description = "";
-        } else {
-            this.description = description;
-        }
+    public String getDescription() {
+        return this.description;
     }
 
     @Override
@@ -49,10 +47,4 @@ public class ParametersMin extends Parameters {
         return this.minimalNrOfParameters + "..n*<" + this.name + ">";
     }
 
-    @Override
-    public String getHelpString() {
-        return HelpFormatterCommons.formatStringsToCols(
-                getHelpUsageSubString(),
-                this.description);
-    }
 }

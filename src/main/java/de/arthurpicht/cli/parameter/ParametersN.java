@@ -1,7 +1,6 @@
 package de.arthurpicht.cli.parameter;
 
 import de.arthurpicht.cli.CliResultBuilder;
-import de.arthurpicht.cli.help.HelpFormatterCommons;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.ArrayList;
@@ -14,14 +13,16 @@ public class ParametersN extends Parameters {
 
     public ParametersN(int nrOfParameters) {
         if (nrOfParameters < 1)
-            throw new IllegalArgumentException("Number of arguments out of range: " + nrOfParameters + ". Value >= 1 is expected.");
+            throw new IllegalArgumentException("Number of arguments out of range: " + nrOfParameters
+                    + ". Value >= 1 is expected.");
 
         this.parameterList = init(nrOfParameters, Parameter.DEFAULT_NAME);
     }
 
     public ParametersN(int nrOfParameters, String genericName) {
         if (nrOfParameters < 1)
-            throw new IllegalArgumentException("Number of arguments out of range: " + nrOfParameters + ". Value >= 1 is expected.");
+            throw new IllegalArgumentException("Number of arguments out of range: " + nrOfParameters
+                    + ". Value >= 1 is expected.");
         if (Strings.isUnspecified(genericName))
             throw new IllegalArgumentException("Generic name is unspecified.");
 
@@ -60,21 +61,12 @@ public class ParametersN extends Parameters {
         return Strings.listing(nameList, " ");
     }
 
-    @Override
-    public String getHelpString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Parameter parameter : this.parameterList) {
-            if (stringBuilder.length() != 0) stringBuilder.append("\n");
-            String helpString = HelpFormatterCommons.formatStringsToCols(
-                    parameter.getUsageString(),
-                    parameter.getDescription()
-            );
-            stringBuilder.append(helpString);
-        }
-        return stringBuilder.toString();
-    }
-
     public int getNrOfParameters() {
         return this.parameterList.size();
     }
+
+    public List<Parameter> getParameterList() {
+        return this.parameterList;
+    }
+
 }

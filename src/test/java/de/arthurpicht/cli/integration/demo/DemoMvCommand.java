@@ -8,6 +8,7 @@ import de.arthurpicht.cli.common.UnrecognizedArgumentException;
 import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.ParametersNBuilder;
+import de.arthurpicht.console.Console;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DemoMvCommand {
 
-    private Cli createCli(PrintStream out) {
+    private Cli createCli() {
 
         Options globalOptions = new Options().add(new HelpOption());
 
@@ -47,14 +48,15 @@ public class DemoMvCommand {
         return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build(cliDescription);
     }
 
     @Test
     public void regularCall() throws UnrecognizedArgumentException, CommandExecutorException {
 
-        Cli cli = createCli(System.out);
+        Console.initWithDefaults();
+
+        Cli cli = createCli();
 
         String[] args = {"source", "destination"};
 
@@ -72,15 +74,15 @@ public class DemoMvCommand {
     @Test
     public void help() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Cli cli = createCli(out);
+        Cli cli = createCli();
         String[] args = {"-h"};
 
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         String expectedOutput =
                 "mv version 1.0 from 22.02.2021\n" +
                 "  (Demo) Move file from source to destination.\n" +

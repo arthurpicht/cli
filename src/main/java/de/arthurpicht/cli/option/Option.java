@@ -1,10 +1,13 @@
 package de.arthurpicht.cli.option;
 
+import de.arthurpicht.console.message.Message;
+import de.arthurpicht.console.message.MessageBuilder;
+import de.arthurpicht.console.message.format.BlockFormat;
+import de.arthurpicht.console.message.format.Format;
+import de.arthurpicht.utils.core.assertion.MethodPreconditions;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.Objects;
-
-import static de.arthurpicht.cli.help.HelpFormatterCommons.COL_WIDTH;
 
 public class Option {
 
@@ -29,9 +32,7 @@ public class Option {
      */
     @SuppressWarnings("JavaDoc")
     public Option(String id, Character shortName, String longName, boolean hasArgument, String argumentName, String description) {
-
-        if (id == null || id.equals("")) throw new IllegalArgumentException("Null or empty id.");
-        if (shortName != null && shortName == ' ') throw new IllegalArgumentException("Null or empty shortName");
+        MethodPreconditions.assertArgumentNotNullAndNotEmpty("id", id);
         if (shortName == null && Strings.isNullOrEmpty(longName))
             throw new IllegalArgumentException("At least one of shortName or longName must be specified.");
         if (longName != null && longName.contains(" ")) throw new IllegalArgumentException("longName contains space.");
@@ -47,7 +48,6 @@ public class Option {
         this.argumentName = argumentName;
         this.description = description;
         this.breaking = false;
-
     }
 
     public String getId() {
@@ -95,39 +95,44 @@ public class Option {
         return this.breaking;
     }
 
-    public String getHelpString() {
-
-        StringBuilder stringBuilder = new StringBuilder();
+    public Message getHelpMessage() {
+        MessageBuilder messageBuilder = new MessageBuilder()
+                .withIndentation(2);
 
         if (hasShortName()) {
-            stringBuilder.append("-").append(this.shortName);
+            messageBuilder.addText("-" + this.shortName, Format.BRIGHT_YELLOW_TEXT());
         } else {
-            stringBuilder.append("  ");
+            messageBuilder.addText("  ");
         }
 
         if (hasShortName() && hasLongName()) {
-            stringBuilder.append(", ");
+            messageBuilder.addText(", ");
         } else {
-            stringBuilder.append("  ");
+            messageBuilder.addText("  ");
         }
 
-        if (hasLongName()) {
-            stringBuilder.append("--").append(getLongName());
-        }
+        String longNameSwitch = getLongNameSwitch();
+        messageBuilder.addText(
+                longNameSwitch,
+                Format.BRIGHT_YELLOW_TEXT(),
+                new BlockFormat.Builder(25)
+                        .withOverflowStrategy(BlockFormat.OverflowStrategy.EXPAND)
+                        .build()
+        );
 
+        if (hasHelpText())
+            messageBuilder.addText(" " + getDescription());
+
+        return messageBuilder.build();
+    }
+
+    private String getLongNameSwitch() {
+        String string = hasLongName() ? "--" + getLongName() : "";
         if (hasArgument()) {
             String argumentName = hasArgumentName() ? this.argumentName : "arg";
-            stringBuilder.append(" <").append(argumentName).append(">");
+            string = string + " <" + argumentName + ">";
         }
-
-        // TODO Blocksatz, Zeilenumbruch helptext s.a. https://commons.apache.org/proper/commons-cli/
-
-        if (hasHelpText()) {
-            Strings.fillUpAfter(stringBuilder, ' ', COL_WIDTH);
-            stringBuilder.append(getDescription());
-        }
-
-        return stringBuilder.toString();
+        return string;
     }
 
     @Override
