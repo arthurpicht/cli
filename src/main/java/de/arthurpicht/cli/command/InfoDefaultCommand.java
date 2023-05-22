@@ -5,7 +5,7 @@ import de.arthurpicht.cli.common.InfoCommandExecutor;
 public class InfoDefaultCommand extends DefaultCommand {
 
     public InfoDefaultCommand() {
-        super(null, new InfoCommandExecutor(), "Shows basic info.");
+        super(null, new InfoCommandExecutor(), "shows basic info");
     }
 
     @Override

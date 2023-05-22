@@ -6,7 +6,7 @@ public class VersionOption extends Option {
 
     private static final Character SHORT_NAME = 'v';
     private static final String LONG_NAME = "version";
-    private static final String DESCRIPTION = "Show version message and exit.";
+    private static final String DESCRIPTION = "show version message and exit";
 
     public VersionOption() {
         super(ID, SHORT_NAME, LONG_NAME, false, null, DESCRIPTION);
