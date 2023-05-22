@@ -7,16 +7,13 @@ import de.arthurpicht.cli.command.DefaultCommand;
 import de.arthurpicht.cli.command.tree.CommandTerminator;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.cli.print.UsageMessage;
 import de.arthurpicht.console.Console;
 import de.arthurpicht.console.message.Message;
 
 import java.util.List;
-
-import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
-import static de.arthurpicht.cli.help.HelpFormatterCommons.getUsageOfDefaultCommand;
 
 public class HelpFormatterMan {
 
@@ -44,13 +41,13 @@ public class HelpFormatterMan {
     private void printCommandBlocks(CliDefinition cliDefinition, CommandTree commandTree) {
 
         if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
-            CLIContext.out.println();
-            CLIContext.out.println("Usage: " + getUsageOfDefaultCommand(cliDefinition, false));
+            Console.println();
+            Console.print("Usage: ");
+            Console.out(UsageMessage.getUsageOfDefaultCommand(cliDefinition, false, false));
             DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
             if (defaultCommand.hasParameters()) {
-                CLIContext.out.println("Parameters:");
                 Parameters parameters = defaultCommand.getParameters();
-                CLIContext.out.println(HelpFormatterCommons.indentString(parameters.getHelpString()));
+                Printer.printParameters(parameters);
             }
         }
 
@@ -65,7 +62,7 @@ public class HelpFormatterMan {
     private void printCommandBlock(CommandTreeNode commandTreeNode, CliDefinition cliDefinition) {
 
         Console.println();
-        Message usageMessage = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition, false, "Usage: ");
+        Message usageMessage = UsageMessage.getCommandSpecificUsage(commandTreeNode, cliDefinition, false, "Usage: ");
         Console.out(usageMessage);
 
         CommandTerminator commandTerminator = commandTreeNode.getCommand().getCommandTerminator();
@@ -79,7 +76,7 @@ public class HelpFormatterMan {
 
     private void printCommandDescription(CommandTerminator commandTerminator) {
         if (commandTerminator.hasDescription()) {
-            CLIContext.out.println(HelpFormatterCommons.indentString(commandTerminator.getDescription()));
+            Console.println(HelpFormatterCommons.indentString(commandTerminator.getDescription()));
         }
     }
 
@@ -92,9 +89,8 @@ public class HelpFormatterMan {
 
     private void printParameters(CommandTerminator commandTerminator) {
         if (commandTerminator.hasParameters()) {
-            CLIContext.out.println("Parameters:");
             Parameters parameters = commandTerminator.getParameters();
-            CLIContext.out.println(HelpFormatterCommons.indentString(parameters.getHelpString()));
+            Printer.printParameters(parameters);
         }
     }
 

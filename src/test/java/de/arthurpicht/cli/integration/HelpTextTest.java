@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HelpTextTest {
 
-    private Cli createCli(PrintStream out, boolean withCustomDefaultCommand, boolean withInfoDefaultCommand) {
+    private Cli createCli(boolean withCustomDefaultCommand, boolean withInfoDefaultCommand) {
 
         if (withCustomDefaultCommand && withInfoDefaultCommand) {
             throw new IllegalArgumentException("Only one one ca be true: 'withCustomDefaultCommand' or 'withInfoDefaultCommand'");
@@ -78,21 +78,20 @@ public class HelpTextTest {
         return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build(cliDescription);
     }
 
     @Test
     public void specificHelp() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Cli cli = createCli(out, true, false);
+        Cli cli = createCli(true, false);
         String[] args = {"COMMAND_A", "-h"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput =
@@ -116,19 +115,14 @@ public class HelpTextTest {
     @Test
     public void globalHelpWithCustomDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out, true, false);
+        Cli cli = createCli(true, false);
         String[] args = {"-h"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "test version v1.0.0 from 18.02.2021\n" +
@@ -152,19 +146,14 @@ public class HelpTextTest {
     @Test
     public void globalHelpWithInfoDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out, false, true);
+        Cli cli = createCli(false, true);
         String[] args = {"-h"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "test version v1.0.0 from 18.02.2021\n" +
@@ -187,19 +176,14 @@ public class HelpTextTest {
     @Test
     public void globalHelpWithNoDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out, false, false);
+        Cli cli = createCli(false, false);
         String[] args = {"-h"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "test version v1.0.0 from 18.02.2021\n" +
@@ -222,19 +206,14 @@ public class HelpTextTest {
     @Test
     public void manWithCustomDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out, true, false);
+        Cli cli = createCli(true, false);
         String[] args = {"-m"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
 
         TestOut.println(output);
 
@@ -255,7 +234,7 @@ public class HelpTextTest {
                         "\n" +
                         "Usage: test [global options] <parameter>\n" +
                         "Parameters:\n" +
-                        "  <parameter>\n" +
+                        "  <parameter>                   \n" +
                         "\n" +
                         "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  This is a description for command_A.\n" +
@@ -271,7 +250,7 @@ public class HelpTextTest {
                         "  -c, --cool <what>             The cool option.\n" +
                         "  -h, --help                    Show help message and exit.\n" +
                         "Parameters:\n" +
-                        "  <parameter>\n";
+                        "  <parameter>                   \n";
 
         assertEquals(expectedOutput, output);
 
@@ -281,19 +260,14 @@ public class HelpTextTest {
     @Test
     public void manWithDefaultInfoCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out, false, true);
+        Cli cli = createCli(false, true);
         String[] args = {"-m"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
 
         TestOut.println(output);
 
@@ -325,7 +299,7 @@ public class HelpTextTest {
                         "  -c, --cool <what>             The cool option.\n" +
                         "  -h, --help                    Show help message and exit.\n" +
                         "Parameters:\n" +
-                        "  <parameter>\n";
+                        "  <parameter>                   \n";
 
         assertEquals(expectedOutput, output);
 
@@ -335,19 +309,14 @@ public class HelpTextTest {
     @Test
     public void manWithNoDefaultCommand() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out, false, false);
+        Cli cli = createCli(false, false);
         String[] args = {"-m"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
 
         TestOut.println(output);
 
@@ -379,7 +348,7 @@ public class HelpTextTest {
                         "  -c, --cool <what>             The cool option.\n" +
                         "  -h, --help                    Show help message and exit.\n" +
                         "Parameters:\n" +
-                        "  <parameter>\n";
+                        "  <parameter>                   \n";
 
         assertEquals(expectedOutput, output);
 

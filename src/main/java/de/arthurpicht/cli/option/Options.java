@@ -1,9 +1,9 @@
 package de.arthurpicht.cli.option;
 
-import de.arthurpicht.console.message.Message;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Options {
 

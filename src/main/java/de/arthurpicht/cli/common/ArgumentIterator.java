@@ -44,6 +44,7 @@ public class ArgumentIterator {
         return this.index > 0;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public String getPrevious() {
         this.index--;
         return this.arguments.get(this.index);

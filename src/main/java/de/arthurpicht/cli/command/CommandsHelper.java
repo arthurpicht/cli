@@ -1,7 +1,6 @@
 package de.arthurpicht.cli.command;
 
 import de.arthurpicht.cli.command.tree.Command;
-import de.arthurpicht.cli.command.tree.CommandTreeNode;
 import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.*;

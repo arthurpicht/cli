@@ -24,13 +24,11 @@ class ParametersOneTest {
         ParametersOne parametersOne = new ParametersOne();
 
         TestOut.println(parametersOne.getHelpUsageSubString());
-        TestOut.println(parametersOne.getHelpString());
-
         assertEquals("<parameter>", parametersOne.getHelpUsageSubString());
-        assertEquals("<parameter>", parametersOne.getHelpString());
 
-        String string = createMessageString(parametersOne);
-        assertEquals("<parameter>                   ", string);
+        String messageString = createMessageString(parametersOne);
+        TestOut.println(messageString);
+        assertEquals("  <parameter>                   ", messageString);
     }
 
     @Test
@@ -39,13 +37,11 @@ class ParametersOneTest {
         ParametersOne parametersOne = new ParametersOne(parameter);
 
         TestOut.println(parametersOne.getHelpUsageSubString());
-        TestOut.println(parametersOne.getHelpString());
-
         assertEquals("<name>", parametersOne.getHelpUsageSubString());
-        assertEquals("<name>                        description", parametersOne.getHelpString());
 
-        String string = createMessageString(parametersOne);
-        assertEquals("<name>                        description", string);
+        String messageString = createMessageString(parametersOne);
+        TestOut.println(messageString);
+        assertEquals("  <name>                        description", messageString);
     }
 
     @Test
@@ -53,13 +49,11 @@ class ParametersOneTest {
         ParametersOne parametersOne = new ParametersOne("name", "description");
 
         TestOut.println(parametersOne.getHelpUsageSubString());
-        TestOut.println(parametersOne.getHelpString());
-
         assertEquals("<name>", parametersOne.getHelpUsageSubString());
-        assertEquals("<name>                        description", parametersOne.getHelpString());
 
-        String string = createMessageString(parametersOne);
-        assertEquals("<name>                        description", string);
+        String messageString = createMessageString(parametersOne);
+        TestOut.println(messageString);
+        assertEquals("  <name>                        description", messageString);
     }
 
     private String createMessageString(ParametersOne parametersOne) {

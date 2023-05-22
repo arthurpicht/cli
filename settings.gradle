@@ -1,4 +1,2 @@
-rootProject.name = 'cli'
-
-includeBuild('../console')
+rootProject.name = 'ap-cli'
 

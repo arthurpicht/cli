@@ -3,15 +3,16 @@ package de.arthurpicht.cli.help;
 import de.arthurpicht.cli.CliCall;
 import de.arthurpicht.cli.CliDefinition;
 import de.arthurpicht.cli.command.CommandParserResult;
-import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.cli.parameter.Parameters;
+import de.arthurpicht.console.Console;
+import de.arthurpicht.console.message.MessageBuilder;
+import de.arthurpicht.console.message.format.Format;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class HelpFormatterCommand {
 
     public void out(CliCall cliCall) {
-
         CliDefinition cliDefinition = cliCall.getCliDefinition();
         CommandParserResult commandParserResult = cliCall.getCliResult().getCommandParserResult();
 
@@ -30,31 +31,35 @@ public class HelpFormatterCommand {
 
         CliDefinition definition = call.getCliDefinition();
         CommandParserResult commandParserResult = call.getCliResult().getCommandParserResult();
+        String executableName = call.getCliDefinition().getCliDescription().getExecutableName();
 
-        String usage = "Usage: " + call.getCliDefinition().getCliDescription().getExecutableName();
+        MessageBuilder messageBuilder = new MessageBuilder();
+        messageBuilder.addText("Usage: ");
+        messageBuilder.addText(executableName, Format.BRIGHT_WHITE_TEXT());
 
         if (definition.hasGlobalOptions()) {
-            usage += " [global options]";
+            messageBuilder.addText(" [global options]");
         }
 
-        usage += " " + Strings.listing(call.getCommandList(), " ");
+        String commandList = " " + Strings.listing(call.getCommandList(), " ");
+        messageBuilder.addText(commandList, Format.BRIGHT_WHITE_TEXT());
 
         if (commandParserResult.hasSpecificOptions()) {
-            usage += " [specific options]";
+            messageBuilder.addText(" [specific options]");
         }
 
         if (commandParserResult.hasParameters()) {
-            usage += " " + commandParserResult.getParameters().getHelpUsageSubString();
+            String helpUsage = " " + commandParserResult.getParameters().getHelpUsageSubString();
+            messageBuilder.addText(helpUsage, Format.BRIGHT_WHITE_TEXT());
         }
 
-        CLIContext.out.println(usage);
+        Console.out(messageBuilder.build());
     }
-
 
     private void printDescription(CommandParserResult commandParserResult) {
         if (commandParserResult.hasDescription()) {
             String description = HelpFormatterCommons.indentString(commandParserResult.getDescription());
-            CLIContext.out.println(description);
+            Console.println(description);
         }
     }
 
@@ -74,9 +79,8 @@ public class HelpFormatterCommand {
 
     private void printParameters(CommandParserResult commandParserResult) {
         if (commandParserResult.hasParameters()) {
-            CLIContext.out.println("Parameters:");
             Parameters parameters = commandParserResult.getParameters();
-            CLIContext.out.println(HelpFormatterCommons.indentString(parameters.getHelpString()));
+            Printer.printParameters(parameters);
         }
     }
 

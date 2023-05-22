@@ -4,20 +4,14 @@ import de.arthurpicht.cli.*;
 import de.arthurpicht.cli.command.CommandSequenceBuilder;
 import de.arthurpicht.cli.command.Commands;
 import de.arthurpicht.cli.common.UnrecognizedArgumentException;
-import de.arthurpicht.cli.option.Options;
 import de.arthurpicht.console.Console;
-import de.arthurpicht.console.config.ConsoleConfigurationBuilder;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AutoHelpTest {
 
-    private Cli createCli(PrintStream out) {
+    private Cli createCli() {
 
         Commands commands = new Commands()
                 .add(new CommandSequenceBuilder().addCommands("A", "B").withDescription("The B command.").build())
@@ -26,26 +20,20 @@ public class AutoHelpTest {
         return new CliBuilder()
                 .withCommands(commands)
                 .withAutoHelp()
-                .withOut(out)
                 .build("test");
     }
 
     @Test
     public void global() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Console.init(new ConsoleConfigurationBuilder()
-                .withStandardOut(out)
-                .withSuppressedColors()
-                .build());
-
-        Cli cli = createCli(out);
+        Cli cli = createCli();
         String[] args = {"-h"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "test\n" +
@@ -63,14 +51,14 @@ public class AutoHelpTest {
     @Test
     public void specificB() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
-        Cli cli = createCli(out);
+        Cli cli = createCli();
         String[] args = {"A", "B", "-h"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "Usage: test [global options] A B [specific options]\n" +

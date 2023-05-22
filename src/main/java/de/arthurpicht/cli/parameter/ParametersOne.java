@@ -37,8 +37,4 @@ public class ParametersOne extends Parameters {
         return this.parameter.getUsageString();
     }
 
-    @Override
-    public String getHelpString() {
-        return this.parameter.getHelpString();
-    }
 }

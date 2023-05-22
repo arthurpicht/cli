@@ -4,20 +4,19 @@ import de.arthurpicht.cli.CliDefinition;
 import de.arthurpicht.cli.CliDescription;
 import de.arthurpicht.cli.command.tree.CommandTree;
 import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.common.CLIContext;
 import de.arthurpicht.cli.option.Option;
 import de.arthurpicht.cli.option.OptionComparator;
 import de.arthurpicht.cli.option.Options;
+import de.arthurpicht.cli.parameter.Parameters;
 import de.arthurpicht.cli.print.OptionMessage;
+import de.arthurpicht.cli.print.ParametersMessage;
+import de.arthurpicht.cli.print.UsageMessage;
 import de.arthurpicht.console.Console;
 import de.arthurpicht.console.message.Message;
 import de.arthurpicht.console.message.format.Format;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static de.arthurpicht.cli.help.HelpFormatterCommons.INDENT;
-import static de.arthurpicht.cli.help.HelpFormatterCommons.getUsageOfDefaultCommand;
 
 public class Printer {
 
@@ -34,19 +33,25 @@ public class Printer {
     }
 
     public static void printUsage(CliDefinition cliDefinition, CommandTree commandTree) {
-        CLIContext.out.println("Usage:");
+        Console.println("Usage:");
 
         if (cliDefinition.hasDefaultCommandToBeIncludedIntoHelpText()) {
-            CLIContext.out.println(INDENT + getUsageOfDefaultCommand(cliDefinition, false));
+            Message usageMessage = UsageMessage.getUsageOfDefaultCommand(cliDefinition, false, true);
+            Console.out(usageMessage);
         }
 
         if (commandTree.hasCommands()) {
             List<CommandTreeNode> terminatedNodes = commandTree.getTerminatedNodesSorted();
             for (CommandTreeNode commandTreeNode : terminatedNodes) {
-                Message usageMessage = HelpFormatterCommons.getCommandSpecificUsage(commandTreeNode, cliDefinition, true, "");
+                Message usageMessage = UsageMessage.getCommandSpecificUsage(commandTreeNode, cliDefinition, true, "");
                 Console.out(usageMessage);
             }
         }
+    }
+
+    public static void printUsageDefaultOnly(CliDefinition cliDefinition) {
+        Console.println("Usage:");
+        Console.out(UsageMessage.getUsageOfDefaultCommand(cliDefinition, true, true));
     }
 
     public static void printOptions(Options options, String caption) {
@@ -58,6 +63,12 @@ public class Printer {
             Message message = OptionMessage.asMessage(option);
             Console.out(message);
         }
+    }
+
+    public static void printParameters(Parameters parameters) {
+        Console.println("Parameters:");
+        Message message = ParametersMessage.asMessage(parameters);
+        Console.out(message);
     }
 
 }

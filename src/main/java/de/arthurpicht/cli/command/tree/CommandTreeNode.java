@@ -114,5 +114,4 @@ public class CommandTreeNode extends UnsortedMultiBiTreeNode<Command> {
         return Strings.listing(commandChainList, " ");
     }
 
-
 }

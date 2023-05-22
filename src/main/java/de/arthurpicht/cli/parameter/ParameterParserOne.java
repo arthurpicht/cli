@@ -19,13 +19,14 @@ public class ParameterParserOne extends ParameterParser {
     @Override
     public void parse(ArgumentIterator argumentIterator) throws ParameterParserException {
 
-        Arguments arguments = argumentIterator.getArguments();;
+        Arguments arguments = argumentIterator.getArguments();
 
         if (argumentIterator.hasNext()) {
             String argument = argumentIterator.getNext();
             this.parameterList.add(argument);
         } else {
-            throw new ParameterParserException(this.executableName, arguments, argumentIterator.getIndex() + 1, "One parameter expected.");
+            throw new ParameterParserException(this.executableName, arguments, argumentIterator.getIndex() + 1,
+                    "One parameter expected.");
         }
 
         this.cliResultBuilder.withParameterParserResult(getParserResult());

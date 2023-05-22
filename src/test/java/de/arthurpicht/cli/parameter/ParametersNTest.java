@@ -29,10 +29,9 @@ class ParametersNTest {
 
         assertEquals(2, parametersN.getNrOfParameters());
         assertEquals("<parameter-1> <parameter-2>", parametersN.getHelpUsageSubString());
-        assertEquals("<parameter-1>\n<parameter-2>", parametersN.getHelpString());
 
-        String string = createMessageString(parametersN);
-        assertEquals("<parameter-1>                 \n<parameter-2>                 ", string);
+        String messageString = createMessageString(parametersN);
+        assertEquals("  <parameter-1>                 \n  <parameter-2>                 ", messageString);
     }
 
     @Test
@@ -40,10 +39,9 @@ class ParametersNTest {
         ParametersN parametersN = new ParametersN(2, "test_name");
 
         assertEquals("<test_name-1> <test_name-2>", parametersN.getHelpUsageSubString());
-        assertEquals("<test_name-1>\n<test_name-2>", parametersN.getHelpString());
 
-        String string = createMessageString(parametersN);
-        assertEquals("<test_name-1>                 \n<test_name-2>                 ", string);
+        String messageString = createMessageString(parametersN);
+        assertEquals("  <test_name-1>                 \n  <test_name-2>                 ", messageString);
     }
 
     @Test
@@ -56,13 +54,11 @@ class ParametersNTest {
 
         assertEquals("<test-1> <test-2>", parametersN.getHelpUsageSubString());
 
-        String helpString =
-                "<test-1>                      first parameter\n" +
-                "<test-2>                      second parameter";
-        assertEquals(helpString, parametersN.getHelpString());
-
-        String string = createMessageString(parametersN);
-        assertEquals(helpString, string);
+        String messageStringExpected =
+                "  <test-1>                      first parameter\n" +
+                "  <test-2>                      second parameter";
+        String messageString = createMessageString(parametersN);
+        assertEquals(messageStringExpected, messageString);
     }
 
     @Test
@@ -76,21 +72,14 @@ class ParametersNTest {
 
         assertEquals("<parameter-1> <test-2> <test-3> <parameter-4>", parametersN.getHelpUsageSubString());
 
-        String helpString =
-                "<parameter-1>\n" +
-                "<test-2>\n" +
-                "<test-3>                      third parameter\n" +
-                "<parameter-4>                 forth parameter";
-        assertEquals(helpString, parametersN.getHelpString());
+        String messageString = createMessageString(parametersN);
+        String messageStringExpected =
+                "  <parameter-1>                 \n" +
+                        "  <test-2>                      \n" +
+                        "  <test-3>                      third parameter\n" +
+                        "  <parameter-4>                 forth parameter";
 
-        String string = createMessageString(parametersN);
-        String helpStringFormatted =
-                "<parameter-1>                 \n" +
-                        "<test-2>                      \n" +
-                        "<test-3>                      third parameter\n" +
-                        "<parameter-4>                 forth parameter";
-
-        assertEquals(helpStringFormatted, string);
+        assertEquals(messageStringExpected, messageString);
     }
 
     @Test
@@ -105,23 +94,13 @@ class ParametersNTest {
 
         assertEquals("<generic-1> <test-2> <test-3> <generic-4>", parametersN.getHelpUsageSubString());
 
-        String helpString =
-                "<generic-1>\n" +
-                        "<test-2>\n" +
-                        "<test-3>                      third parameter\n" +
-                        "<generic-4>                   forth parameter";
-
-        TestOut.println(parametersN.getHelpString());
-        assertEquals(helpString, parametersN.getHelpString());
-
-        String string = createMessageString(parametersN);
-        String helpStringFormatted =
-                "<generic-1>                   \n" +
-                "<test-2>                      \n" +
-                "<test-3>                      third parameter\n" +
-                "<generic-4>                   forth parameter";
-        assertEquals(helpStringFormatted, string);
-
+        String messageString = createMessageString(parametersN);
+        String messageStringExpected =
+                "  <generic-1>                   \n" +
+                "  <test-2>                      \n" +
+                "  <test-3>                      third parameter\n" +
+                "  <generic-4>                   forth parameter";
+        assertEquals(messageStringExpected, messageString);
     }
 
     private String createMessageString(ParametersN parametersN) {
@@ -131,6 +110,5 @@ class ParametersNTest {
         StringComposer stringComposer = new StringComposer(consoleConfiguration);
         return stringComposer.compose(message, StringComposer.Target.CONSOLE);
     }
-
 
 }

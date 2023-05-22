@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VersionTest {
 
-    private Cli createCli(PrintStream out, CliDescription cliDescription) {
+    private Cli createCli(CliDescription cliDescription) {
 
         Options globalOptions = new Options()
                 .add(new VersionOption());
@@ -27,26 +27,25 @@ public class VersionTest {
         return new CliBuilder()
                 .withGlobalOptions(globalOptions)
                 .withCommands(commands)
-                .withOut(out)
                 .build(cliDescription);
     }
 
     @Test
     public void versionByVersionTag() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         CliDescription cliDescription
                 = new CliDescriptionBuilder()
                 .withVersionByTag("v1.0.0")
                 .build("test");
 
-        Cli cli = createCli(out, cliDescription);
+        Cli cli = createCli(cliDescription);
         String[] args = {"-v"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "version v1.0.0\n";
@@ -57,19 +56,19 @@ public class VersionTest {
     @Test
     public void versionByVersionAndDateTag() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         CliDescription cliDescription
                 = new CliDescriptionBuilder()
                 .withVersionByTag("v1.0.0", "18.02.2021")
                 .build("test");
 
-        Cli cli = createCli(out, cliDescription);
+        Cli cli = createCli(cliDescription);
         String[] args = {"-v"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "version v1.0.0 from 18.02.2021\n";
@@ -80,19 +79,19 @@ public class VersionTest {
     @Test
     public void versionByVersionAndDateTag_versionLongName() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         CliDescription cliDescription
                 = new CliDescriptionBuilder()
                 .withVersionByTag("v1.0.0", "18.02.2021")
                 .build("test");
 
-        Cli cli = createCli(out, cliDescription);
+        Cli cli = createCli(cliDescription);
         String[] args = {"--version"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "version v1.0.0 from 18.02.2021\n";
@@ -103,19 +102,19 @@ public class VersionTest {
     @Test
     public void versionByTagsAndSupplement() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         CliDescription cliDescription
                 = new CliDescriptionBuilder()
                 .withVersionByTag("v1.0.0", "18.02.2021", "This is a supplementary text.")
                 .build("test");
 
-        Cli cli = createCli(out, cliDescription);
+        Cli cli = createCli(cliDescription);
         String[] args = {"-v"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "version v1.0.0 from 18.02.2021" +
@@ -127,8 +126,8 @@ public class VersionTest {
     @Test
     public void versionByCustomVersionText() throws CommandExecutorException, UnrecognizedArgumentException {
 
-        ByteArrayOutputStream outBAOS = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outBAOS);
+        PrintTestContext printTestContext = new PrintTestContext();
+        printTestContext.configureConsole();
 
         CliDescription cliDescription
                 = new CliDescriptionBuilder()
@@ -137,11 +136,11 @@ public class VersionTest {
                         "\nthan one line.")
                 .build("test");
 
-        Cli cli = createCli(out, cliDescription);
+        Cli cli = createCli(cliDescription);
         String[] args = {"-v"};
         cli.execute(args);
 
-        String output = outBAOS.toString();
+        String output = printTestContext.getOutput();
         TestOut.println(output);
 
         String expectedOutput = "This is a custom version text" +

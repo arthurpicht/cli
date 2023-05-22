@@ -4,9 +4,6 @@ import de.arthurpicht.cli.command.CommandParserResult;
 import de.arthurpicht.cli.option.OptionParserResult;
 import de.arthurpicht.cli.parameter.ParameterParserResult;
 
-import java.util.Collections;
-import java.util.List;
-
 public class CliResult {
 
     public enum Status {COMPLETE, BROKEN, TEST}

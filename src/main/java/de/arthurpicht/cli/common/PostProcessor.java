@@ -27,12 +27,6 @@ public class PostProcessor {
         for (CommandTreeNode node : terminatedNodes) {
             CommandTerminator commandTerminator = node.getCommand().getCommandTerminator();
             Options specificOptions = node.getCommand().getCommandTerminator().getSpecificOptions();
-//            if (commandTerminator.hasSpecificOptions()) {
-//                specificOptions = node.getCommand().getCommandTerminator().getSpecificOptions();
-//            } else {
-//                specificOptions = new Options();
-//
-//            }
             if (notHasHelpOption(specificOptions)) {
                 specificOptions.add(new HelpOption());
             }

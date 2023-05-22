@@ -9,7 +9,11 @@ public class ParametersOneMessage {
 
     public static Message asMessage(ParametersOne parametersOne) {
         MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.addText(parametersOne.getHelpUsageSubString(), Format.BRIGHT_YELLOW_TEXT(), Format.BLOCK_EXPANDED(30));
+        messageBuilder.addText("  ");
+        messageBuilder.addText(
+                parametersOne.getHelpUsageSubString(),
+                Format.BRIGHT_YELLOW_TEXT(),
+                Format.BLOCK_EXPANDED(30));
         messageBuilder.addText(parametersOne.getDescription());
         return messageBuilder.build();
     }

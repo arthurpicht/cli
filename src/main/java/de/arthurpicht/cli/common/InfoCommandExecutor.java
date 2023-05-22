@@ -6,6 +6,7 @@ import de.arthurpicht.cli.CommandExecutor;
 import de.arthurpicht.cli.CommandExecutorException;
 import de.arthurpicht.cli.option.HelpOption;
 import de.arthurpicht.cli.option.ManOption;
+import de.arthurpicht.console.Console;
 
 public class InfoCommandExecutor implements CommandExecutor {
 
@@ -40,18 +41,18 @@ public class InfoCommandExecutor implements CommandExecutor {
 
         if (hasGlobalHelp && hasMan) {
             info += "\"" + executableName + " --" + helpOptionLongName + "\" or \"" + executableName + " --" + manOptionLongName + "\" for more info.";
-            CLIContext.out.println(info);
+            Console.println(info);
             return;
         }
 
         if (hasGlobalHelp) {
             info += "\"" + executableName + " --" + helpOptionLongName + "\" for more info.";
-            CLIContext.out.println(info);
+            Console.println(info);
         }
 
         if (hasMan) {
             info += "\"" + executableName + " --" + manOptionLongName + "\" for more info.";
-            CLIContext.out.println(info);
+            Console.println(info);
         }
     }
 

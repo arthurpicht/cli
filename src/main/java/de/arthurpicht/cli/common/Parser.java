@@ -4,7 +4,7 @@ import de.arthurpicht.cli.CliResultBuilder;
 
 public abstract class Parser {
 
-    protected CliResultBuilder cliResultBuilder;
+    protected final CliResultBuilder cliResultBuilder;
 
     public Parser(CliResultBuilder cliResultBuilder) {
         this.cliResultBuilder = cliResultBuilder;

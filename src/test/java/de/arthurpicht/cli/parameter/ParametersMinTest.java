@@ -24,28 +24,23 @@ class ParametersMinTest {
         ParametersMin parametersMin = new ParametersMin(2);
 
         TestOut.println(parametersMin.getHelpUsageSubString());
-        TestOut.println(parametersMin.getHelpString());
         assertEquals("2..n*<parameter>", parametersMin.getHelpUsageSubString());
 
-        String string = createMessageString(parametersMin);
-        assertEquals("2..n*<parameter>              ", string);
-
-        assertEquals("2..n*<parameter>", parametersMin.getHelpString());
+        String messageString = createMessageString(parametersMin);
+        TestOut.println(messageString);
+        assertEquals("  2..n*<parameter>              ", messageString);
     }
 
     @Test
     public void initByExtendedConstructor() {
-
         ParametersMin parametersMin = new ParametersMin(2, "test", "test description");
 
         TestOut.println(parametersMin.getHelpUsageSubString());
-        TestOut.println(parametersMin.getHelpString());
         assertEquals("2..n*<test>", parametersMin.getHelpUsageSubString());
 
-        String string = createMessageString(parametersMin);
-        assertEquals("2..n*<test>                   test description", string);
-
-        assertEquals("2..n*<test>                   test description", parametersMin.getHelpString());
+        String messageString = createMessageString(parametersMin);
+        TestOut.println(messageString);
+        assertEquals("  2..n*<test>                   test description", messageString);
     }
 
     private String createMessageString(ParametersMin parametersMin) {

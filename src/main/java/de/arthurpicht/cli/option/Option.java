@@ -9,8 +9,6 @@ import de.arthurpicht.utils.core.strings.Strings;
 
 import java.util.Objects;
 
-import static de.arthurpicht.cli.help.HelpFormatterCommons.COL_WIDTH;
-
 public class Option {
 
     private final String id;

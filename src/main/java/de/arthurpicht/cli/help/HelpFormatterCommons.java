@@ -2,12 +2,6 @@ package de.arthurpicht.cli.help;
 
 import de.arthurpicht.cli.CliDefinition;
 import de.arthurpicht.cli.CliDescription;
-import de.arthurpicht.cli.command.DefaultCommand;
-import de.arthurpicht.cli.command.tree.CommandTreeNode;
-import de.arthurpicht.cli.parameter.Parameters;
-import de.arthurpicht.console.message.Message;
-import de.arthurpicht.console.message.MessageBuilder;
-import de.arthurpicht.console.message.format.Format;
 import de.arthurpicht.utils.core.strings.Strings;
 
 public class HelpFormatterCommons {
@@ -26,59 +20,6 @@ public class HelpFormatterCommons {
         }
 
         return header;
-    }
-
-    public static String getUsageOfDefaultCommand(
-            CliDefinition cliDefinition,
-            boolean defaultOnly) {
-
-        String executableName = cliDefinition.getCliDescription().getExecutableName();
-        boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
-        DefaultCommand defaultCommand = cliDefinition.getDefaultCommand();
-
-        String usage = executableName;
-
-        if (defaultOnly) {
-            if (hasGlobalOptions) usage += " [options]";
-        } else {
-            if (hasGlobalOptions) usage += " [global options]";
-        }
-
-        if (defaultCommand.hasParameters()) {
-            Parameters parameters = defaultCommand.getParameters();
-            usage += " " + parameters.getHelpUsageSubString();
-        }
-
-        return usage;
-    }
-
-    public static Message getCommandSpecificUsage(CommandTreeNode commandTreeNode, CliDefinition cliDefinition, boolean indent, String label) {
-        String executableName = cliDefinition.getCliDescription().getExecutableName();
-        boolean hasGlobalOptions = cliDefinition.hasGlobalOptions();
-        String commandsString = commandTreeNode.getCommandsString();
-        boolean hasSpecificOptions = commandTreeNode.getCommand().getCommandTerminator().hasSpecificOptions();
-        boolean hasParameters = commandTreeNode.getCommand().getCommandTerminator().hasParameters();
-
-        MessageBuilder messageBuilder = new MessageBuilder();
-
-        if (Strings.isSpecified(label))
-            messageBuilder.addText(label);
-
-        if (indent) messageBuilder.withIndentation(2);
-        messageBuilder.addText(executableName, Format.BRIGHT_WHITE_TEXT());
-
-        if (hasGlobalOptions) messageBuilder.addText(" [global options]");
-        messageBuilder.addText(" " + commandsString, Format.BRIGHT_WHITE_TEXT());
-        if (hasSpecificOptions) messageBuilder.addText(" [specific options]");
-
-        if (hasParameters) {
-            Parameters parameters = commandTreeNode.getCommand().getCommandTerminator().getParameters();
-            messageBuilder
-                    .addText(" ")
-                    .addText(parameters.getHelpUsageSubString(), Format.BRIGHT_YELLOW_TEXT());
-        }
-
-        return messageBuilder.build();
     }
 
     public static String indentString(String string) {
