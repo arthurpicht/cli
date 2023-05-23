@@ -89,7 +89,7 @@ public class DemoMvCommand {
                 "Usage:\n" +
                 "  mv [options] <source> <destination>\n" +
                 "Options:\n" +
-                "  -h, --help                    Show help message and exit.\n" +
+                "  -h, --help                    show help message and exit\n" +
                 "Parameters:\n" +
                 "  <source>                      file to be moved\n" +
                 "  <destination>                 destination file to be moved to\n";

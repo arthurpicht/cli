@@ -98,14 +98,14 @@ public class HelpTextTest {
                 "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  This is a description for command_A.\n" +
                         "Global Options:\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "      --loglevel <loglevel>     Log level.\n" +
-                        "  -m, --man                     Show manual and exit.\n" +
+                        "  -m, --man                     show manual and exit\n" +
                         "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                        "  -v, --version                 Show version message and exit.\n" +
+                        "  -v, --version                 show version message and exit\n" +
                         "Specific options:\n" +
                         "  -A, --almost-all              do not list implied . and ..\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  1..n*<file>                   Files to be processed.\n";
 
@@ -132,11 +132,11 @@ public class HelpTextTest {
                 "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                 "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                 "Global Options:\n" +
-                "  -h, --help                    Show help message and exit.\n" +
+                "  -h, --help                    show help message and exit\n" +
                 "      --loglevel <loglevel>     Log level.\n" +
-                "  -m, --man                     Show manual and exit.\n" +
+                "  -m, --man                     show manual and exit\n" +
                 "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                "  -v, --version                 Show version message and exit.\n";
+                "  -v, --version                 show version message and exit\n";
 
         assertEquals(expectedOutput, output);
 
@@ -162,11 +162,11 @@ public class HelpTextTest {
                 "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                 "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                 "Global Options:\n" +
-                "  -h, --help                    Show help message and exit.\n" +
+                "  -h, --help                    show help message and exit\n" +
                 "      --loglevel <loglevel>     Log level.\n" +
-                "  -m, --man                     Show manual and exit.\n" +
+                "  -m, --man                     show manual and exit\n" +
                 "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                "  -v, --version                 Show version message and exit.\n";
+                "  -v, --version                 show version message and exit\n";
 
         assertEquals(expectedOutput, output);
 
@@ -192,11 +192,11 @@ public class HelpTextTest {
                 "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                 "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                 "Global Options:\n" +
-                "  -h, --help                    Show help message and exit.\n" +
+                "  -h, --help                    show help message and exit\n" +
                 "      --loglevel <loglevel>     Log level.\n" +
-                "  -m, --man                     Show manual and exit.\n" +
+                "  -m, --man                     show manual and exit\n" +
                 "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                "  -v, --version                 Show version message and exit.\n";
+                "  -v, --version                 show version message and exit\n";
 
         assertEquals(expectedOutput, output);
 
@@ -226,11 +226,11 @@ public class HelpTextTest {
                         "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                         "Global Options:\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "      --loglevel <loglevel>     Log level.\n" +
-                        "  -m, --man                     Show manual and exit.\n" +
+                        "  -m, --man                     show manual and exit\n" +
                         "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                        "  -v, --version                 Show version message and exit.\n" +
+                        "  -v, --version                 show version message and exit\n" +
                         "\n" +
                         "Usage: test [global options] <parameter>\n" +
                         "Parameters:\n" +
@@ -240,7 +240,7 @@ public class HelpTextTest {
                         "  This is a description for command_A.\n" +
                         "Specific options:\n" +
                         "  -A, --almost-all              do not list implied . and ..\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  1..n*<file>                   Files to be processed.\n" +
                         "\n" +
@@ -248,7 +248,7 @@ public class HelpTextTest {
                         "Specific options:\n" +
                         "  -b, --brrr                    The brrr option\n" +
                         "  -c, --cool <what>             The cool option.\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  <parameter>                   \n";
 
@@ -279,17 +279,17 @@ public class HelpTextTest {
                         "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                         "Global Options:\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "      --loglevel <loglevel>     Log level.\n" +
-                        "  -m, --man                     Show manual and exit.\n" +
+                        "  -m, --man                     show manual and exit\n" +
                         "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                        "  -v, --version                 Show version message and exit.\n" +
+                        "  -v, --version                 show version message and exit\n" +
                         "\n" +
                         "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  This is a description for command_A.\n" +
                         "Specific options:\n" +
                         "  -A, --almost-all              do not list implied . and ..\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  1..n*<file>                   Files to be processed.\n" +
                         "\n" +
@@ -297,7 +297,7 @@ public class HelpTextTest {
                         "Specific options:\n" +
                         "  -b, --brrr                    The brrr option\n" +
                         "  -c, --cool <what>             The cool option.\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  <parameter>                   \n";
 
@@ -328,17 +328,17 @@ public class HelpTextTest {
                         "  test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  test [global options] COMMAND_B [specific options] <parameter>\n" +
                         "Global Options:\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "      --loglevel <loglevel>     Log level.\n" +
-                        "  -m, --man                     Show manual and exit.\n" +
+                        "  -m, --man                     show manual and exit\n" +
                         "      --stacktrace              Show stacktrace on error occurrence.\n" +
-                        "  -v, --version                 Show version message and exit.\n" +
+                        "  -v, --version                 show version message and exit\n" +
                         "\n" +
                         "Usage: test [global options] COMMAND_A [specific options] 1..n*<file>\n" +
                         "  This is a description for command_A.\n" +
                         "Specific options:\n" +
                         "  -A, --almost-all              do not list implied . and ..\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  1..n*<file>                   Files to be processed.\n" +
                         "\n" +
@@ -346,7 +346,7 @@ public class HelpTextTest {
                         "Specific options:\n" +
                         "  -b, --brrr                    The brrr option\n" +
                         "  -c, --cool <what>             The cool option.\n" +
-                        "  -h, --help                    Show help message and exit.\n" +
+                        "  -h, --help                    show help message and exit\n" +
                         "Parameters:\n" +
                         "  <parameter>                   \n";
 

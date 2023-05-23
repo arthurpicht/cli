@@ -41,7 +41,7 @@ public class AutoHelpTest {
                 "  test [global options] A B [specific options]\n" +
                 "  test [global options] A C [specific options]\n" +
                 "Global Options:\n" +
-                "  -h, --help                    Show help message and exit.\n";
+                "  -h, --help                    show help message and exit\n";
 
         assertEquals(expectedOutput, output);
 
@@ -64,9 +64,9 @@ public class AutoHelpTest {
         String expectedOutput = "Usage: test [global options] A B [specific options]\n" +
                 "  The B command.\n" +
                 "Global Options:\n" +
-                "  -h, --help                    Show help message and exit.\n" +
+                "  -h, --help                    show help message and exit\n" +
                 "Specific options:\n" +
-                "  -h, --help                    Show help message and exit.\n";
+                "  -h, --help                    show help message and exit\n";
 
         assertEquals(expectedOutput, output);
     }

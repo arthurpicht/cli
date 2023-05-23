@@ -50,7 +50,7 @@ public class HelpFormatterCommand {
 
         if (commandParserResult.hasParameters()) {
             String helpUsage = " " + commandParserResult.getParameters().getHelpUsageSubString();
-            messageBuilder.addText(helpUsage, Format.BRIGHT_WHITE_TEXT());
+            messageBuilder.addText(helpUsage, Format.BRIGHT_YELLOW_TEXT());
         }
 
         Console.out(messageBuilder.build());
