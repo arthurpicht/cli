@@ -34,7 +34,7 @@ public class HelpFormatterCommons {
             stringBuilder.append(col1);
         }
         if (Strings.isSpecified(col2)) {
-            Strings.fillUpAfter(stringBuilder, ' ', COL_WIDTH);
+            Strings.fillUpRight(stringBuilder, ' ', COL_WIDTH);
             stringBuilder.append(col2);
         }
 
