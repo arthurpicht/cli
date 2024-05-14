@@ -36,7 +36,8 @@ public class OptionMessage {
         messageBuilder.addText(
                 longNameToken,
                 Format.BRIGHT_YELLOW_TEXT(),
-                new BlockFormat.Builder(width)
+                new BlockFormat.Builder(    )
+                        .withWidth(width)
                         .withOverflowStrategy(BlockFormat.OverflowStrategy.EXPAND)
                         .build()
         );

@@ -115,7 +115,8 @@ public class Option {
         messageBuilder.addText(
                 longNameSwitch,
                 Format.BRIGHT_YELLOW_TEXT(),
-                new BlockFormat.Builder(25)
+                new BlockFormat.Builder()
+                        .withWidth(25)
                         .withOverflowStrategy(BlockFormat.OverflowStrategy.EXPAND)
                         .build()
         );
